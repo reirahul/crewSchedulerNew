@@ -91,8 +91,8 @@ public class WorkOrderFragment extends Fragment {
         mainActivity.setTitle(title + " - " + getArguments().getString("JobName"));
 
         headerView = (RelativeLayout) view.findViewById(R.id.header_card);
-        purchageOrder = (RelativeLayout) view.findViewById(R.id.purchase_orders);
-        pOItems = (RelativeLayout) view.findViewById(R.id.po_line_items);
+//        purchageOrder = (RelativeLayout) view.findViewById(R.id.purchase_orders);
+//        pOItems = (RelativeLayout) view.findViewById(R.id.po_line_items);
         workOrderNo = (TextView) view.findViewById(R.id.work_order);
         timer = (TextView) view.findViewById(R.id.timer);
 //        status = (TextView) view.findViewById(R.id.status);
@@ -197,8 +197,7 @@ public class WorkOrderFragment extends Fragment {
             public void onClick(View v) {
                 if (Cfragment != null && !Cfragment.isVisible()) {
                     ViewAnimationUtils.expand(headerView);
-                    ViewAnimationUtils.expand(purchageOrder);
-                    ViewAnimationUtils.expand(pOItems);
+                   
                     controllerTab.setSelected(true);
                     jobImagesTab.setSelected(false);
                     lineItemsTab.setSelected(false);
@@ -213,8 +212,7 @@ public class WorkOrderFragment extends Fragment {
             public void onClick(View v) {
                 if (IFragment != null && !IFragment.isVisible()) {
                     ViewAnimationUtils.collapse(headerView);
-                    ViewAnimationUtils.collapse(purchageOrder);
-                    ViewAnimationUtils.collapse(pOItems);
+
                     controllerTab.setSelected(false);
                     jobImagesTab.setSelected(true);
                     lineItemsTab.setSelected(false);
@@ -233,8 +231,7 @@ public class WorkOrderFragment extends Fragment {
             public void onClick(View v) {
                 if (LIFragment != null && !LIFragment.isVisible()) {
                     ViewAnimationUtils.collapse(headerView);
-                    ViewAnimationUtils.collapse(purchageOrder);
-                    ViewAnimationUtils.collapse(pOItems);
+
                     controllerTab.setSelected(false);
                     jobImagesTab.setSelected(false);
                     lineItemsTab.setSelected(true);
@@ -258,8 +255,7 @@ public class WorkOrderFragment extends Fragment {
             public void onClick(View v) {
                 if (Pfragment != null && !Pfragment.isVisible()) {
                     ViewAnimationUtils.collapse(headerView);
-                    ViewAnimationUtils.collapse(purchageOrder);
-                    ViewAnimationUtils.collapse(pOItems);
+
                     controllerTab.setSelected(false);
                     jobImagesTab.setSelected(false);
                     lineItemsTab.setSelected(false);
@@ -665,8 +661,7 @@ public class WorkOrderFragment extends Fragment {
         switch (index) {
             case 1:
                 ViewAnimationUtils.expand(headerView);
-                ViewAnimationUtils.expand(purchageOrder);
-                ViewAnimationUtils.expand(pOItems);
+
                 controllerTab.setSelected(true);
                 jobImagesTab.setSelected(false);
                 lineItemsTab.setSelected(false);
@@ -675,8 +670,7 @@ public class WorkOrderFragment extends Fragment {
                 break;
             case 2:
                 ViewAnimationUtils.collapse(headerView);
-                ViewAnimationUtils.collapse(purchageOrder);
-                ViewAnimationUtils.collapse(pOItems);
+
                 controllerTab.setSelected(false);
                 jobImagesTab.setSelected(true);
                 lineItemsTab.setSelected(false);
@@ -689,8 +683,7 @@ public class WorkOrderFragment extends Fragment {
                 break;
             case 3:
                 ViewAnimationUtils.collapse(headerView);
-                ViewAnimationUtils.collapse(purchageOrder);
-                ViewAnimationUtils.collapse(pOItems);
+
                 controllerTab.setSelected(false);
                 jobImagesTab.setSelected(false);
                 lineItemsTab.setSelected(true);
@@ -708,8 +701,7 @@ public class WorkOrderFragment extends Fragment {
                 break;
             case 4:
                 ViewAnimationUtils.collapse(headerView);
-                ViewAnimationUtils.collapse(purchageOrder);
-                ViewAnimationUtils.collapse(pOItems);
+
                 controllerTab.setSelected(false);
                 jobImagesTab.setSelected(false);
                 lineItemsTab.setSelected(false);
