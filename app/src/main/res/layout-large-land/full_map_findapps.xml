@@ -1,0 +1,68 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    tools:context=".Map"
+    android:background="@color/white">
+    
+    <fragment
+        android:id="@+id/full_map"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        class="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_marginBottom="105dp" />
+
+    <!--<RelativeLayout
+        android:id="@+id/full_map_top_bar"
+        android:layout_width="fill_parent"
+        android:layout_height="70dp"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/header" >
+
+        <TextView
+            android:id="@+id/full_map_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textColor="@color/white"
+            android:textSize="20dip"
+            android:textStyle="bold"
+            android:typeface="sans"
+            android:text="Pizza Places" >
+        </TextView>
+    </RelativeLayout>-->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp">
+
+
+    <Button
+        android:id="@+id/directions_from"
+        android:layout_width="400dp"
+        android:layout_height="50dp"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="60dp"
+        android:text="Directions From Here"
+        android:textColor="@color/white"
+        android:textSize="22sp"
+        android:background="@color/light_gray"
+        android:layout_centerVertical="true"/>
+
+    <Button
+        android:id="@+id/directions_to"
+        android:layout_width="400dp"
+        android:layout_height="50dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="60dp"
+        android:text="Directions To Here"
+        android:textColor="@color/white"
+        android:textSize="22sp"
+        android:background="@color/light_gray"
+        android:layout_centerVertical="true"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>

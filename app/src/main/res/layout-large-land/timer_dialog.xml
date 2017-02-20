@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_margin="5dp"
+    android:background="@color/white"
+    android:layout_height="match_parent">
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@drawable/background_rounded"
+        android:layout_margin="5dp"
+        android:hint="Start Time"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:padding="5dp"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_margin="5dp"
+        android:hint="End Time"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:background="@drawable/background_rounded"
+        android:padding="5dp"/>
+    <Button
+        android:id="@+id/submit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.1"
+        android:layout_margin="5dp"
+        android:background="@drawable/request_qty_btn"
+        />
+
+</LinearLayout>

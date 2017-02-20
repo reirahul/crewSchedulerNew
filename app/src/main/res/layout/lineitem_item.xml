@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:background="@color/list_bg2">
+
+<HorizontalScrollView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:id="@+id/linitem_heading"
+        android:layout_width="wrap_content"
+        android:layout_height="90dp"
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:id="@+id/rlQty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp">
+
+            <TextView
+                android:id="@+id/qty_text"
+                android:layout_width="wrap_content"
+                android:layout_height="45dp"
+                android:layout_alignParentBottom="true"
+                android:background="@drawable/edit_field_bg4"
+                android:gravity="center"
+                android:text="12"
+                android:maxWidth="0dp"
+                android:paddingLeft="1dp"
+                android:paddingRight="1dp"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/qtyTitle"
+                android:layout_width="fill_parent"
+                android:layout_height="45dp"
+                android:layout_marginBottom="5dp"
+                android:layout_above="@id/qty_text"
+                android:layout_alignEnd="@id/qty_text"
+                android:background="@color/light_gray"
+                android:gravity="center"
+                android:text="Qty"
+                android:textColor="@color/white"
+                android:textSize="22sp" />
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/rlProduct"
+            android:layout_width="wrap_content"
+            android:layout_height="90dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_toRightOf="@+id/rlQty">
+
+            <TextView
+                android:id="@+id/product_text"
+                android:layout_width="wrap_content"
+                android:layout_height="45dp"
+                android:layout_alignParentBottom="true"
+                android:background="@drawable/edit_field_bg2"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:maxLines="1"
+                android:maxWidth="0dp"
+                android:paddingLeft="1dp"
+                android:paddingRight="1dp"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/productTitle"
+                android:layout_width="fill_parent"
+                android:layout_height="45dp"
+                android:layout_marginBottom="5dp"
+                android:layout_above="@id/product_text"
+                android:layout_alignEnd="@id/product_text"
+                android:background="@color/light_gray"
+                android:gravity="center"
+                android:text="Product"
+                android:textColor="@color/white"
+                android:textSize="22sp" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rlDelQty"
+            android:layout_width="wrap_content"
+            android:layout_height="90dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_toRightOf="@+id/rlProduct">
+
+            <EditText
+                android:id="@+id/delqty_text"
+                android:layout_width="wrap_content"
+                android:layout_height="45dp"
+                android:layout_alignParentBottom="true"
+                android:background="@drawable/additional_hrs_bg"
+                android:gravity="center"
+                android:ellipsize="end"
+                android:text="0"
+                android:inputType="number"
+                android:maxLength="4"
+                android:maxWidth="0dp"
+                android:paddingLeft="1dp"
+                android:paddingRight="1dp"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/deliveredQtyTitle"
+                android:layout_width="fill_parent"
+                android:layout_height="45dp"
+                android:layout_marginBottom="5dp"
+                android:layout_above="@id/delqty_text"
+                android:layout_alignEnd="@id/delqty_text"
+                android:background="@color/light_gray"
+                android:gravity="center"
+                android:text="Del Qty"
+                android:textColor="@color/white"
+                android:textSize="22sp" />
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/rlInstQty"
+            android:layout_width="wrap_content"
+            android:layout_height="90dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_toRightOf="@+id/rlDelQty">
+
+            <EditText
+                android:id="@+id/installed_qty_text"
+                android:layout_width="wrap_content"
+                android:layout_height="45dp"
+                android:layout_alignParentBottom="true"
+                android:background="@drawable/edit_field_bg1"
+                android:gravity="center"
+                android:inputType="number"
+                android:maxLength="4"
+                android:maxWidth="0dp"
+                android:paddingLeft="1dp"
+                android:paddingRight="1dp"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:imeOptions="actionDone" />
+
+            <TextView
+                android:id="@+id/instQtyTitle"
+                android:layout_width="fill_parent"
+                android:layout_height="45dp"
+                android:layout_marginBottom="5dp"
+                android:layout_above="@id/installed_qty_text"
+                android:layout_alignEnd="@id/installed_qty_text"
+                android:background="@color/light_gray"
+                android:gravity="center"
+                android:text="Inst. Qty"
+                android:textColor="@color/white"
+                android:textSize="22sp" />
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/rlPrevInstQty"
+            android:layout_width="wrap_content"
+            android:layout_height="90dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_toRightOf="@+id/rlInstQty">
+
+            <TextView
+                android:id="@+id/prev_inst_qty_text"
+                android:layout_width="130dp"
+                android:layout_height="45dp"
+                android:layout_alignParentBottom="true"
+                android:background="@drawable/edit_field_bg3"
+                android:gravity="center"
+                android:text="0"
+                android:maxWidth="0dp"
+                android:paddingLeft="1dp"
+                android:paddingRight="1dp"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/prevInstQtyTitle"
+                android:layout_width="fill_parent"
+                android:layout_height="45dp"
+                android:layout_marginBottom="5dp"
+                android:layout_above="@id/prev_inst_qty_text"
+                android:layout_alignEnd="@id/prev_inst_qty_text"
+                android:background="@color/light_gray"
+                android:gravity="center"
+                android:text="Prev. Inst. Qty"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/rlAdtQty"
+            android:layout_width="wrap_content"
+            android:layout_height="90dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_toRightOf="@+id/rlPrevInstQty">
+
+            <EditText
+                android:id="@+id/additional_qty_lineitem"
+                android:layout_width="wrap_content"
+                android:layout_height="45dp"
+                android:layout_alignParentBottom="true"
+                android:background="@drawable/additional_hrs_bg"
+                android:inputType="number"
+                android:maxLength="4"
+                android:maxWidth="0dp"
+                android:paddingLeft="1dp"
+                android:paddingRight="1dp"
+                android:textAlignment="center"
+                android:textColor="@color/font_color"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:imeOptions="actionDone"/>
+
+            <!--<ImageView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignEnd="@+id/additional_qty_lineitem"-->
+            <!--android:layout_alignTop="@+id/textView4"-->
+            <!--android:layout_marginTop="20dp"-->
+            <!--android:layout_marginRight="5dp"-->
+            <!--android:background="@drawable/add_hrs_drop_btn"-->
+            <!--android:visibility="gone"-->
+            <!--android:layout_centerVertical="true"/>-->
+
+            <ImageView
+                android:id="@+id/request_qty_button"
+                android:layout_width="wrap_content"
+                android:layout_height="37dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginLeft="2dp"
+                android:layout_toEndOf="@+id/additional_qty_lineitem"
+                android:background="@drawable/request_qty_btn" />
+
+            <TextView
+                android:id="@+id/adtQtyTitle"
+                android:layout_width="fill_parent"
+                android:layout_height="45dp"
+                android:layout_marginBottom="5dp"
+                android:layout_above="@id/additional_qty_lineitem"
+                android:layout_alignEnd="@id/request_qty_button"
+                android:background="@color/light_gray"
+                android:gravity="center"
+                android:text="Adt. Qty"
+                android:textColor="@color/white"
+                android:textSize="22sp" />
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/rlDueItem"
+            android:layout_width="wrap_content"
+            android:layout_height="90dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_toRightOf="@+id/rlAdtQty">
+
+            <TextView
+                android:id="@+id/due_item"
+                android:layout_width="wrap_content"
+                android:layout_height="45dp"
+                android:layout_alignParentBottom="true"
+                android:background="@drawable/edit_field_bg3"
+                android:gravity="center"
+                android:text="1"
+                android:maxWidth="0dp"
+                android:paddingLeft="1dp"
+                android:paddingRight="1dp"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/dueItemTitle"
+                android:layout_width="fill_parent"
+                android:layout_height="45dp"
+                android:layout_marginBottom="5dp"
+                android:layout_above="@id/due_item"
+                android:layout_alignEnd="@id/due_item"
+                android:background="@color/light_gray"
+                android:gravity="center"
+                android:text="Due Item"
+                android:textColor="@color/white"
+                android:textSize="22sp" />
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/rlTime"
+            android:layout_width="wrap_content"
+            android:layout_height="90dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_toRightOf="@+id/rlDueItem">
+
+            <ImageView
+                android:id="@+id/start_stop_clock"
+                android:layout_width="wrap_content"
+                android:layout_height="45dp"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/start_time" />
+
+            <TextView
+                android:id="@+id/timeTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="45dp"
+                android:layout_marginBottom="5dp"
+                android:layout_above="@id/start_stop_clock"
+                android:background="@color/light_gray"
+                android:gravity="center"
+                android:text="Start/End Time"
+                android:textColor="@color/white"
+                android:textSize="19sp" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rlnotes"
+            android:layout_width="wrap_content"
+            android:layout_height="90dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_toRightOf="@+id/rlTime">
+
+            <ImageView
+                android:id="@+id/notesImage"
+                android:layout_width="wrap_content"
+                android:layout_height="45dp"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/file_icon" />
+
+            <TextView
+                android:id="@+id/notesTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="45dp"
+                android:layout_marginBottom="5dp"
+                android:layout_above="@id/notesImage"
+                android:background="@color/light_gray"
+                android:gravity="center"
+                android:text="Notes"
+                android:textColor="@color/white"
+                android:textSize="19sp" />
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+</HorizontalScrollView>
+
+</RelativeLayout>

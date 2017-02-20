@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+    Document   : colors.xml
+    Created on : May 12, 2010, 6:11 AM
+    Author     : Jameel
+    Description:
+        Purpose of the document follows.
+-->
+
+
+<resources>
+    <color name="opaque_red">#f00</color>
+    <color name="translucent_red">#80ff0000</color>
+    <color name="white">#ffffffff</color>
+    <color name="light_gray">#008AF9</color>
+    <color name="black">#ff000000</color>
+    <color name="light_shade">#F1F5F8</color>
+    <color name="transparent">#00000000</color>
+    <color name="list_bg1">#e6e6e6</color>
+    <color name="list_bg2">#f2f2f2</color>
+    <color name="font_color">#4F4F4F</color>
+    <color name="tab_background">#3b3b3b</color>
+    <color name="light_green">#e1e000</color>
+    <color name="light_grey">#929696</color>
+         
+</resources>
+
+
+

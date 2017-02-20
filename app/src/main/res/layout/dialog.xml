@@ -1,0 +1,74 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="700dp"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@android:color/white">
+
+    <TextView
+        android:id="@+id/tTitle"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/light_gray"
+        android:gravity="center"
+        android:text="Update Job Status"
+        android:textColor="@android:color/white"
+        android:textSize="25dp" />
+
+    <TextView
+        android:id="@+id/tStatusTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="10dp"
+        android:text="Status"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="20dp" />
+
+    <Spinner
+        android:id="@+id/spiner_option"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="@drawable/background_rounded"
+        android:padding="10dp"></Spinner>
+
+    <TextView
+        android:id="@+id/tNotesTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="15dp"
+        android:text="Notes"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="20dp" />
+
+    <EditText
+        android:id="@+id/etNotes"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="@drawable/background_rounded"
+        android:gravity="top"
+        android:padding="10dp" />
+
+    <TextView
+        android:id="@+id/tSave"
+        android:layout_width="500dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="15dp"
+        android:background="@color/light_gray"
+        android:gravity="center"
+
+        android:text="Save"
+        android:textColor="@android:color/white"
+        android:textSize="25dp" />
+</LinearLayout>
