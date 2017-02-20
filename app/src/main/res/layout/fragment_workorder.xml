@@ -1,50 +1,46 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:background="@android:color/white"
+    android:background="@color/list_bg2"
     android:clickable="true"
     android:orientation="vertical">
+
     <RelativeLayout
         android:id="@+id/header_card"
         android:layout_width="match_parent"
-        android:layout_height="220dp"
-        android:background="@color/list_bg2">
+        android:layout_height="wrap_content"
+        android:background="@color/list_bg2" >
 
-    <LinearLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/items"
-            android:background="@color/list_bg2"
-            android:orientation="vertical"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true">
+            android:orientation="vertical">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:orientation="horizontal">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:layout_marginLeft="30dp"
+                    android:layout_marginLeft="50dp"
                     >
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Job Name"
                         android:textColor="@color/font_color"
-                        android:textSize="20sp" />
+                        android:textSize="18sp" />
 
                     <TextView
                         android:id="@+id/job_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignTop="@+id/textView"
-                        android:layout_marginLeft="30dp"
+                        android:layout_marginLeft="10dp"
                         android:textColor="@color/font_color"
-                        android:textSize="20sp"
+                        android:textSize="16sp"
                         android:textStyle="bold" />
                 </LinearLayout>
                 <LinearLayout
@@ -58,7 +54,7 @@
                         android:layout_height="wrap_content"
                         android:text="Additional Hours"
                         android:textColor="@color/font_color"
-                        android:textSize="20sp" />
+                        android:textSize="18sp" />
 
                     <EditText
                         android:id="@+id/additional_hrs_text"
@@ -75,7 +71,7 @@
                         android:paddingRight="1dp"
                         android:textAlignment="center"
                         android:textColor="@color/font_color"
-                        android:textSize="20sp"
+                        android:textSize="16sp"
                         android:textStyle="bold" />
 
                     <ImageView
@@ -99,13 +95,13 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="0dp"
                 android:orientation="horizontal">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:layout_marginLeft="30dp"
+                    android:layout_marginLeft="50dp"
                     >
                     <TextView
                         android:id="@+id/textView"
@@ -113,16 +109,16 @@
                         android:layout_height="wrap_content"
                         android:text="Work Order"
                         android:textColor="@color/font_color"
-                        android:textSize="20sp" />
+                        android:textSize="18sp" />
 
                     <TextView
                         android:id="@+id/work_order"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignTop="@+id/textView"
-                        android:layout_marginLeft="30dp"
+                        android:layout_marginLeft="10dp"
                         android:textColor="@color/font_color"
-                        android:textSize="20sp"
+                        android:textSize="16sp"
                         android:textStyle="bold" />
                 </LinearLayout>
                 <LinearLayout
@@ -130,53 +126,74 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     >
+
                     <TextView
+                        android:id="@+id/timer"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Start Date"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:textStyle="bold"
+                        android:text="00 : 00 : 00 "
                         android:textColor="@color/font_color"
                         android:textSize="20sp" />
-                    <TextView
-                        android:id="@+id/start_date"
+
+                    <ImageView
+                        android:id="@+id/start_button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignTop="@+id/additional_hrs_text"
+                        android:layout_marginLeft="10dp"
+                        android:background="@drawable/btn_start" />
+                    <TextView
+                        android:id="@+id/manualy_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_alignTop="@+id/textView"
-                        android:layout_marginLeft="30dp"
+                        android:layout_marginLeft="10dp"
+                        android:paddingLeft="15dp"
+                        android:paddingRight="15dp"
+                        android:gravity="center_vertical"
+                        android:background="@drawable/edit_field_bg4"
                         android:textColor="@color/font_color"
-                        android:textSize="20sp"
-                        android:textStyle="bold" />
-
+                        android:text="Manualy Input Time"
+                        android:textSize="18sp"
+                        android:clickable="true"
+                        android:textStyle="italic" />
 
                 </LinearLayout>
+
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
                 android:orientation="horizontal">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:layout_marginLeft="30dp"
+                    android:layout_marginLeft="50dp"
                     >
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Status "
+                        android:text="S. P. Name "
                         android:textColor="@color/font_color"
-                        android:textSize="20sp" />
+                        android:textSize="18sp" />
 
                     <TextView
-                        android:id="@+id/status"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:id="@+id/sp_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
                         android:layout_alignTop="@+id/textView"
-                        android:layout_marginLeft="30dp"
+                        android:layout_marginLeft="10dp"
                         android:textColor="@color/font_color"
-                        android:textSize="20sp"
+                        android:textSize="16sp"
                         android:textStyle="bold" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -186,35 +203,141 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="End Date"
+                        android:text="S. P. Email"
                         android:textColor="@color/font_color"
-                        android:textSize="20sp"
+                        android:textSize="18sp"
                         android:id="@+id/textView8" />
 
                     <TextView
-                        android:id="@+id/end_date"
+                        android:id="@+id/sp_email"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_alignTop="@+id/textView"
+                        android:layout_marginLeft="10dp"
+                        android:textColor="@color/font_color"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        />
+
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="S. P. Mobile"
+                        android:textColor="@color/font_color"
+                        android:textSize="18sp" />
+                    <TextView
+                        android:id="@+id/sp_phone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignTop="@+id/textView"
-                        android:layout_marginLeft="30dp"
+                        android:layout_marginLeft="10dp"
                         android:textColor="@color/font_color"
-                        android:textSize="20sp"
+                        android:textSize="16sp"
                         android:textStyle="bold" />
 
 
                 </LinearLayout>
+
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
                 android:orientation="horizontal">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:layout_marginLeft="30dp"
-                    android:orientation="vertical"
+                    android:layout_marginLeft="50dp"
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="P. M. Name "
+                        android:textColor="@color/font_color"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/pm_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_alignTop="@+id/textView"
+                        android:layout_marginLeft="10dp"
+                        android:textColor="@color/font_color"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="P. M. Email"
+                        android:textColor="@color/font_color"
+                        android:textSize="18sp"
+                        />
+
+                    <TextView
+                        android:id="@+id/pm_email"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_alignTop="@+id/textView"
+                        android:layout_marginLeft="10dp"
+                        android:textColor="@color/font_color"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        />
+
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="P. M. Mobile"
+                        android:textColor="@color/font_color"
+                        android:textSize="18sp" />
+                    <TextView
+                        android:id="@+id/pm_phone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@+id/textView"
+                        android:layout_marginLeft="10dp"
+                        android:textColor="@color/font_color"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="50dp"
                     >
                     <TextView
                         android:id="@+id/textView7"
@@ -222,11 +345,13 @@
                         android:layout_height="wrap_content"
                         android:text="Notes"
                         android:textColor="@color/font_color"
-                        android:textSize="20sp" />
+                        android:textSize="18sp" />
 
                     <ScrollView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
                         >
                         <TextView
                             android:id="@+id/notes"
@@ -234,7 +359,7 @@
                             android:layout_height="wrap_content"
                             android:scrollbars="vertical"
                             android:textColor="@color/font_color"
-                            android:textSize="20sp"
+                            android:textSize="16sp"
                             android:textStyle="bold" />
                     </ScrollView>
                 </LinearLayout>
@@ -250,57 +375,66 @@
                         android:layout_height="wrap_content"
                         android:text="Work Location"
                         android:textColor="@color/font_color"
-                        android:textSize="20sp" />
+                        android:textSize="18sp" />
 
                     <TextView
                         android:id="@+id/work_location"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="30dp"
+                        android:layout_marginLeft="10dp"
                         android:textColor="@color/font_color"
-                        android:textSize="20sp"
+                        android:textSize="18sp"
                         android:textStyle="bold" />
 
                     <ImageView
                         android:id="@+id/maps_button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="30dp"
+                        android:layout_marginLeft="10dp"
                         android:background="@drawable/maps_detail_icon" />
                 </LinearLayout>
             </LinearLayout>
 
+
         </LinearLayout>
+        <!--4th Row-->
+
     </RelativeLayout>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:orientation="horizontal"
-            android:gravity="bottom|center_horizontal">
+            android:layout_height="wrap_content"
+            android:gravity="bottom|center_horizontal"
+            android:orientation="horizontal">
 
             <ImageView
                 android:id="@+id/tab1_img"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/tab1_states"/> >
+                android:background="@drawable/tab1_states" />
+            >
+
             <ImageView
                 android:id="@+id/tab2_img"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/tab2_states"/>
+                android:background="@drawable/tab2_states" />
+
             <ImageView
                 android:id="@+id/tab3_img"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/tab3_states"/>
+                android:background="@drawable/tab3_states" />
+
             <ImageView
                 android:id="@+id/tab4_img"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/tab4_states"/>
+                android:background="@drawable/tab4_states" />
 
         </LinearLayout>
     </RelativeLayout>
@@ -312,7 +446,6 @@
         android:background="@color/list_bg2">
 
     </RelativeLayout>
-
 
 
 </LinearLayout>

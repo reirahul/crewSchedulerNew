@@ -43,7 +43,7 @@ public class Splash extends Activity {
                 finish();
             }
 
-        }, 1500);
+        },1500);
     }
 
     @Override

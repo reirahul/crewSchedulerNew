@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:background="@color/list_bg2">
+
+     <LinearLayout
+            android:id="@+id/linitem_heading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/rlQty"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:orientation="vertical">
+                <TextView
+                    android:singleLine="true"
+                    android:id="@+id/qtyTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:layout_marginBottom="5dp"
+                    android:background="@color/light_gray"
+                    android:gravity="center"
+                    android:text="PO No."
+                    android:textColor="@color/white"
+                    android:textSize="22sp"
+                    />
+                <TextView
+                    android:singleLine="true"
+                    android:id="@+id/po_number"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:gravity="center"
+                    android:text="12"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/rlProduct"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="90dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_toRightOf="@+id/rlQty"
+                android:orientation="vertical">
+
+
+
+                <TextView
+                    android:singleLine="true"
+                    android:id="@+id/productTitle"
+                    android:layout_width="fill_parent"
+                    android:layout_height="45dp"
+                    android:layout_marginBottom="5dp"
+                    android:background="@color/light_gray"
+                    android:gravity="center"
+                    android:text="Delivery Date"
+                    android:textColor="@color/white"
+                    android:textSize="22sp"
+                    />
+                <TextView
+                    android:singleLine="true"
+                    android:id="@+id/delivery_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:gravity="center"
+                    android:text=""
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/rlDelQty"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="90dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_toRightOf="@+id/rlProduct"
+                android:orientation="vertical">
+
+
+
+                <TextView
+                    android:singleLine="true"
+                    android:id="@+id/deliveredQtyTitle"
+                    android:layout_width="fill_parent"
+                    android:layout_height="45dp"
+                    android:layout_marginBottom="5dp"
+                    android:background="@color/light_gray"
+                    android:gravity="center"
+                    android:text="Job Address Name"
+                    android:textColor="@color/white"
+                    android:textSize="22sp"
+                    />
+
+                <TextView
+                    android:singleLine="true"
+                    android:id="@+id/job_address_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:gravity="center"
+                    android:text=""
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/rlInstQty"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="90dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_toRightOf="@+id/rlDelQty"
+                android:orientation="vertical">
+
+
+
+                <TextView
+                    android:singleLine="true"
+                    android:id="@+id/instQtyTitle"
+                    android:layout_width="fill_parent"
+                    android:layout_height="45dp"
+                    android:layout_marginBottom="5dp"
+                    android:background="@color/light_gray"
+                    android:gravity="center"
+                    android:text="PO Status"
+                    android:textColor="@color/white"
+                    android:textSize="22sp"
+                    />
+
+                <TextView
+                    android:singleLine="true"
+                    android:id="@+id/po_tatus"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:gravity="center"
+                    android:text=""
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
+
+           </LinearLayout>
+
+
+</LinearLayout>

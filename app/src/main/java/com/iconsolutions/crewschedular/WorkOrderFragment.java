@@ -18,6 +18,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -49,10 +50,11 @@ public class WorkOrderFragment extends Fragment {
     ProgressDialog p_bar;
     android.os.Handler handler = new android.os.Handler();
     ArrayList<SugarBean> lItems = null;
-    RelativeLayout headerView;
-    TextView job_Name,workOrderNo, status, endDate,startDate,workLocation, notes,timer,manualy_time;
+    RelativeLayout headerView,purchageOrder,pOItems;
+    LinearLayout ll;
+    TextView job_Name,workOrderNo,workLocation, notes,timer,manualy_time,more_text;
     EditText requestHours;
-    ImageView controllerTab, jobImagesTab, lineItemsTab, planImageTab, mapsButton, requestHrsButton,startTimer;
+    ImageView controllerTab, jobImagesTab, lineItemsTab, planImageTab, mapsButton, requestHrsButton,startTimer,more_image;
     ArrayList listRecords;
 
     Fragment Cfragment, IFragment, Pfragment, LIFragment;
@@ -89,13 +91,16 @@ public class WorkOrderFragment extends Fragment {
         mainActivity.setTitle(title + " - " + getArguments().getString("JobName"));
 
         headerView = (RelativeLayout) view.findViewById(R.id.header_card);
+        purchageOrder = (RelativeLayout) view.findViewById(R.id.purchase_orders);
+        pOItems = (RelativeLayout) view.findViewById(R.id.po_line_items);
         workOrderNo = (TextView) view.findViewById(R.id.work_order);
         timer = (TextView) view.findViewById(R.id.timer);
-        status = (TextView) view.findViewById(R.id.status);
-        startDate = (TextView) view.findViewById(R.id.start_date);
-        endDate = (TextView) view.findViewById(R.id.end_date);
+//        status = (TextView) view.findViewById(R.id.status);
+//        startDate = (TextView) view.findViewById(R.id.start_date);
+//        endDate = (TextView) view.findViewById(R.id.end_date);
         requestHours = (EditText) view.findViewById(R.id.additional_hrs_text);
         job_Name = (TextView) view.findViewById(R.id.job_name);
+        more_text = (TextView) view.findViewById(R.id.detils_text);
         manualy_time = (TextView) view.findViewById(R.id.manualy_time);
         workLocation = (TextView) view.findViewById(R.id.work_location);
         notes = (TextView) view.findViewById(R.id.notes);
@@ -105,7 +110,17 @@ public class WorkOrderFragment extends Fragment {
         startTimer = (ImageView) view.findViewById(R.id.start_button);
         lineItemsTab = (ImageView) view.findViewById(R.id.tab3_img);
         planImageTab = (ImageView) view.findViewById(R.id.tab4_img);
-
+        more_image = (ImageView) view.findViewById(R.id.detils_image);
+        ll=(LinearLayout)view.findViewById(R.id.more_item);
+        OnClickListener click=new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(ll.getVisibility()!=View.VISIBLE)
+                {
+                    ll.setVisibility(View.VISIBLE);
+                }
+            }
+        };
         requestHours.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -182,12 +197,12 @@ public class WorkOrderFragment extends Fragment {
             public void onClick(View v) {
                 if (Cfragment != null && !Cfragment.isVisible()) {
                     ViewAnimationUtils.expand(headerView);
-
+                    ViewAnimationUtils.expand(purchageOrder);
+                    ViewAnimationUtils.expand(pOItems);
                     controllerTab.setSelected(true);
                     jobImagesTab.setSelected(false);
                     lineItemsTab.setSelected(false);
                     planImageTab.setSelected(false);
-
                     switchTabContent(Cfragment);
                 }
             }
@@ -198,6 +213,8 @@ public class WorkOrderFragment extends Fragment {
             public void onClick(View v) {
                 if (IFragment != null && !IFragment.isVisible()) {
                     ViewAnimationUtils.collapse(headerView);
+                    ViewAnimationUtils.collapse(purchageOrder);
+                    ViewAnimationUtils.collapse(pOItems);
                     controllerTab.setSelected(false);
                     jobImagesTab.setSelected(true);
                     lineItemsTab.setSelected(false);
@@ -216,7 +233,8 @@ public class WorkOrderFragment extends Fragment {
             public void onClick(View v) {
                 if (LIFragment != null && !LIFragment.isVisible()) {
                     ViewAnimationUtils.collapse(headerView);
-
+                    ViewAnimationUtils.collapse(purchageOrder);
+                    ViewAnimationUtils.collapse(pOItems);
                     controllerTab.setSelected(false);
                     jobImagesTab.setSelected(false);
                     lineItemsTab.setSelected(true);
@@ -240,6 +258,8 @@ public class WorkOrderFragment extends Fragment {
             public void onClick(View v) {
                 if (Pfragment != null && !Pfragment.isVisible()) {
                     ViewAnimationUtils.collapse(headerView);
+                    ViewAnimationUtils.collapse(purchageOrder);
+                    ViewAnimationUtils.collapse(pOItems);
                     controllerTab.setSelected(false);
                     jobImagesTab.setSelected(false);
                     lineItemsTab.setSelected(false);
@@ -420,6 +440,7 @@ public class WorkOrderFragment extends Fragment {
         if (fragment != null) {
             this.getChildFragmentManager().beginTransaction()
                     .replace(R.id.tab_layout, fragment, "MY_FRAGMENT").commit();
+
         }
     }
 
@@ -592,10 +613,10 @@ public class WorkOrderFragment extends Fragment {
             workOrderNo.setText(wOrder.getFieldValue("number"));
             requestHours.setText(wOrder.getFieldValue("additional_hrs"));
             notes.setText(wOrder.getFieldValue("description"));
-            status.setText(wOrder.getFieldValue("status"));
-            endDate.setText(wOrder.getFieldValue("date_closed"));
-            startDate.setText(wOrder.getFieldValue("date_start"));
-            status.setText(wOrder.getFieldValue("status"));
+//            status.setText(wOrder.getFieldValue("status"));
+//            endDate.setText(wOrder.getFieldValue("date_closed"));
+//            startDate.setText(wOrder.getFieldValue("date_start"));
+//            status.setText(wOrder.getFieldValue("status"));
 //           orderType.setText(salesOrderType);
             if (wOrder.getFieldValue("work_location").length() > 0)
                 workLocation.setText(wOrder.getFieldValue("work_location"));
@@ -644,6 +665,8 @@ public class WorkOrderFragment extends Fragment {
         switch (index) {
             case 1:
                 ViewAnimationUtils.expand(headerView);
+                ViewAnimationUtils.expand(purchageOrder);
+                ViewAnimationUtils.expand(pOItems);
                 controllerTab.setSelected(true);
                 jobImagesTab.setSelected(false);
                 lineItemsTab.setSelected(false);
@@ -652,6 +675,8 @@ public class WorkOrderFragment extends Fragment {
                 break;
             case 2:
                 ViewAnimationUtils.collapse(headerView);
+                ViewAnimationUtils.collapse(purchageOrder);
+                ViewAnimationUtils.collapse(pOItems);
                 controllerTab.setSelected(false);
                 jobImagesTab.setSelected(true);
                 lineItemsTab.setSelected(false);
@@ -664,6 +689,8 @@ public class WorkOrderFragment extends Fragment {
                 break;
             case 3:
                 ViewAnimationUtils.collapse(headerView);
+                ViewAnimationUtils.collapse(purchageOrder);
+                ViewAnimationUtils.collapse(pOItems);
                 controllerTab.setSelected(false);
                 jobImagesTab.setSelected(false);
                 lineItemsTab.setSelected(true);
@@ -681,6 +708,8 @@ public class WorkOrderFragment extends Fragment {
                 break;
             case 4:
                 ViewAnimationUtils.collapse(headerView);
+                ViewAnimationUtils.collapse(purchageOrder);
+                ViewAnimationUtils.collapse(pOItems);
                 controllerTab.setSelected(false);
                 jobImagesTab.setSelected(false);
                 lineItemsTab.setSelected(false);
