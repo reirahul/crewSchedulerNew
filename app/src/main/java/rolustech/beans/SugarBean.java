@@ -622,7 +622,9 @@ public class SugarBean{
 	 */
 	public boolean updateFieldValue(String name, String newValue){
 		Field field = fields.get(name);
-		if(field != null && (!newValue.trim().equalsIgnoreCase("") || ((name.equalsIgnoreCase("id") || name.equalsIgnoreCase("start_time") || name.equalsIgnoreCase("stop_time")) && moduleName.equalsIgnoreCase("aos_products_quotes")))){
+		if(field != null && (!newValue.trim().equalsIgnoreCase("") || ((name.equalsIgnoreCase("id")
+				|| name.equalsIgnoreCase("start_time") || name.equalsIgnoreCase("stop_time"))
+				&& moduleName.equalsIgnoreCase("aos_products_quotes")))){
 			field.value = newValue;
 			field.updated = true;
 			fields.put(name, field);

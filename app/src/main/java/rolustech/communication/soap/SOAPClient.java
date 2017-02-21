@@ -970,6 +970,7 @@ public class SOAPClient implements Communicator {
         try {
             androidHttpTransport.call(NAMESPACE + "/" + method, envelope);
         } catch (Exception e) {
+            Log.e("ERROR", e.getMessage());
             if (!method.equalsIgnoreCase("set_value_entry"))
                 throw new Exception("Response Dump: " + androidHttpTransport.responseDump);
         }

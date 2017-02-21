@@ -249,7 +249,7 @@ public class LineItemsAdapter extends BaseAdapter {
                 }
             });
 
-*/
+
             holder.installedQty.setOnKeyListener(new View.OnKeyListener() {
                 @Override
                 public boolean onKey(View view, int keyCode, KeyEvent event) {
@@ -300,7 +300,7 @@ public class LineItemsAdapter extends BaseAdapter {
                 }
             });
 
-
+*/
             holder.additionalQty.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                 @Override
                 public void onFocusChange(View v, boolean hasFocus) {

@@ -118,9 +118,18 @@ public class WorkOrderFragment extends Fragment {
                 if(ll.getVisibility()!=View.VISIBLE)
                 {
                     ll.setVisibility(View.VISIBLE);
+                    more_image.setImageResource(R.drawable.drop_list_btn);
+                    more_text.setText("Less");
+                }
+                else {
+                    ll.setVisibility(View.GONE);
+                    more_image.setImageResource(R.drawable.up_drop_list_btn);
+                    more_text.setText("More Details");
                 }
             }
         };
+        more_image.setOnClickListener(click);
+        more_text.setOnClickListener(click);
         requestHours.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -197,7 +206,7 @@ public class WorkOrderFragment extends Fragment {
             public void onClick(View v) {
                 if (Cfragment != null && !Cfragment.isVisible()) {
                     ViewAnimationUtils.expand(headerView);
-                   
+
                     controllerTab.setSelected(true);
                     jobImagesTab.setSelected(false);
                     lineItemsTab.setSelected(false);

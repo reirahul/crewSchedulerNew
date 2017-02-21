@@ -22,6 +22,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -51,7 +52,7 @@ public class LineItemsFragment extends Fragment{
 
     View view;
     FragmentActivity fm;
-    TextView startDate,endDate,totalMen;
+    EditText startDate,endDate,totalMen;
     ListView lineItems_lv;
     ArrayList<SugarBean> lineItems = null;
     LineItemsAdapter lineItemsAdapter;
@@ -132,6 +133,15 @@ public class LineItemsFragment extends Fragment{
 
     }
 
+    private void populateLineItems() {
+        if (!isUpdated) {
+            lineItemsAdapter = new LineItemsAdapter(this.fm, lineItems, R.layout.lineitem_item);
+            lineItems_lv.setAdapter(lineItemsAdapter);
+        } else {
+            lineItemsAdapter.updateReceiptsList(lineItems);
+        }
+    }
+
 
 
     public static void hideSoftKeyboard (Activity activity, View view)
@@ -151,9 +161,9 @@ public class LineItemsFragment extends Fragment{
         dialog.setContentView(R.layout.dialog);
         final EditText etNotes = (EditText) dialog.findViewById(R.id.etNotes);
         final TextView tSave = (TextView) dialog.findViewById(R.id.tSave);
-        startDate = (TextView) dialog.findViewById(R.id.start_date);
-        endDate = (TextView) dialog.findViewById(R.id.end_date);
-        totalMen = (TextView) dialog.findViewById(R.id.total_men);
+        startDate = (EditText) dialog.findViewById(R.id.start_date);
+        endDate = (EditText) dialog.findViewById(R.id.end_date);
+        totalMen = (EditText) dialog.findViewById(R.id.total_men);
         final Spinner spinner = (Spinner) dialog.findViewById(R.id.spiner_option);
         ArrayAdapter<String> plantsAdapter = new ArrayAdapter<String>(fm, android.R.layout.simple_spinner_item,statusNames);
         plantsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -177,6 +187,7 @@ public class LineItemsFragment extends Fragment{
             public void onClick(View v) {
                 String status = spinner.getSelectedItem().toString();
                 String notes = etNotes.getText().toString();
+                saveInstalledQty();
                 saveWorkOrder(status, notes);
             }
         });
@@ -191,15 +202,13 @@ public class LineItemsFragment extends Fragment{
         dialogDT.setTitle("Select date of birth");
         dialogDT.show();
         Button btnSet = (Button) dialogDT.findViewById(R.id.okBtn);
-        final DatePicker dp = (DatePicker) dialogDT
+        final TimePicker dp = (TimePicker) dialogDT
                 .findViewById(R.id.datePicker1);
         dp.setVisibility(View.VISIBLE);
         btnSet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dobStr[0] = dp.getDayOfMonth()  + "-" + (dp.getMonth() + 1) + "-"
-                        + dp.getYear()+ " ";
-
+                dobStr[0] = dp.getCurrentHour()  + " " + (dp.getCurrentMinute() + 1) + " ";
                 tv.setText(dobStr[0]);
                 dialogDT.dismiss();
             }
@@ -207,9 +216,6 @@ public class LineItemsFragment extends Fragment{
     }
 
     public void saveWorkOrder(final String status, final  String notes){
-
-        p_bar = ProgressDialog.show(fm, "Crew App", "Please wait...");
-        p_bar.setCanceledOnTouchOutside(false);
 
         new Thread(new Runnable() {
             @Override
@@ -228,7 +234,6 @@ public class LineItemsFragment extends Fragment{
                             SugarBean soBean = new SugarBean(fm, "ro_crew_work_order");
                             soBean.updateFieldValue("id", saleOrderId);
                             soBean.updateFieldValue("complete", "1");
-
                             String response1 = soBean.save(false);
                         }
 
@@ -249,12 +254,8 @@ public class LineItemsFragment extends Fragment{
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
-
-                        Toast.makeText(fm, "Successfully Saved", Toast.LENGTH_SHORT).show();
+    //                    Toast.makeText(fm, "Successfully Saved", Toast.LENGTH_SHORT).show();
                         parentFragment.setNotes(notes);
-                        if (p_bar.isShowing()) {
-                            p_bar.hide();
-                        }
                         dialog.hide();
                     }
                 });
@@ -262,25 +263,50 @@ public class LineItemsFragment extends Fragment{
             }
         }).start();
     }
+    public View getViewByPosition(int pos, ListView listView) {
+        final int firstListItemPosition = listView.getFirstVisiblePosition();
+        final int lastListItemPosition = firstListItemPosition
+                + listView.getChildCount() - 1;
 
-    public void saveInstalledQty(final int position, final EditText v) {
+        if (pos < firstListItemPosition || pos > lastListItemPosition) {
+            return listView.getAdapter().getView(pos, null, listView);
+        } else {
+            final int childIndex = pos - firstListItemPosition;
+            return listView.getChildAt(childIndex);
+        }
+    }
+    public void saveInstalledQty() {
         p_bar = ProgressDialog.show(getActivity(), "Crew App", "Please wait...");
         p_bar.setCanceledOnTouchOutside(false);
 
         new Thread(new Runnable() {
             @Override
             public void run() {
-                for(int i=0;i<lineItems.size();i++) {
+                View parentView = null;
+                String[] names = {"name","start_time","end_time","totalmen","app_installed_qty","total_amount","aos_products_quotes_id"
+                        ,"crew_work_id","rt_batch_id","ro_crew_work_order_id"};
 
+                for(int i=0;i<lineItems_lv.getCount();i++) {
+
+                    parentView = getViewByPosition(i, lineItems_lv);
+                    EditText v = (EditText) parentView .findViewById(R.id.installed_qty_text);
                     final SugarBean object = lineItems.get(i);
                     try {
+                        String[] values = {object.getFieldValue("name"),startDate.getText().toString(),endDate.getText().toString()
+                                , totalMen.getText().toString(), v.getText().toString(),"0", object.getFieldValue("id"), UserPreferences.userID
+                                , "0", workOrderId};
+
+                        String response;
                         if (NetworkHelper.isAvailable(getActivity())) {
                             SOAPClient com = new SOAPClient(UserPreferences.url);
                             object.updateFieldValue("app_installed_qty", "0");
                             int prevQty = (int) parseDoubleOrNull(v.getText().toString()) + (int) parseDoubleOrNull(object.getFieldValue("app_prev_installed_qty"));
                             object.updateFieldValue("app_prev_installed_qty", String.valueOf(prevQty));
-                            String response = object.save(false);
-                        } else {
+                            response = object.save(false);
+                            String direct = com.setEntry("ro_crew_work_line_items",names,values,false,false,false);
+                            Log.e("Crew_App","Successfully Saved Directly =>"+direct);
+                            }
+                        else {
                             SugarBean wo_bean = new SugarBean(getActivity(), "AOS_Products_Quotes");
                             wo_bean.updateFieldValue("id", object.getFieldValue("id"));
                             wo_bean.updateFieldValue("app_installed_qty", "0");
@@ -288,12 +314,13 @@ public class LineItemsFragment extends Fragment{
                             wo_bean.updateFieldValue("app_prev_installed_qty", String.valueOf(prevQty));
                             object.updateFieldValue("app_prev_installed_qty", String.valueOf(prevQty));
                             object.updateFieldValue("app_installed_qty", "0");
-                            wo_bean.save(false);
+                            response = wo_bean.save(false);
+                            Log.e("Crew_App","Successfully Saved =>"+response);
                         }
-                        lineItems.set(position, object);
 
+                        lineItems.set(i, object);
                     } catch (Exception e) {
-//                    Log.d("ERROR", e.getMessage());
+                    Log.e("ERROR", e.getMessage());
                     }
                 }
                 handler.post(new Runnable() {
@@ -302,7 +329,6 @@ public class LineItemsFragment extends Fragment{
                         if (p_bar.isShowing()) {
                             p_bar.dismiss();
                         }
-                        Toast.makeText(getActivity(), "Successfully Saved", Toast.LENGTH_SHORT).show();
                         lineItemsAdapter.notifyDataSetChanged();
 
                     }
@@ -312,23 +338,6 @@ public class LineItemsFragment extends Fragment{
         }).start();
     }
 
-
-    private void populateLineItems() {
-        if (!isUpdated) {
-            lineItemsAdapter = new LineItemsAdapter(this.fm, lineItems, R.layout.lineitem_item);
-            lineItems_lv.setAdapter(lineItemsAdapter);
-        } else {
-            lineItemsAdapter.updateReceiptsList(lineItems);
-        }
-    }
-
-    class ViewHolder {
-        EditText caption;
-    }
-
-    class ListItem {
-        String caption;
-    }
 
     @Override
     public void onAttach(Activity activity) {
