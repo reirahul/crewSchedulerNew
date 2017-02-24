@@ -10,7 +10,7 @@ import rolustech.beans.ModuleConfig;
 import rolustech.beans.Relationship;
 import rolustech.beans.RelationshipConfig;
 import rolustech.beans.SugarBean;
-import rolustech.beans.UserPreferences;
+import com.iconsolutions.helper.UserPreferences;
 import rolustech.communication.db.DBClient;
 
 public class RelationshipHelper {

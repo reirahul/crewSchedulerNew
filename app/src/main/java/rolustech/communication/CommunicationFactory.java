@@ -2,7 +2,7 @@ package rolustech.communication;
 
 import android.content.Context;
 
-import rolustech.beans.UserPreferences;
+import com.iconsolutions.helper.UserPreferences;
 import rolustech.communication.cacheable.CacheableClient;
 import rolustech.communication.db.DBClient;
 import rolustech.communication.soap.SOAPClient;

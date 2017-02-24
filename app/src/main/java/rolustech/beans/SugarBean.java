@@ -5,6 +5,8 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.text.Html;
 
+import com.iconsolutions.helper.UserPreferences;
+
 import org.kobjects.base64.Base64;
 
 import java.io.ByteArrayOutputStream;
@@ -13,7 +15,6 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Vector;
-import java.util.logging.StreamHandler;
 
 import rolustech.communication.CommunicationFactory;
 import rolustech.communication.Communicator;

@@ -2,6 +2,8 @@ package rolustech.beans;
 
 import android.content.Context;
 
+import com.iconsolutions.helper.UserPreferences;
+
 public class Relationship extends SugarBean {
 	public Relationship(Context context){
 		super(context, "Relationships");

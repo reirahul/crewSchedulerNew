@@ -2,7 +2,6 @@ package com.iconsolutions.crewschedular;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -32,7 +31,7 @@ import java.util.Locale;
 
 import crewschedular.fragmentinterface.BaseBackPressedListener;
 import rolustech.beans.SugarBean;
-import rolustech.beans.UserPreferences;
+import com.iconsolutions.helper.UserPreferences;
 import rolustech.communication.soap.SOAPClient;
 import rolustech.helper.AlertHelper;
 import rolustech.helper.NetworkHelper;
@@ -502,8 +501,8 @@ public class WorkOrderFragment extends Fragment {
                                                 }
                                             }
 
-                                            bean.loadCom(fm, false, true);
-                                            bean.save(true);
+//                                            bean.loadCom(fm, false, true);
+//                                            bean.save(true);
 
                                         }
                                     }

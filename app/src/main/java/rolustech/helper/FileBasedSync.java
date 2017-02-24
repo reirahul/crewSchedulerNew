@@ -1,13 +1,11 @@
 package rolustech.helper;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Environment;
 import android.os.Handler;
-import android.os.Looper;
 import android.util.Base64;
 
 import java.io.BufferedReader;
@@ -19,7 +17,7 @@ import java.util.ArrayList;
 
 import rolustech.beans.SugarBean;
 import rolustech.beans.SyncData;
-import rolustech.beans.UserPreferences;
+import com.iconsolutions.helper.UserPreferences;
 import rolustech.communication.db.DBClient;
 import rolustech.communication.db.DBConnection;
 import rolustech.communication.soap.SOAPClient;

@@ -6,7 +6,7 @@ import java.util.Hashtable;
 
 import rolustech.beans.Field;
 import rolustech.beans.ModuleConfig;
-import rolustech.beans.UserPreferences;
+import com.iconsolutions.helper.UserPreferences;
 import rolustech.communication.soap.SOAPClient;
 //import rsugarcrm.adapters.ModuleListAdapter;
 

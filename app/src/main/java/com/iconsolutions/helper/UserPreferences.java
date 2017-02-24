@@ -1,4 +1,4 @@
-package rolustech.beans;
+package com.iconsolutions.helper;
 
 
 import android.app.Activity;
@@ -8,6 +8,8 @@ import android.content.SharedPreferences.Editor;
 
 import java.util.HashMap;
 
+import rolustech.beans.ModuleConfig;
+import rolustech.beans.RelationshipConfig;
 import rolustech.helper.AlertHelper;
 import rolustech.helper.ObjectHelper;
 
@@ -43,6 +45,7 @@ public class UserPreferences {
 
     public static int mode = LIVEDATA;
     public static int importLimit = 200;
+    public static int imageVarify = 0;
     public static int displayLimit = 200;
     public static String assignedUser = "All";
     public static String selectedDate = "";

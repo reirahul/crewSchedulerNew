@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Vector;
 
-import rolustech.beans.UserPreferences;
+import com.iconsolutions.helper.UserPreferences;
 import rolustech.communication.Communicator;
 import rolustech.communication.db.DBClient;
 import rolustech.communication.soap.SOAPClient;

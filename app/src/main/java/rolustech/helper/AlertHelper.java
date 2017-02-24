@@ -7,11 +7,7 @@ import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.os.Environment;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -21,7 +17,7 @@ import java.util.Date;
 import com.iconsolutions.crewschedular.R;
 
 import rolustech.beans.SugarBean;
-import rolustech.beans.UserPreferences;
+import com.iconsolutions.helper.UserPreferences;
 
 public class AlertHelper {
 

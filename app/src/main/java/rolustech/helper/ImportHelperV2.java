@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 import rolustech.beans.Relationship;
 import rolustech.beans.SugarBean;
-import rolustech.beans.UserPreferences;
+import com.iconsolutions.helper.UserPreferences;
 import rolustech.communication.db.DBConnection;
 import rolustech.communication.soap.SOAPClient;
 import rolustech.tempStorage.SugarBeanContainer;

@@ -5,13 +5,11 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.content.ContextCompat;
 import android.text.Html;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -22,13 +20,7 @@ import android.widget.TextView;
 import com.iconsolutions.menuhelper.SampleListFragment;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
-import java.io.File;
-
 import crewschedular.fragmentinterface.OnBackPressedListener;
-import rolustech.beans.UserPreferences;
-import rolustech.helper.ImportHelper;
-
-import static com.iconsolutions.menuhelper.SampleListFragment.deleteRecursive;
 
 /**
  * Created by kashif on 3/22/16.

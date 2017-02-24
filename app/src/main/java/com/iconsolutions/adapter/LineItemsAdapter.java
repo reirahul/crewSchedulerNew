@@ -9,17 +9,14 @@ import android.content.res.Resources;
 import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.view.inputmethod.EditorInfo;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,7 +31,7 @@ import java.util.Date;
 import java.util.HashMap;
 
 import rolustech.beans.SugarBean;
-import rolustech.beans.UserPreferences;
+import com.iconsolutions.helper.UserPreferences;
 import rolustech.communication.soap.SOAPClient;
 import rolustech.helper.AlertHelper;
 import rolustech.helper.NetworkHelper;
@@ -80,7 +77,7 @@ public class LineItemsAdapter extends BaseAdapter {
     public View getView(final int position, View convertView, ViewGroup parent) {
 //        try {
 //    View view;
-        ViewHolder holder;
+        final ViewHolder holder;
 
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -229,27 +226,28 @@ public class LineItemsAdapter extends BaseAdapter {
 
                 }
             });
-/*
+
             holder.installedQty.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                 @Override
                 public void onFocusChange(View v, boolean hasFocus) {
                     if (!hasFocus) {
                         selectedET = null;
                         EditText ed = (EditText) v;
-                        if (ed.getText().toString() != null && !ed.getText().toString().equals("")) {
+                        int totalQty = (int) parseDoubleOrNull(ed.getText().toString().toString()) + (int) parseDoubleOrNull(object.getFieldValue("app_prev_installed_qty"));
+                        String product_qty = object.getFieldValue("product_qty");
 
-
-
+                        if (totalQty <= (int) (Double.parseDouble(object.getFieldValue("product_qty")))) {  }
+                        else {
+                            AlertHelper.showAlert((FragmentActivity) context, UserPreferences.APP_NAME, "Installed quantity must be less than or equal to total quantity");
+                            ed.setText( holder.dueItem.getText().toString());
                         }
-                    } else {
-                        selectedET = (EditText) v;
-                        if (finalHolder.installedQty.getText().toString().equals("0"))
-                            finalHolder.installedQty.setText("");
+                        Log.i(UserPreferences.APP_NAME, "DONE pressed");
+
                     }
                 }
             });
 
-
+/*
             holder.installedQty.setOnKeyListener(new View.OnKeyListener() {
                 @Override
                 public boolean onKey(View view, int keyCode, KeyEvent event) {
@@ -299,8 +297,8 @@ public class LineItemsAdapter extends BaseAdapter {
                     return false;
                 }
             });
-
 */
+
             holder.additionalQty.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                 @Override
                 public void onFocusChange(View v, boolean hasFocus) {
@@ -529,7 +527,8 @@ public class LineItemsAdapter extends BaseAdapter {
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
-                        if (p_bar.isShowing()) {
+                        if (p_bar.isShowing())
+                        {
                             p_bar.dismiss();
                         }
                         Toast.makeText(context, "Successfully Saved", Toast.LENGTH_SHORT).show();

@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import rolustech.beans.SugarBean;
-import rolustech.beans.UserPreferences;
+import com.iconsolutions.helper.UserPreferences;
 import rolustech.communication.soap.SOAPClient;
 
 

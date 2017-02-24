@@ -28,7 +28,7 @@ import java.util.Hashtable;
 
 import crewschedular.fragmentinterface.BaseBackPressedListener;
 import rolustech.beans.SugarBean;
-import rolustech.beans.UserPreferences;
+import com.iconsolutions.helper.UserPreferences;
 import rolustech.helper.AlertHelper;
 import rolustech.helper.NetworkHelper;
 import rolustech.helper.NormalSync;

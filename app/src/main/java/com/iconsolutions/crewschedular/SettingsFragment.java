@@ -11,6 +11,8 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.iconsolutions.helper.UserPreferences;
+
 import java.lang.reflect.Field;
 
 import crewschedular.fragmentinterface.BaseBackPressedListener;
@@ -95,7 +97,7 @@ public class SettingsFragment extends Fragment implements OnClickListener{
     }
 
     public void saveSettings(){
-        rolustech.beans.UserPreferences.mode = 0;
+        UserPreferences.mode = 0;
 
     }
     @Override

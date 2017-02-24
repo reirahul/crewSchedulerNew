@@ -2,11 +2,8 @@ package com.iconsolutions.crewschedular;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
-import android.net.wifi.ScanResult;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
@@ -19,7 +16,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.GridView;
 
-import com.iconsolutions.adapter.JobImagesAdapter;
 import com.iconsolutions.adapter.PlanImagesAdapter;
 
 import java.io.File;
@@ -30,7 +26,7 @@ import java.util.HashMap;
 
 import crewschedular.fragmentinterface.BaseBackPressedListener;
 import rolustech.beans.SugarBean;
-import rolustech.beans.UserPreferences;
+import com.iconsolutions.helper.UserPreferences;
 import rolustech.communication.soap.SOAPClient;
 import rolustech.helper.NetworkHelper;
 import rolustech.helper.NormalSync;

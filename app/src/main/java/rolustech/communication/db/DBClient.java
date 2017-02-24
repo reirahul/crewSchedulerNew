@@ -13,7 +13,7 @@ import java.util.Hashtable;
 import java.util.UUID;
 import java.util.Vector;
 
-import rolustech.beans.UserPreferences;
+import com.iconsolutions.helper.UserPreferences;
 import rolustech.communication.Communicator;
 import rolustech.helper.AlertHelper;
 import rolustech.helper.DateHelper;

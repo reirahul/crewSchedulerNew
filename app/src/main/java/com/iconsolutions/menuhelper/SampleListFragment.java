@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.app.Fragment;
@@ -24,13 +23,12 @@ import com.iconsolutions.crewschedular.SampleListAdapter;
 
 import java.io.File;
 
-import rolustech.beans.UserPreferences;
+import com.iconsolutions.helper.UserPreferences;
 import rolustech.communication.soap.SOAPClient;
 import rolustech.helper.AlertHelper;
 import rolustech.helper.ImportDatabase;
 import rolustech.helper.ImportHelper;
 import rolustech.helper.NetworkHelper;
-import rolustech.helper.SoapHelper;
 import rolustech.helper.SyncHelper;
 
 //import com.refractive.fragments.EventSelectionFragment;

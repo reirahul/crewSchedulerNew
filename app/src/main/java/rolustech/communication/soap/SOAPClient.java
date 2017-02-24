@@ -14,7 +14,7 @@ import java.util.Vector;
 
 import rolustech.beans.Field;
 import rolustech.beans.SyncData;
-import rolustech.beans.UserPreferences;
+import com.iconsolutions.helper.UserPreferences;
 import rolustech.communication.Communicator;
 import rolustech.helper.AlertHelper;
 import rolustech.tempStorage.SugarBeanContainer;
@@ -970,9 +970,10 @@ public class SOAPClient implements Communicator {
         try {
             androidHttpTransport.call(NAMESPACE + "/" + method, envelope);
         } catch (Exception e) {
-            Log.e("ERROR", e.getMessage());
+//            Log.e("Error",e.getMessage());
             if (!method.equalsIgnoreCase("set_value_entry"))
                 throw new Exception("Response Dump: " + androidHttpTransport.responseDump);
+
         }
 
         String bodyIn = envelope.bodyIn.toString();

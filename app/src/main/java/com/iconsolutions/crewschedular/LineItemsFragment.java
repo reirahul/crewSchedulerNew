@@ -1,11 +1,11 @@
 package com.iconsolutions.crewschedular;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -15,35 +15,32 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import com.iconsolutions.adapter.LineItemsAdapter;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.UUID;
 
 import crewschedular.fragmentinterface.BaseBackPressedListener;
 import rolustech.beans.Field;
 import rolustech.beans.ModuleConfig;
 import rolustech.beans.SugarBean;
-import rolustech.beans.UserPreferences;
+import com.iconsolutions.helper.UserPreferences;
 import rolustech.communication.soap.SOAPClient;
 import rolustech.helper.AlertHelper;
 import rolustech.helper.NetworkHelper;
 
 import static com.iconsolutions.adapter.LineItemsAdapter.parseDoubleOrNull;
+import static com.iconsolutions.helper.UserPreferences.imageVarify;
 
 /**
  * Created by kashif on 4/11/16.
@@ -52,7 +49,7 @@ public class LineItemsFragment extends Fragment{
 
     View view;
     FragmentActivity fm;
-    EditText startDate,endDate,totalMen;
+    TextView startDate,endDate,totalMen;
     ListView lineItems_lv;
     ArrayList<SugarBean> lineItems = null;
     LineItemsAdapter lineItemsAdapter;
@@ -64,6 +61,7 @@ public class LineItemsFragment extends Fragment{
     String saleOrderId, workOrderId, workOrderName, woStatus, woDescription;
     Dialog dialog;
     WorkOrderFragment parentFragment;
+    int batch = 0;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -161,8 +159,8 @@ public class LineItemsFragment extends Fragment{
         dialog.setContentView(R.layout.dialog);
         final EditText etNotes = (EditText) dialog.findViewById(R.id.etNotes);
         final TextView tSave = (TextView) dialog.findViewById(R.id.tSave);
-        startDate = (EditText) dialog.findViewById(R.id.start_date);
-        endDate = (EditText) dialog.findViewById(R.id.end_date);
+        startDate = (TextView) dialog.findViewById(R.id.start_date);
+        endDate = (TextView) dialog.findViewById(R.id.end_date);
         totalMen = (EditText) dialog.findViewById(R.id.total_men);
         final Spinner spinner = (Spinner) dialog.findViewById(R.id.spiner_option);
         ArrayAdapter<String> plantsAdapter = new ArrayAdapter<String>(fm, android.R.layout.simple_spinner_item,statusNames);
@@ -187,28 +185,71 @@ public class LineItemsFragment extends Fragment{
             public void onClick(View v) {
                 String status = spinner.getSelectedItem().toString();
                 String notes = etNotes.getText().toString();
-                saveInstalledQty();
+                if(imageVarify==1) {
+                    if (!isEmpty()) {
+                        saveInstalledQty();
+                        dialog.dismiss();
+                        imageVarify = 0;
+                    }
+
+                    else AlertHelper.showAlert(getActivity(),"","Please Fill All Field");
+                }
+                    else
+                        new AlertDialog.Builder(getActivity()).setTitle("Warning...")
+                                .setCancelable(false).setMessage("Please Select an Image Before Save Data.....")
+                                .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        moveToTabView(2);
+                                        dialogInterface.dismiss();
+                                    }
+                                }).create().show();
+
+
                 saveWorkOrder(status, notes);
             }
+
         });
+        dialog.setCancelable(false);
         dialog.show();
 
     }
+    private boolean isEmpty() {
+        if(startDate.getText().equals("")||startDate.getText()==null) {
+//            startDate.setError("Please Enter Start Time.....");
+            return true;
+        }
+        if(endDate.getText().equals("")||endDate.getText()==null) {
+//            endDate.setError("Please Enter End Time.....");
+            return true;
+        }
+        if(totalMen.getText().equals("")||totalMen.getText()==null) {
+//            totalMen.setError("Please Enter Total Time.....");
+            return true;
+        }
+        return false;
+    }
+
 
     public void getDateTime(final TextView tv) {
         final String[] dobStr = new String[1];
         final Dialog dialogDT = new Dialog(getActivity());
         dialogDT.setContentView(R.layout.date_time_layout);
-        dialogDT.setTitle("Select date of birth");
+        dialogDT.setTitle("Select Time");
         dialogDT.show();
         Button btnSet = (Button) dialogDT.findViewById(R.id.okBtn);
         final TimePicker dp = (TimePicker) dialogDT
                 .findViewById(R.id.datePicker1);
-        dp.setVisibility(View.VISIBLE);
-        btnSet.setOnClickListener(new View.OnClickListener() {
+       btnSet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dobStr[0] = dp.getCurrentHour()  + " " + (dp.getCurrentMinute() + 1) + " ";
+                String am ="AM";
+                int hour = dp.getCurrentHour();
+                if(hour>12) {
+                    hour -= 12;
+                    am="PM";
+                }
+                dobStr[0] = hour + " " + (dp.getCurrentMinute() + 1) + " "+am;
                 tv.setText(dobStr[0]);
                 dialogDT.dismiss();
             }
@@ -224,28 +265,28 @@ public class LineItemsFragment extends Fragment{
                 try {
 //                    if (NetworkHelper.isAvailable(fm)) {
 //                        SOAPClient com = new SOAPClient(UserPreferences.url);
-                        SugarBean woBean = new SugarBean(fm, "ro_crew_work_order");
-                        woBean.updateFieldValue("id", workOrderId);
-                        woBean.updateFieldValue("status", status);
-                        woBean.updateFieldValue("description", notes);
-                        String response = woBean.save(false);
+                    SugarBean woBean = new SugarBean(fm, "ro_crew_work_order");
+                    woBean.updateFieldValue("id", workOrderId);
+                    woBean.updateFieldValue("status", status);
+                    woBean.updateFieldValue("description", notes);
+                    String response = woBean.save(false);
 
-                        if(status.equalsIgnoreCase("All Task Completed")) {
-                            SugarBean soBean = new SugarBean(fm, "ro_crew_work_order");
-                            soBean.updateFieldValue("id", saleOrderId);
-                            soBean.updateFieldValue("complete", "1");
-                            String response1 = soBean.save(false);
-                        }
+                    if(status.equalsIgnoreCase("All Task Completed")) {
+                        SugarBean soBean = new SugarBean(fm, "ro_crew_work_order");
+                        soBean.updateFieldValue("id", saleOrderId);
+                        soBean.updateFieldValue("complete", "1");
+                        String response1 = soBean.save(false);
+                    }
 
-                        if (response != "-1") {
-                            isNotesUpdated = true;
-                            woStatus = status;
-                            woDescription = notes;
-                            success = true;
+                    if (response != "-1") {
+                        isNotesUpdated = true;
+                        woStatus = status;
+                        woDescription = notes;
+                        success = true;
 //                            AlertHelper.showAlert(fm, "Success", "Work Order successfully saved");
-                        } else {
+                    } else {
 //                            AlertHelper.showAlert(fm, "Error", "Work Order save failed");
-                        }
+                    }
 //                    }
                 } catch (Exception e) {
 //                    Log.d("ERROR", e.getMessage());
@@ -254,7 +295,7 @@ public class LineItemsFragment extends Fragment{
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
-    //                    Toast.makeText(fm, "Successfully Saved", Toast.LENGTH_SHORT).show();
+                        //                    Toast.makeText(fm, "Successfully Saved", Toast.LENGTH_SHORT).show();
                         parentFragment.setNotes(notes);
                         dialog.hide();
                     }
@@ -283,29 +324,29 @@ public class LineItemsFragment extends Fragment{
             @Override
             public void run() {
                 View parentView = null;
-                String[] names = {"name","start_time","end_time","totalmen","app_installed_qty","total_amount","aos_products_quotes_id"
-                        ,"crew_work_id","rt_batch_id","ro_crew_work_order_id"};
+                try {
+                    String[] names = {"name","start_time","end_time","totalmen","installed_qty","total_amount","aos_products_quotes_id"
+                            ,"crew_work_id","rt_batch_id","ro_crew_work_order_id","batch_number"};
+                    int batch = getBatchNumber();
+                    String uuid = UUID.randomUUID().toString();
 
-                for(int i=0;i<lineItems_lv.getCount();i++) {
-
-                    parentView = getViewByPosition(i, lineItems_lv);
-                    EditText v = (EditText) parentView .findViewById(R.id.installed_qty_text);
-                    final SugarBean object = lineItems.get(i);
-                    try {
+                    for(int i=0; i<lineItems_lv.getCount(); i++) {
+                        parentView = getViewByPosition(i, lineItems_lv);
+                        EditText v = (EditText) parentView .findViewById(R.id.installed_qty_text);
+                        final SugarBean object = lineItems.get(i);
                         String[] values = {object.getFieldValue("name"),startDate.getText().toString(),endDate.getText().toString()
                                 , totalMen.getText().toString(), v.getText().toString(),"0", object.getFieldValue("id"), UserPreferences.userID
-                                , "0", workOrderId};
-
+                                , uuid, workOrderId,String.valueOf(batch+1)};
                         String response;
                         if (NetworkHelper.isAvailable(getActivity())) {
-                            SOAPClient com = new SOAPClient(UserPreferences.url);
+                            SOAPClient com1 = new SOAPClient(UserPreferences.url);
                             object.updateFieldValue("app_installed_qty", "0");
                             int prevQty = (int) parseDoubleOrNull(v.getText().toString()) + (int) parseDoubleOrNull(object.getFieldValue("app_prev_installed_qty"));
                             object.updateFieldValue("app_prev_installed_qty", String.valueOf(prevQty));
                             response = object.save(false);
-                            String direct = com.setEntry("ro_crew_work_line_items",names,values,false,false,false);
+                            String direct = com1.setEntry("ro_crew_work_line_items",names,values,false,false,false);
                             Log.e("Crew_App","Successfully Saved Directly =>"+direct);
-                            }
+                        }
                         else {
                             SugarBean wo_bean = new SugarBean(getActivity(), "AOS_Products_Quotes");
                             wo_bean.updateFieldValue("id", object.getFieldValue("id"));
@@ -319,9 +360,10 @@ public class LineItemsFragment extends Fragment{
                         }
 
                         lineItems.set(i, object);
-                    } catch (Exception e) {
-                    Log.e("ERROR", e.getMessage());
                     }
+                }
+                catch (Exception e) {
+                    Log.e("ERROR", e.getMessage());
                 }
                 handler.post(new Runnable() {
                     @Override
@@ -337,7 +379,32 @@ public class LineItemsFragment extends Fragment{
             }
         }).start();
     }
+    public int getBatchNumber()
+    {
+        SOAPClient com = new SOAPClient(UserPreferences.url);
+        ArrayList<ArrayList<String[]>> records = null;
+        try {
+            records = com.getEntryList("ro_crew_work_line_items", new String[]{"batch_number"}
+                    , "ro_crew_work_line_items.ro_crew_work_order_id = '"+workOrderId+"'", 10, 0,"",0, null);
+        if(records != null && records.size() > 0) {
+            SugarBean beans[] = new SugarBean[records.size()];
+            for (int i = 0; i < records.size(); i++) {
+                ArrayList<String[]> record = records.get(i);
+                for (int j = 0; j < record.size(); j++) {
+                    String name = record.get(j)[0];
+                    if (record.get(j)[1] != null)
+                        if(batch <Integer.parseInt(record.get(j)[1]))
+                            batch = Integer.parseInt(record.get(j)[1]);
+                    Log.v("Crew_App","SoapBeans Size  =>"+name +" = "+record.get(j)[1]);
+                }
 
+            }
+        }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return batch;
+    }
 
     @Override
     public void onAttach(Activity activity) {
@@ -384,3 +451,4 @@ public class LineItemsFragment extends Fragment{
         }
     }
 }
+

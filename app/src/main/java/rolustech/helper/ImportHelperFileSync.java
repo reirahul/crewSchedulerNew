@@ -13,7 +13,7 @@ import rolustech.beans.Field;
 import rolustech.beans.Relationship;
 import rolustech.beans.SugarBean;
 import rolustech.beans.SyncData;
-import rolustech.beans.UserPreferences;
+import com.iconsolutions.helper.UserPreferences;
 import rolustech.communication.CommunicationFactory;
 import rolustech.communication.db.DBClient;
 import rolustech.communication.db.DBConnection;

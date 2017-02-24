@@ -11,7 +11,7 @@ import java.util.Hashtable;
 import java.util.Vector;
 
 import rolustech.beans.Field;
-import rolustech.beans.UserPreferences;
+import com.iconsolutions.helper.UserPreferences;
 import rolustech.helper.AlertHelper;
 import rolustech.helper.SoapHelper;
 import rolustech.tempStorage.SugarBeanContainer;

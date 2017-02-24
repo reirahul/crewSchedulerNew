@@ -23,7 +23,7 @@ import crewschedular.fragmentinterface.BaseBackPressedListener;
 import rolustech.beans.Field;
 import rolustech.beans.ModuleConfig;
 import rolustech.beans.SugarBean;
-import rolustech.beans.UserPreferences;
+import com.iconsolutions.helper.UserPreferences;
 import rolustech.helper.NetworkHelper;
 //import java.lang.reflect.Field;
 

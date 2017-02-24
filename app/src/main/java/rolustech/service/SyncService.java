@@ -1,23 +1,14 @@
 package rolustech.service;
 
 import java.io.File;
-import java.util.ArrayList;
 
-import android.app.Activity;
 import android.app.IntentService;
-import android.app.ProgressDialog;
-import android.content.ContentValues;
 import android.content.Intent;
-import android.os.Looper;
 import android.util.Log;
 
-import rolustech.beans.UserPreferences;
+import com.iconsolutions.helper.UserPreferences;
 import rolustech.communication.db.DBConnection;
 import rolustech.communication.soap.SOAPClient;
-import rolustech.helper.AlertHelper;
-import rolustech.helper.NetworkHelper;
-import rolustech.helper.SoapHelper;
-import rolustech.helper.SyncHelper;
 
 public class SyncService extends IntentService{
 

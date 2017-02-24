@@ -8,12 +8,10 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,35 +19,26 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.util.Base64;
-import android.widget.Toast;
 
 import com.iconsolutions.adapter.JobImagesAdapter;
-import com.iconsolutions.adapter.JobsListAdapter;
-import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.nostra13.universalimageloader.core.assist.ImageScaleType;
-import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.lang.ref.SoftReference;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 
 import crewschedular.fragmentinterface.BaseBackPressedListener;
 import rolustech.beans.SugarBean;
-import rolustech.beans.UserPreferences;
+import com.iconsolutions.helper.UserPreferences;
 import rolustech.communication.db.DBClient;
 import rolustech.communication.soap.SOAPClient;
 import rolustech.helper.NetworkHelper;
 import rolustech.helper.NormalSync;
 
 import static android.os.Environment.getExternalStorageDirectory;
+import static com.iconsolutions.helper.UserPreferences.imageVarify;
 
 /**
  * Created by kashif on 4/11/16.
@@ -126,7 +115,7 @@ public class JobImagesFragment extends Fragment {
 
             }
         });
-
+        imageVarify=0;
         isUpdated = false;
         if(docBeans == null) {
             fetchRelatedDocuments();
@@ -318,6 +307,7 @@ public class JobImagesFragment extends Fragment {
             public void run() {
                 try {
 
+                    imageVarify=1;
 //                    final BitmapFactory.Options options = new BitmapFactory.Options();
 //                    options.inSampleSize = 2;
                     String filename = "Camera Pic0.jpeg";

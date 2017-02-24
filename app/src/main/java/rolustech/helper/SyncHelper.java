@@ -4,12 +4,10 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Handler;
-import android.os.Looper;
-import android.support.v4.content.ContextCompat;
 
 import java.io.InputStream;
 
-import rolustech.beans.UserPreferences;
+import com.iconsolutions.helper.UserPreferences;
 
 public class SyncHelper {
 	private ProgressDialog dialog;

@@ -11,7 +11,7 @@ import java.util.Locale;
 
 import rolustech.beans.Field;
 import rolustech.beans.ModuleConfig;
-import rolustech.beans.UserPreferences;
+import com.iconsolutions.helper.UserPreferences;
 import rolustech.helper.AlertHelper;
 
 public class DBConnection{
