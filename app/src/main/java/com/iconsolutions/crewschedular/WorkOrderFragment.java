@@ -39,7 +39,7 @@ import rolustech.helper.NetworkHelper;
 /**
  * Created by kashif on 3/30/16.
  */
-public class WorkOrderFragment extends Fragment {
+public class WorkOrderFragment extends Fragment implements OnClickListener {
 
     View view;
     FragmentActivity fm;
@@ -110,25 +110,9 @@ public class WorkOrderFragment extends Fragment {
         lineItemsTab = (ImageView) view.findViewById(R.id.tab3_img);
         planImageTab = (ImageView) view.findViewById(R.id.tab4_img);
         more_image = (ImageView) view.findViewById(R.id.detils_image);
-        ll=(LinearLayout)view.findViewById(R.id.more_item);
-        OnClickListener click=new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(ll.getVisibility()!=View.VISIBLE)
-                {
-                    ll.setVisibility(View.VISIBLE);
-                    more_image.setImageResource(R.drawable.drop_list_btn);
-                    more_text.setText("Less");
-                }
-                else {
-                    ll.setVisibility(View.GONE);
-                    more_image.setImageResource(R.drawable.up_drop_list_btn);
-                    more_text.setText("More Details");
-                }
-            }
-        };
-        more_image.setOnClickListener(click);
-        more_text.setOnClickListener(click);
+
+        more_image.setOnClickListener(this);
+        more_text.setOnClickListener(this);
         requestHours.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -199,84 +183,11 @@ public class WorkOrderFragment extends Fragment {
         jobName = getArguments().getString("JobName");
 
         createWorkOrderAndLineItems();
+        controllerTab.setOnClickListener(this);
+        jobImagesTab.setOnClickListener(this);
+        lineItemsTab.setOnClickListener(this);
+        planImageTab.setOnClickListener(this);
 
-        controllerTab.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (Cfragment != null && !Cfragment.isVisible()) {
-                    ViewAnimationUtils.expand(headerView);
-
-                    controllerTab.setSelected(true);
-                    jobImagesTab.setSelected(false);
-                    lineItemsTab.setSelected(false);
-                    planImageTab.setSelected(false);
-                    switchTabContent(Cfragment);
-                }
-            }
-        });
-
-        jobImagesTab.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (IFragment != null && !IFragment.isVisible()) {
-                    ViewAnimationUtils.collapse(headerView);
-
-                    controllerTab.setSelected(false);
-                    jobImagesTab.setSelected(true);
-                    lineItemsTab.setSelected(false);
-                    planImageTab.setSelected(false);
-                    Bundle args = new Bundle();
-                    args.putString("WorkOrderId", workOrder[0].getFieldValue("id"));
-                    args.putString("WorkOrderName", workOrder[0].getFieldValue("name"));
-                    IFragment.setArguments(args);
-                    switchTabContent(IFragment);
-                }
-            }
-        });
-
-        lineItemsTab.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (LIFragment != null && !LIFragment.isVisible()) {
-                    ViewAnimationUtils.collapse(headerView);
-
-                    controllerTab.setSelected(false);
-                    jobImagesTab.setSelected(false);
-                    lineItemsTab.setSelected(true);
-                    planImageTab.setSelected(false);
-                    Bundle args1 = new Bundle();
-                    args1.putString("SaleOrderId", salesOrderId);
-                    args1.putString("WorkOrderId", workOrder[0].getFieldValue("id"));
-                    args1.putString("WorkOrderName", workOrder[0].getFieldValue("name"));
-                    args1.putString("StartTime", workOrder[0].getFieldValue("start_time"));
-                    args1.putString("StopTime", workOrder[0].getFieldValue("stop_time"));
-                    args1.putString("Status", workOrder[0].getFieldValue("status"));
-                    args1.putString("Description", workOrder[0].getFieldValue("description"));
-                    LIFragment.setArguments(args1);
-                    switchTabContent(LIFragment);
-                }
-            }
-        });
-
-        planImageTab.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (Pfragment != null && !Pfragment.isVisible()) {
-                    ViewAnimationUtils.collapse(headerView);
-
-                    controllerTab.setSelected(false);
-                    jobImagesTab.setSelected(false);
-                    lineItemsTab.setSelected(false);
-                    planImageTab.setSelected(true);
-                    Bundle args2 = new Bundle();
-                    args2.putString("JobID", jobID);
-                    args2.putString("WorkOrderId", workOrder[0].getFieldValue("id"));
-                    args2.putString("WorkOrderName", workOrder[0].getFieldValue("name"));
-                    Pfragment.setArguments(args2);
-                    switchTabContent(Pfragment);
-                }
-            }
-        });
         manualy_time.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -432,6 +343,45 @@ public class WorkOrderFragment extends Fragment {
 //
 //        return null;
 //    }
+
+
+    @Override
+    public void onClick(View view) {
+       switch (view.getId())
+       {
+           case R.id.tab_img:
+               nextAction(0);
+               break;
+           case R.id.tab1_img:
+               nextAction(1);
+               break;
+           case R.id.tab2_img:
+               nextAction(2);
+               break;
+           case R.id.tab3_img:
+               nextAction(3);
+               break;
+           case R.id.tab4_img:
+               nextAction(4);
+               break;
+           case R.id.detils_image:
+
+           case R.id.detils_text :
+                   if(ll.getVisibility()!=View.VISIBLE)
+                   {
+                       ll.setVisibility(View.VISIBLE);
+                       more_image.setImageResource(R.drawable.drop_list_btn);
+                       more_text.setText("Less");
+                   }
+                   else {
+                       ll.setVisibility(View.GONE);
+                       more_image.setImageResource(R.drawable.up_drop_list_btn);
+                       more_text.setText("More Details");
+                   }
+               break;
+
+       }
+    }
 
     public SugarBean getWorkOrder() {
         if (workOrder != null && workOrder.length > 0)
@@ -669,7 +619,6 @@ public class WorkOrderFragment extends Fragment {
         switch (index) {
             case 1:
                 ViewAnimationUtils.expand(headerView);
-
                 controllerTab.setSelected(true);
                 jobImagesTab.setSelected(false);
                 lineItemsTab.setSelected(false);
@@ -678,7 +627,6 @@ public class WorkOrderFragment extends Fragment {
                 break;
             case 2:
                 ViewAnimationUtils.collapse(headerView);
-
                 controllerTab.setSelected(false);
                 jobImagesTab.setSelected(true);
                 lineItemsTab.setSelected(false);
@@ -691,7 +639,6 @@ public class WorkOrderFragment extends Fragment {
                 break;
             case 3:
                 ViewAnimationUtils.collapse(headerView);
-
                 controllerTab.setSelected(false);
                 jobImagesTab.setSelected(false);
                 lineItemsTab.setSelected(true);
@@ -706,6 +653,7 @@ public class WorkOrderFragment extends Fragment {
                 args1.putString("Description", workOrder[0].getFieldValue("description"));
                 LIFragment.setArguments(args1);
                 switchTabContent(LIFragment);
+
                 break;
             case 4:
                 ViewAnimationUtils.collapse(headerView);
@@ -761,6 +709,8 @@ public class WorkOrderFragment extends Fragment {
             throw new RuntimeException(e);
         }
     }
+
+
 }
 
 

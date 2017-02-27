@@ -22,7 +22,7 @@
                 android:orientation="vertical">
                 <TextView
                     android:singleLine="true"
-                    android:id="@+id/qtyTitle"
+                    android:id="@+id/po_numberTitle"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
                     android:layout_marginBottom="5dp"
@@ -58,7 +58,7 @@
 
                 <TextView
                     android:singleLine="true"
-                    android:id="@+id/productTitle"
+                    android:id="@+id/delivery_dateTitle"
                     android:layout_width="fill_parent"
                     android:layout_height="45dp"
                     android:layout_marginBottom="5dp"
@@ -90,10 +90,9 @@
                 android:orientation="vertical">
 
 
-
                 <TextView
                     android:singleLine="true"
-                    android:id="@+id/deliveredQtyTitle"
+                    android:id="@+id/job_address_nameTitle"
                     android:layout_width="fill_parent"
                     android:layout_height="45dp"
                     android:layout_marginBottom="5dp"
@@ -126,11 +125,9 @@
                 android:layout_toRightOf="@+id/rlDelQty"
                 android:orientation="vertical">
 
-
-
                 <TextView
                     android:singleLine="true"
-                    android:id="@+id/instQtyTitle"
+                    android:id="@+id/po_tatusTitle"
                     android:layout_width="fill_parent"
                     android:layout_height="45dp"
                     android:layout_marginBottom="5dp"
