@@ -89,7 +89,7 @@ public class JobsListAdapter extends BaseAdapter {
             holder.updateStatusBtn.setAlpha(1.0f);
            if (object.getFieldValue("status").equalsIgnoreCase("All Task Completed")) {
                 status = "Complete";
-                holder.updateStatusBtn.setEnabled(false);
+//                holder.updateStatusBtn.setEnabled(false);
                 holder.updateStatusBtn.setAlpha(.5f);
             }
             else

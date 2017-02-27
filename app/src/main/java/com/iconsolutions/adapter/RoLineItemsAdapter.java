@@ -21,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.iconsolutions.crewschedular.R;
+import com.iconsolutions.helper.UserPreferences;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -31,7 +32,6 @@ import java.util.Date;
 import java.util.HashMap;
 
 import rolustech.beans.SugarBean;
-import com.iconsolutions.helper.UserPreferences;
 import rolustech.communication.soap.SOAPClient;
 import rolustech.helper.AlertHelper;
 import rolustech.helper.NetworkHelper;
@@ -39,8 +39,9 @@ import rolustech.helper.NetworkHelper;
 /**
  * Created by kashif on 4/7/16.
  */
-public class LineItemsAdapter extends BaseAdapter {
+public class RoLineItemsAdapter extends BaseAdapter {
     ArrayList<SugarBean> data;
+    ArrayList<HashMap<String,String>> datas;
     Context context;
     int resourceId,tmp=0;
 
@@ -50,22 +51,28 @@ public class LineItemsAdapter extends BaseAdapter {
     Handler handler = new Handler();
 
     private SOAPClient soapClient;
-
-    public LineItemsAdapter(Context context, ArrayList<SugarBean> beansList, int resourceID) {
+/*
+    public RoLineItemsAdapter(Context context, ArrayList<SugarBean> beansList, int resourceID) {
         this.context = context;
         this.data = beansList;
         this.resourceId = resourceID;
         UserPreferences.reLoadPrefernces(context);
     }
+*/
+    public RoLineItemsAdapter(Context context, ArrayList<HashMap<String, String>> datas, int resourceId) {
+        this.context=context;
+        this.datas=datas;
+        this.resourceId = resourceId;
+    }
 
     @Override
     public int getCount() {
-        return this.data.size();
+        return this.datas.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return this.data.get(position);
+        return this.datas.get(position);
     }
 
     @Override
@@ -74,7 +81,7 @@ public class LineItemsAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(final int position, View convertView, final ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
 //        try {
 //    View view;
         final ViewHolder holder;
@@ -86,32 +93,27 @@ public class LineItemsAdapter extends BaseAdapter {
 
             holder = new ViewHolder();
 
-            holder.lineItemName = (TextView) convertView.findViewById(R.id.product_text);
-            holder.qunatity = (TextView) convertView.findViewById(R.id.qty_text);
-//            holder.notes = (TextView) convertView.findViewById(R.id.notes_text);
-            holder.installedQty = (EditText) convertView.findViewById(R.id.installed_qty_text);
-            holder.deliveredQty = (EditText) convertView.findViewById(R.id.delqty_text);
-            holder.prevInstalledQty = (TextView) convertView.findViewById(R.id.prev_inst_qty_text);
-            holder.dueItem = (TextView) convertView.findViewById(R.id.due_item);
-            holder.additionalQty = (EditText) convertView.findViewById(R.id.additional_qty_lineitem);
-            holder.resvQty = (EditText) convertView.findViewById(R.id.resv_qty_text);
-            holder.additionalQty = (EditText) convertView.findViewById(R.id.additional_qty_lineitem);
-            holder.prevResvQty = (TextView) convertView.findViewById(R.id.prev_resv_qty_text);
-            holder.startStopTime = (ImageView) convertView.findViewById(R.id.start_stop_clock);
-            holder.notesImage = (ImageView) convertView.findViewById(R.id.notesImage);
+            holder.lineItemName = (TextView) convertView.findViewById(R.id.lineItemText);
+            holder.installedQty = (TextView) convertView.findViewById(R.id.installedQtyText);
+            holder.batchStatus = (TextView) convertView.findViewById(R.id.batchStatusText);
+            holder.batchNo = (TextView) convertView.findViewById(R.id.batchNoText);
+            holder.date = (TextView) convertView.findViewById(R.id.dateText);
+            holder.crewName = (TextView) convertView.findViewById(R.id.crewNameText);
+            holder.totalMan = (TextView) convertView.findViewById(R.id.noOfManText);
+            holder.startTime = (TextView) convertView.findViewById(R.id.startTimeText);
+            holder.endTime = (TextView) convertView.findViewById(R.id.endTimeText);
+            holder.startTime = (TextView) convertView.findViewById(R.id.startTimeText);
+            holder.endTime = (TextView) convertView.findViewById(R.id.endTimeText);
 
-
-            holder.title1 = (TextView) convertView.findViewById(R.id.qtyTitle);
-            holder.title2 = (TextView) convertView.findViewById(R.id.productTitle);
-            holder.title3 = (TextView) convertView.findViewById(R.id.deliveredQtyTitle);
-            holder.title4 = (TextView) convertView.findViewById(R.id.instQtyTitle);
-            holder.title5 = (TextView) convertView.findViewById(R.id.prevInstQtyTitle);
-            holder.title6 = (TextView) convertView.findViewById(R.id.adtQtyTitle);
-            holder.title7 = (TextView) convertView.findViewById(R.id.dueItemTitle);
-            holder.title8 = (TextView) convertView.findViewById(R.id.timeTitle);
-            holder.title9 = (TextView) convertView.findViewById(R.id.notesTitle);
-            holder.title10 = (TextView) convertView.findViewById(R.id.resvQtyTitle);
-            holder.title11 = (TextView) convertView.findViewById(R.id.prevResvQtyTitle);
+            holder.title1 = (TextView) convertView.findViewById(R.id.lineItemTitle);
+            holder.title2 = (TextView) convertView.findViewById(R.id.installedQtyTitle);
+            holder.title3 = (TextView) convertView.findViewById(R.id.batchStatusTitle);
+            holder.title4 = (TextView) convertView.findViewById(R.id.batchNoTitle);
+            holder.title5 = (TextView) convertView.findViewById(R.id.dateTitle);
+            holder.title6 = (TextView) convertView.findViewById(R.id.crewNameTitle);
+            holder.title7 = (TextView) convertView.findViewById(R.id.noOfManTitle);
+            holder.title8 = (TextView) convertView.findViewById(R.id.startTimeTitle);
+            holder.title9 = (TextView) convertView.findViewById(R.id.endTimeTitle);
 
             holder.mainLayout = (LinearLayout) convertView.findViewById(R.id.linitem_heading);
 
@@ -122,6 +124,7 @@ public class LineItemsAdapter extends BaseAdapter {
         }
 
         final ViewHolder finalHolder = holder;
+
         if (this.data != null) {
             final SugarBean object = this.data.get(position);
                 AlertHelper.printBeans(object);
@@ -131,7 +134,7 @@ public class LineItemsAdapter extends BaseAdapter {
 //                holder.notes.setText(object.getFieldValue("description"));
                 String quntity = String.valueOf((int) parseDoubleOrNull(object.getFieldValue("product_qty")));
                 holder.installedQty.setText("0");
-                holder.qunatity.setText(quntity);
+                holder.installedQty.setText(quntity);
                 if (quntity.equalsIgnoreCase("") || quntity.equalsIgnoreCase("0")) {
 
                     holder.installedQty.setEnabled(false);
@@ -143,32 +146,26 @@ public class LineItemsAdapter extends BaseAdapter {
                 }
 //                    holder.installedQty.setText(String.valueOf((int) parseDoubleOrNull(object.getFieldValue("app_installed_qty"))));
 
-                holder.prevInstalledQty.setText(String.valueOf((int) parseDoubleOrNull(object.getFieldValue("app_prev_installed_qty"))));
+                holder.installedQty.setText(String.valueOf((int) parseDoubleOrNull(object.getFieldValue("app_prev_installed_qty"))));
 
                 int dueItem = (int) parseDoubleOrNull(object.getFieldValue("product_qty")) - (int) parseDoubleOrNull(object.getFieldValue("app_prev_installed_qty"));
 //                    holder.dueItem.setText(String.valueOf((int) parseDoubleOrNull(object.getFieldValue("app_due_item"))));
-                holder.dueItem.setText(String.valueOf(dueItem));
-                holder.additionalQty.setText(object.getFieldValue("app_additional_qty"));
-                holder.deliveredQty.setText(object.getFieldValue("app_delivered_qty"));
-                 holder.prevResvQty.setText(object.getFieldValue("app_previous_received_qty"));
-                 holder.deliveredQty.setText(object.getFieldValue("app_delivered_qty"));
+//                holder.dueItem.setText(String.valueOf(dueItem));
+//                holder.additionalQty.setText(object.getFieldValue("app_additional_qty"));
+//                holder.deliveredQty.setText(object.getFieldValue("app_delivered_qty"));
 
             } catch (Exception e) {
 //                Log.d("Exception", e.getMessage());
             }
-
-            holder.additionalQty.setTag(position);
-            holder.additionalQty.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+/*
+            holder.requestQtyBtn.setTag(position);
+            holder.requestQtyBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onFocusChange(View view, boolean hasFocus) {
-                    if (hasFocus) {
-                        if (finalHolder.additionalQty.getText().toString().equals("0"))
-                            finalHolder.additionalQty.setText("");
-                    }
-                    final int tag = (int) view.getTag();
+                public void onClick(View v) {
+                    final int tag = (int) v.getTag();
                     final String quantity = finalHolder.additionalQty.getText().toString();
 
-                    if (!quantity.equals("0") && !quantity.equals("") && !(quantity.equalsIgnoreCase(object.getFieldValue("app_additional_qty")))) {
+                    if (!quantity.equals("") && !(quantity.equalsIgnoreCase(object.getFieldValue("app_additional_qty")))) {
 
                         android.app.AlertDialog diag = new android.app.AlertDialog.Builder(context).create();
                         diag.setCancelable(true);
@@ -238,47 +235,27 @@ public class LineItemsAdapter extends BaseAdapter {
                 }
             });
 
-            final int preReceivedQty=(int) parseDoubleOrNull(holder.prevResvQty.getText().toString().toString());
-
             holder.installedQty.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                 @Override
                 public void onFocusChange(View v, boolean hasFocus) {
                     if (!hasFocus) {
                         selectedET = null;
                         EditText ed = (EditText) v;
-                        int instqty=(int) parseDoubleOrNull(ed.getText().toString().toString());
-                        int receivedQty=(int) parseDoubleOrNull(holder.resvQty.getText().toString().toString());
                         int totalQty = (int) parseDoubleOrNull(ed.getText().toString().toString()) + (int) parseDoubleOrNull(object.getFieldValue("app_prev_installed_qty"));
                         String product_qty = object.getFieldValue("product_qty");
-                        if (totalQty <= (int) (Double.parseDouble(object.getFieldValue("product_qty"))) && instqty <= (preReceivedQty+receivedQty)) {  }
+
+                        if (totalQty <= (int) (Double.parseDouble(object.getFieldValue("product_qty")))) {  }
                         else {
                             AlertHelper.showAlert((FragmentActivity) context, UserPreferences.APP_NAME, "Installed quantity must be less than or equal to total quantity");
-                            ed.setText("0");
-//                            holder.resvQty.setText("0");
+                            ed.setText( holder.dueItem.getText().toString());
                         }
-
                         Log.i(UserPreferences.APP_NAME, "DONE pressed");
 
                     }
                 }
             });
 
-            holder.resvQty.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-                @Override
-                public void onFocusChange(View view, boolean b) {
-                    EditText ed = (EditText) view;
-                    int totalQty = (int)parseDoubleOrNull(object.getFieldValue("product_qty"));
-                    if (totalQty >= preReceivedQty+(int)parseDoubleOrNull(ed.getText().toString())) {  }
-                    else {
-                        AlertHelper.showAlert((FragmentActivity) context, UserPreferences.APP_NAME, "Previews Received + Received  quantity must be less than or equal to Total quantity");
-                        ed.setText("0");
-                    }
 
-                    Log.i(UserPreferences.APP_NAME, "DONE pressed");
-                }
-            });
-
-/*
             holder.installedQty.setOnKeyListener(new View.OnKeyListener() {
                 @Override
                 public boolean onKey(View view, int keyCode, KeyEvent event) {
@@ -328,7 +305,17 @@ public class LineItemsAdapter extends BaseAdapter {
                     return false;
                 }
             });
-*/
+
+
+            holder.additionalQty.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                @Override
+                public void onFocusChange(View v, boolean hasFocus) {
+                    if (hasFocus) {
+                        if (finalHolder.additionalQty.getText().toString().equals("0"))
+                            finalHolder.additionalQty.setText("");
+                    }
+                }
+            });
 
             holder.deliveredQty.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                 @Override
@@ -369,7 +356,7 @@ public class LineItemsAdapter extends BaseAdapter {
                     }
                 }
             });
-
+*/
             if (position == 0) {
                 holder.mainLayout.getLayoutParams().height = convertDPToPx(90);
 //                holder.title1.setVisibility(View.VISIBLE);
@@ -389,8 +376,6 @@ public class LineItemsAdapter extends BaseAdapter {
                 holder.title7.getLayoutParams().height = convertDPToPx(45);
                 holder.title8.getLayoutParams().height = convertDPToPx(45);
                 holder.title9.getLayoutParams().height = convertDPToPx(45);
-                holder.title10.getLayoutParams().height = convertDPToPx(45);
-                holder.title11.getLayoutParams().height = convertDPToPx(45);
 
             } else {
                 holder.mainLayout.getLayoutParams().height = convertDPToPx(45);
@@ -403,8 +388,6 @@ public class LineItemsAdapter extends BaseAdapter {
                 holder.title7.getLayoutParams().height = 0;
                 holder.title8.getLayoutParams().height = 0;
                 holder.title9.getLayoutParams().height = 0;
-                holder.title10.getLayoutParams().height = 0;
-                holder.title11.getLayoutParams().height = 0;
 
             }
 
@@ -437,10 +420,9 @@ public class LineItemsAdapter extends BaseAdapter {
     }
 
     public static class ViewHolder {
-        TextView title1, title2, title3, title4, title5, title6, title7, title8, title9,title10,title11;
-        TextView lineItemName, qunatity, notes, prevInstalledQty, dueItem,prevResvQty;
-        EditText additionalQty, installedQty, deliveredQty,resvQty;
-        ImageView  startStopTime, notesImage;
+        TextView title1, title2, title3, title4, title5, title6, title7, title8, title9;
+        TextView lineItemName,installedQty, crewName, batchStatus, totalMan,startTime,endTime,batchNo,date;
+
         LinearLayout mainLayout;
 
     }
