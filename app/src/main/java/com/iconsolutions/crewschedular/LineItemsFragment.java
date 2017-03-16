@@ -38,9 +38,11 @@ import com.iconsolutions.helper.UserPreferences;
 import rolustech.communication.soap.SOAPClient;
 import rolustech.helper.AlertHelper;
 import rolustech.helper.NetworkHelper;
+import rolustech.helper.NormalSync;
 
 import static com.iconsolutions.adapter.LineItemsAdapter.parseDoubleOrNull;
 import static com.iconsolutions.helper.UserPreferences.imageVarify;
+import static com.iconsolutions.helper.UserPreferences.trialDate;
 
 /**
  * Created by kashif on 4/11/16.
@@ -53,8 +55,13 @@ public class LineItemsFragment extends Fragment{
     ListView lineItems_lv;
     ArrayList<SugarBean> lineItems = null;
     LineItemsAdapter lineItemsAdapter;
-    Boolean isUpdated = false, isNotesUpdated = false;
-    Button previousButton, saveButton;
+    Boolean isNotesUpdated = false;
+    protected String where = "", userWhere = "", orderByField = "date_start", orderByDir = "ASC";
+    protected int offset = 0;
+    Boolean isUpdated = false, fetchingData = false;
+    Button previousButton, saveButton,nextButton;
+    protected SugarBean beans[];
+    protected SugarBean bean;
     ArrayList<String> statusNames, statusValues;
     ProgressDialog p_bar;
     Handler handler = new Handler();
@@ -78,6 +85,7 @@ public class LineItemsFragment extends Fragment{
     private void initUI(){
 
         previousButton = (Button) view.findViewById(R.id.lineitems_prev_button);
+        nextButton = (Button) view.findViewById(R.id.lineitems_next_button);
         saveButton = (Button) view.findViewById(R.id.lineitems_save_button);
         lineItems_lv = (ListView) view.findViewById(R.id.lineitems_lv);
 
@@ -119,7 +127,12 @@ public class LineItemsFragment extends Fragment{
                 moveToTabView(2);
             }
         });
-
+        nextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                moveToTabView(4);
+            }
+        });
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -245,11 +258,12 @@ public class LineItemsFragment extends Fragment{
             public void onClick(View v) {
                 String am ="AM";
                 int hour = dp.getCurrentHour();
+                int minute = dp.getCurrentMinute();
                 if(hour>12) {
                     hour -= 12;
                     am="PM";
                 }
-                dobStr[0] = hour + " " + (dp.getCurrentMinute() + 1) + " "+am;
+                dobStr[0] = (hour < 10 ? "0" : "") + hour + " " + (minute < 10 ? "0" : "") + minute+ " "+am;
                 tv.setText(dobStr[0]);
                 dialogDT.dismiss();
             }
@@ -325,27 +339,29 @@ public class LineItemsFragment extends Fragment{
             public void run() {
                 View parentView = null;
                 try {
-                    String[] names = {"name","start_time","end_time","totalmen","installed_qty","total_amount","aos_products_quotes_id"
-                            ,"crew_work_id","rt_batch_id","ro_crew_work_order_id","batch_number"};
+ //                   String[] names = {"name","start_time","end_time","totalmen","installed_qty","total_amount","aos_products_quotes_id"
+ //                           ,"crew_work_id","rt_batch_id","ro_crew_work_order_id","batch_number"};
                     int batch = getBatchNumber();
                     String uuid = UUID.randomUUID().toString();
 
                     for(int i=0; i<lineItems_lv.getCount(); i++) {
                         parentView = getViewByPosition(i, lineItems_lv);
                         EditText v = (EditText) parentView .findViewById(R.id.installed_qty_text);
+                        EditText resvQty = (EditText) parentView .findViewById(R.id.resv_qty_text);
                         final SugarBean object = lineItems.get(i);
-                        String[] values = {object.getFieldValue("name"),startDate.getText().toString(),endDate.getText().toString()
-                                , totalMen.getText().toString(), v.getText().toString(),"0", object.getFieldValue("id"), UserPreferences.userID
-                                , uuid, workOrderId,String.valueOf(batch+1)};
+ //                       String[] values = {object.getFieldValue("name"),startDate.getText().toString(),endDate.getText().toString()
+ //                               , totalMen.getText().toString(), v.getText().toString(),"0", object.getFieldValue("id"), UserPreferences.userID
+//                                , uuid, workOrderId,String.valueOf(batch+1)};
                         String response;
                         if (NetworkHelper.isAvailable(getActivity())) {
                             SOAPClient com1 = new SOAPClient(UserPreferences.url);
                             object.updateFieldValue("app_installed_qty", "0");
                             int prevQty = (int) parseDoubleOrNull(v.getText().toString()) + (int) parseDoubleOrNull(object.getFieldValue("app_prev_installed_qty"));
+                            int prevResvQty = (int) parseDoubleOrNull(resvQty.getText().toString()) + (int) parseDoubleOrNull(object.getFieldValue("app_previous_received_qty"));
                             object.updateFieldValue("app_prev_installed_qty", String.valueOf(prevQty));
+                            object.updateFieldValue("app_previous_received_qty", String.valueOf(prevResvQty));
                             response = object.save(false);
-                            String direct = com1.setEntry("ro_crew_work_line_items",names,values,false,false,false);
-                            Log.e("Crew_App","Successfully Saved Directly =>"+direct);
+
                         }
                         else {
                             SugarBean wo_bean = new SugarBean(getActivity(), "AOS_Products_Quotes");
@@ -357,6 +373,23 @@ public class LineItemsFragment extends Fragment{
                             object.updateFieldValue("app_installed_qty", "0");
                             response = wo_bean.save(false);
                             Log.e("Crew_App","Successfully Saved =>"+response);
+                        }
+                        if(!v.getText().toString().equals("0")|| !v.getText().toString().equals("")) {
+//                                String direct = com1.setEntry("ro_crew_work_line_items", names, values, false, false, false);
+                            SugarBean woBean = new SugarBean(fm, "ro_crew_work_line_items");
+                            woBean.updateFieldValue("name", object.getFieldValue("name"));
+                            woBean.updateFieldValue("start_time",startDate.getText().toString());
+                            woBean.updateFieldValue("end_time", endDate.getText().toString());
+                            woBean.updateFieldValue("totalmen", totalMen.getText().toString());
+                            woBean.updateFieldValue("installed_qty",v.getText().toString());
+                            woBean.updateFieldValue("total_amount","0");
+                            woBean.updateFieldValue("aos_products_quotes_id", object.getFieldValue("id"));
+                            woBean.updateFieldValue("crew_work_id",UserPreferences.userID);
+                            woBean.updateFieldValue("rt_batch_id", uuid);
+                            woBean.updateFieldValue("ro_crew_work_order_id", workOrderId);
+                            woBean.updateFieldValue("batch_number",String.valueOf(batch+1));
+                            String lineItemresponse = woBean.save(true);
+                            Log.e("Crew_App", "Successfully Saved Offline =>" + lineItemresponse);
                         }
 
                         lineItems.set(i, object);
@@ -381,25 +414,64 @@ public class LineItemsFragment extends Fragment{
     }
     public int getBatchNumber()
     {
+        bean = new SugarBean(getContext(), "ro_crew_work_line_items");
+        SugarBean[] newBeans;
+        beans = new SugarBean[0];
+        try {
+            if (NetworkHelper.isAvailable(getContext())) {
+                SugarBean.loadCom(getContext(), true, false);
+                if (NormalSync.loadFromServer()) {
+                    newBeans = bean.retrieveAll("ro_crew_work_line_items.ro_crew_work_order_id = '" + workOrderId + "'",
+                            orderByField + " " + orderByDir, offset, 100, 0, null);
+                    if (newBeans.length > 0) {
+                        beans = newBeans;
+                    } else {
+                        beans = new SugarBean[0];
+                    }
+                }
+            } else {
+                SugarBean.loadCom(getContext(), false, true);
+                newBeans = bean.retrieveAll("ro_crew_work_line_items.ro_crew_work_order_id = '" + workOrderId + "'", orderByField + " " + orderByDir, offset, 50, 0, null);
+                if (newBeans.length > 0) {
+                    beans = newBeans;
+                } else {
+                    beans = new SugarBean[0];
+                }
+            }
+            for (int i = 0; i < beans.length; i++) {
+                SugarBean record = beans[i];
+                     if (record!= null)
+                        if(batch < Integer.parseInt(record.getFieldValue("batch_number")))
+                            batch = Integer.parseInt(record.getFieldValue("batch_number"));
+                    Log.v("Crew_App","SoapBeans Size  =>"+ "Batch Number" +" = "+record.getFieldValue("batch_number"));
+               }
+        }
+        catch (Exception e) {
+        e.printStackTrace();
+    }
+        return batch;
+    }
+    public int getBatchNumberOnline()
+    {
         SOAPClient com = new SOAPClient(UserPreferences.url);
         ArrayList<ArrayList<String[]>> records = null;
         try {
             records = com.getEntryList("ro_crew_work_line_items", new String[]{"batch_number"}
                     , "ro_crew_work_line_items.ro_crew_work_order_id = '"+workOrderId+"'", 10, 0,"",0, null);
-        if(records != null && records.size() > 0) {
-            SugarBean beans[] = new SugarBean[records.size()];
-            for (int i = 0; i < records.size(); i++) {
-                ArrayList<String[]> record = records.get(i);
-                for (int j = 0; j < record.size(); j++) {
-                    String name = record.get(j)[0];
-                    if (record.get(j)[1] != null)
-                        if(batch <Integer.parseInt(record.get(j)[1]))
-                            batch = Integer.parseInt(record.get(j)[1]);
-                    Log.v("Crew_App","SoapBeans Size  =>"+name +" = "+record.get(j)[1]);
-                }
+            if(records != null && records.size() > 0) {
+                SugarBean beans[] = new SugarBean[records.size()];
+                for (int i = 0; i < records.size(); i++) {
+                    ArrayList<String[]> record = records.get(i);
+                    for (int j = 0; j < record.size(); j++) {
+                        String name = record.get(j)[0];
+                        if (record.get(j)[1] != null)
+                            if(batch <Integer.parseInt(record.get(j)[1]))
+                                batch = Integer.parseInt(record.get(j)[1]);
+                        Log.v("Crew_App","SoapBeans Size  =>"+name +" = "+record.get(j)[1]);
+                    }
 
+                }
             }
-        }
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -38,7 +38,7 @@ public class ControllerFragment extends Fragment {
     android.os.Handler handler = new android.os.Handler();
     SugarBean orders[] = null;
     SugarBean workOrder;
-    Button nextButton;
+    Button nextButton,previousButton;
     String controllerSaveValue = new String();
     ArrayList<ArrayList<String[]>> records = null;
     Boolean updated = false;
@@ -95,16 +95,16 @@ public class ControllerFragment extends Fragment {
         }
 
         nextButton = (Button) view.findViewById(R.id.controller_next_button);
+
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(updated) {
                     workOrder.updateFieldValue("controller_multi_select", controllerSaveValue);
-
                     saveControllerValues(workOrder);
                 }
                 else
-                    moveToNextView();
+                    moveToTabView(2);
             }
         });
 
@@ -223,7 +223,7 @@ public class ControllerFragment extends Fragment {
                             p_bar.hide();
                         }
                         updated = false;
-                        moveToNextView();
+                        moveToTabView(2);
                     }
                 });
             }
@@ -231,9 +231,9 @@ public class ControllerFragment extends Fragment {
 
     }
 
-    public void moveToNextView(){
+    public void moveToTabView(int tabNumber){
         WorkOrderFragment parentFragment = (WorkOrderFragment) this.getParentFragment();
-        parentFragment.nextAction(2);
+        parentFragment.nextAction(tabNumber);
     }
 
 

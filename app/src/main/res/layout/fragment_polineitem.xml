@@ -24,7 +24,7 @@
         <!--android:background="@drawable/lineitems_header"/>-->
 
         <ListView
-            android:id="@+id/pm_feed_list"
+            android:id="@+id/po_line_item_list"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:choiceMode="singleChoice"
@@ -38,23 +38,15 @@
             android:id="@+id/ll1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true">
+            android:layout_alignParentBottom="true"
+            android:gravity="center">
             <Button
-                android:id="@+id/pmlineitems_prev_button"
+                android:id="@+id/polineitems_prev_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="10dp"
-                android:layout_weight="1"
                 android:background="@drawable/previous_button" />
-            <Button
-                android:id="@+id/pmlineitem_next_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="20dp"
-                android:layout_marginLeft="10dp"
-                android:layout_weight="1"
-                android:background="@drawable/next_button" />
         </LinearLayout>
 
     </RelativeLayout>

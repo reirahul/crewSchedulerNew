@@ -16,13 +16,13 @@
         <GridView
             android:id="@+id/gridview"
             android:layout_width="match_parent"
-            android:layout_height="500dp"
+            android:layout_height="wrap_content"
             android:gravity="center"
-            android:horizontalSpacing="20dp"
-            android:verticalSpacing="20dp"
+            android:horizontalSpacing="10dp"
+            android:verticalSpacing="10dp"
             android:numColumns="auto_fit"
             android:columnWidth="200dp"
-            android:padding="20dp"
+            android:padding="10dp"
             android:layout_above="@+id/select_image_btn"
             android:layout_alignParentTop="true">
 

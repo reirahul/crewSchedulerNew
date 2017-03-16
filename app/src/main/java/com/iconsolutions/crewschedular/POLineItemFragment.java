@@ -3,11 +3,7 @@ package com.iconsolutions.crewschedular;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Intent;
-import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
@@ -15,42 +11,25 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.GridView;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 
-import com.iconsolutions.adapter.JobImagesAdapter;
-import com.iconsolutions.adapter.JobsListAdapter;
 import com.iconsolutions.adapter.RoLineItemsAdapter;
 import com.iconsolutions.helper.UserPreferences;
 
-import java.io.File;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Hashtable;
 
 import crewschedular.fragmentinterface.BaseBackPressedListener;
-import rolustech.beans.Field;
-import rolustech.beans.ModuleConfig;
 import rolustech.beans.SugarBean;
 import rolustech.communication.soap.SOAPClient;
 import rolustech.helper.NetworkHelper;
 import rolustech.helper.NormalSync;
 
-import static com.iconsolutions.helper.UserPreferences.imageVarify;
-import static com.iconsolutions.helper.UserPreferences.invalidCertificate;
-import static rolustech.tempStorage.TempStorage.bean;
-
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class PMFeedbackFragment extends Fragment {
+public class POLineItemFragment extends Fragment {
 
     View view;
     FragmentActivity fm;
@@ -73,7 +52,7 @@ public class PMFeedbackFragment extends Fragment {
     HashMap<String,String> data;
     ArrayList<HashMap<String,String>> datas =new ArrayList<>();
     RoLineItemsAdapter pmFeedBacklineitemadopter;
-    public PMFeedbackFragment() {
+    public POLineItemFragment() {
         // Required empty public constructor
     }
 
@@ -82,13 +61,13 @@ public class PMFeedbackFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        view =  inflater.inflate(R.layout.fragment_pmfeedback, container, false);
+        view =  inflater.inflate(R.layout.fragment_polineitem, container, false);
         workOrderId = getArguments().getString("WorkOrderId");
         workOrderName = getArguments().getString("WorkOrderName");
         initUI();
-        jobs = new ArrayList();
-        pmFeedBacklineitemadopter = new RoLineItemsAdapter(getContext(),jobs,R.layout.pm_feedback_list_item);
-        pmFeedList.setAdapter(pmFeedBacklineitemadopter);
+        datas = new ArrayList<>();
+ //      pmFeedBacklineitemadopter = new RoLineItemsAdapter(getContext(),datas,R.layout.pm_feedback_list_item);
+  //      pmFeedList.setAdapter(pmFeedBacklineitemadopter);
         return view;
     }
 
@@ -98,30 +77,22 @@ public class PMFeedbackFragment extends Fragment {
             controllerSaveValue = workOrder.getFieldValue("controller_multi_select");
         }
 
-        pmFeedList = (ListView)view.findViewById(R.id.pm_feed_list);
-        nextButton = (Button) view.findViewById(R.id.pmlineitem_next_button);
-        previousButton = (Button) view.findViewById(R.id.pmlineitems_prev_button);
-        previousButton.setOnClickListener(new View.OnClickListener() {
+        pmFeedList = (ListView)view.findViewById(R.id.po_line_item_list);
+
+        view.findViewById(R.id.polineitems_prev_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                moveToTabView(4);
-            }
-        });
-        nextButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                moveToTabView(6);
+                moveToTabView(5);
             }
         });
         if (UserPreferences.reLoadPrefernces(this.fm)) {
             bean = new SugarBean(this.fm, "ro_crew_work_line_items");
-
         }
         userWhere = bean.moduleName.toLowerCase() + ".ro_crew_work_order_id = '"+workOrderId+"'";
-
         fields = new String[]{"name","start_time","end_time","totalmen","installed_qty","total_amount","aos_products_quotes_id"
                 ,"crew_work_id","rt_batch_id","ro_crew_work_order_id","batch_number","is_approved","date_entered"};
-          createWorkOrderAndLineItems();
+
+           createWorkOrderLineItemsOnline();
     }
 
     public void createWorkOrderLineItemsOnline() {
@@ -141,9 +112,9 @@ public class PMFeedbackFragment extends Fragment {
                     if (NetworkHelper.isAvailable(getActivity())) {
                         SOAPClient com = new SOAPClient(UserPreferences.url);
                         ArrayList<ArrayList<String[]>> records = null;
-                        String modName = "ro_crew_work_line_items";
+                        String modName = "AOS_Products_Quotes";
                         try {
-                            records = com.getEntryList(modName, fields, modName+".ro_crew_work_order_id = '"+workOrderId+"'", 100, 0,"",0, null);
+                            records = com.getEntryList(modName, fields,"", 100, 0,"",0, null);
                             if (records != null) {
                                 beans = new SugarBean[records.size()];
                                     for (int i = 0; i < records.size(); i++) {
@@ -161,7 +132,7 @@ public class PMFeedbackFragment extends Fragment {
                                                 }
                                         }
                                         datas.add(data);
-
+                                        Log.d("Crew_app_PM"," Data List  => "+data.toString());
   //                                          li_bean.loadCom(fm, false, true);
   //                                          li_bean.save(true);
                                     }
@@ -190,8 +161,8 @@ public class PMFeedbackFragment extends Fragment {
                         if (p_bar.isShowing()) {
                             p_bar.hide();
                         }
+//                        pmFeedBacklineitemadopter.notifyDataSetChanged();
                         populateJobs();
-                        pmFeedBacklineitemadopter.notifyDataSetChanged();
                     }
                 });
 
@@ -243,7 +214,6 @@ public class PMFeedbackFragment extends Fragment {
                             p_bar.hide();
                         }
                         populateJobs();
-                        pmFeedBacklineitemadopter.notifyDataSetChanged();
                     }
                 });
 
@@ -253,12 +223,13 @@ public class PMFeedbackFragment extends Fragment {
 
     private void populateJobs() {
         if (beans != null && beans.length > 0) {
+            jobs = new ArrayList();
             for (int i = 0; i < beans.length; i++) {
                 jobs.add(beans[i]);
             }
         } else {
             jobs = new ArrayList();
-             }
+                    }
 
     }
 

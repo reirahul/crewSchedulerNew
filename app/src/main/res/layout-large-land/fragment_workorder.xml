@@ -443,13 +443,7 @@
                     android:orientation="horizontal"
                     android:layout_marginRight="10dp"
                     android:layout_marginLeft="10dp">
-                    <ImageView
-                        android:id="@+id/tab_img"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/tab_states"
-                        android:layout_weight="1"/>
-                    >
+
                     <ImageView
                         android:id="@+id/tab1_img"
                         android:layout_width="wrap_content"
@@ -480,6 +474,13 @@
                         android:layout_weight="1"/>
                     <ImageView
                         android:id="@+id/tab5_img"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/tab_states"
+                        android:layout_weight="1"/>
+                    >
+                    <ImageView
+                        android:id="@+id/tab6_img"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@drawable/tab5_states"

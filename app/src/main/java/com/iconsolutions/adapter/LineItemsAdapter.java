@@ -42,7 +42,7 @@ import rolustech.helper.NetworkHelper;
 public class LineItemsAdapter extends BaseAdapter {
     ArrayList<SugarBean> data;
     Context context;
-    int resourceId,tmp=0;
+    int resourceId,tmp=0,dueItem,totalItem,preInstalItem,preResvItem;
 
     EditText selectedET;
 
@@ -144,9 +144,10 @@ public class LineItemsAdapter extends BaseAdapter {
 //                    holder.installedQty.setText(String.valueOf((int) parseDoubleOrNull(object.getFieldValue("app_installed_qty"))));
 
                 holder.prevInstalledQty.setText(String.valueOf((int) parseDoubleOrNull(object.getFieldValue("app_prev_installed_qty"))));
-
-                int dueItem = (int) parseDoubleOrNull(object.getFieldValue("product_qty")) - (int) parseDoubleOrNull(object.getFieldValue("app_prev_installed_qty"));
-//                    holder.dueItem.setText(String.valueOf((int) parseDoubleOrNull(object.getFieldValue("app_due_item"))));
+                preInstalItem = (int) parseDoubleOrNull(object.getFieldValue("app_prev_installed_qty"));
+                totalItem =   (int) parseDoubleOrNull(object.getFieldValue("product_qty"));
+                dueItem = totalItem - preInstalItem;
+//                holder.dueItem.setText(String.valueOf((int) parseDoubleOrNull(object.getFieldValue("app_due_item"))));
                 holder.dueItem.setText(String.valueOf(dueItem));
                 holder.additionalQty.setText(object.getFieldValue("app_additional_qty"));
                 holder.deliveredQty.setText(object.getFieldValue("app_delivered_qty"));
@@ -249,8 +250,8 @@ public class LineItemsAdapter extends BaseAdapter {
                         int instqty=(int) parseDoubleOrNull(ed.getText().toString().toString());
                         int receivedQty=(int) parseDoubleOrNull(holder.resvQty.getText().toString().toString());
                         int totalQty = (int) parseDoubleOrNull(ed.getText().toString().toString()) + (int) parseDoubleOrNull(object.getFieldValue("app_prev_installed_qty"));
-                        String product_qty = object.getFieldValue("product_qty");
-                        if (totalQty <= (int) (Double.parseDouble(object.getFieldValue("product_qty"))) && instqty <= (preReceivedQty+receivedQty)) {  }
+ //                       String product_qty = object.getFieldValue("product_qty");
+                        if (totalQty <= (int) parseDoubleOrNull(object.getFieldValue("product_qty")) && instqty <= ((preReceivedQty+receivedQty)-(int) parseDoubleOrNull(object.getFieldValue("app_prev_installed_qty")))) {  }
                         else {
                             AlertHelper.showAlert((FragmentActivity) context, UserPreferences.APP_NAME, "Installed quantity must be less than or equal to total quantity");
                             ed.setText("0");
@@ -268,7 +269,7 @@ public class LineItemsAdapter extends BaseAdapter {
                 public void onFocusChange(View view, boolean b) {
                     EditText ed = (EditText) view;
                     int totalQty = (int)parseDoubleOrNull(object.getFieldValue("product_qty"));
-                    if (totalQty >= preReceivedQty+(int)parseDoubleOrNull(ed.getText().toString())) {  }
+                    if ((int)parseDoubleOrNull(holder.qunatity.getText().toString()) >= preReceivedQty+(int)parseDoubleOrNull(ed.getText().toString())) {  }
                     else {
                         AlertHelper.showAlert((FragmentActivity) context, UserPreferences.APP_NAME, "Previews Received + Received  quantity must be less than or equal to Total quantity");
                         ed.setText("0");

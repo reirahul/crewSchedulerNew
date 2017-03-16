@@ -394,7 +394,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 
     public void populateAllowedModules() {
         if (availableModules != null) {
-            modulesListForDistributor.addAll(Arrays.asList( "ro_crew_work_order", "AOS_Products_Quotes", "Documents", "DocumentRevisions", "Users", "rt_Jobs"));
+            modulesListForDistributor.addAll(Arrays.asList( "ro_crew_work_order", "AOS_Products_Quotes", "Documents", "DocumentRevisions", "Users", "rt_Jobs","ro_crew_work_line_items"));
             for (int i = 0; i < availableModules.size(); i++) {
 //				if(!forbiddenModules.contains(availableModules.get(i).toLowerCase())) {
                 if (checkAllowedModules(availableModules.get(i))) {

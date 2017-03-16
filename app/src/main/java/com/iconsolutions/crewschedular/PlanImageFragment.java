@@ -38,7 +38,7 @@ public class PlanImageFragment extends Fragment{
 
     View view;
     FragmentActivity fm;
-    Button previous;
+    Button previous,nextButton;
     String docRevIds = null;
     String workOrderId, workOrderName, jobId;
     ProgressDialog p_bar;
@@ -62,13 +62,19 @@ public class PlanImageFragment extends Fragment{
         view = inflater.inflate(R.layout.planimage_fragment, null);
 
         previous = (Button) view.findViewById(R.id.planimage_previous_button);
+        nextButton = (Button) view.findViewById(R.id.planimage_next_button);
         previous.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                moveToPreviousView();
+                moveToTabView(3);
             }
         });
-
+        nextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                moveToTabView(5);
+            }
+        });
         gridView = (GridView) view.findViewById(R.id.plangridview);
         workOrderId = getArguments().getString("WorkOrderId");
         workOrderName = getArguments().getString("WorkOrderName");
@@ -88,9 +94,9 @@ public class PlanImageFragment extends Fragment{
         return view;
     }
 
-    public void moveToPreviousView(){
+    public void moveToTabView(int tabNumber){
         WorkOrderFragment parentFragment = (WorkOrderFragment) this.getParentFragment();
-        parentFragment.nextAction(3);
+        parentFragment.nextAction(tabNumber);
     }
 
     public void fetchRelatedDocuments()

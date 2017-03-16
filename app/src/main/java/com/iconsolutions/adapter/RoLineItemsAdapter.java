@@ -41,10 +41,11 @@ import rolustech.helper.NetworkHelper;
  */
 public class RoLineItemsAdapter extends BaseAdapter {
     ArrayList<SugarBean> data;
-    ArrayList<HashMap<String,String>> datas;
+    ArrayList<SugarBean> datas;
     Context context;
     int resourceId,tmp=0;
-
+    ViewHolder holder;
+    View view;
     EditText selectedET;
 
     ProgressDialog p_bar;
@@ -59,7 +60,7 @@ public class RoLineItemsAdapter extends BaseAdapter {
         UserPreferences.reLoadPrefernces(context);
     }
 */
-    public RoLineItemsAdapter(Context context, ArrayList<HashMap<String, String>> datas, int resourceId) {
+    public RoLineItemsAdapter(Context context, ArrayList<SugarBean> datas, int resourceId) {
         this.context=context;
         this.datas=datas;
         this.resourceId = resourceId;
@@ -82,338 +83,83 @@ public class RoLineItemsAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-//        try {
-//    View view;
-        final ViewHolder holder;
+        SugarBean data = datas.get(position);
+       if (convertView == null) {
+           LayoutInflater inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+           convertView = inflater.inflate(resourceId, parent, false);
+           view = convertView;
+           initUI();
+       }
+       else {
+           holder = (ViewHolder) view.getTag();
+       }
+        Log.d("Crew_app_PM"," Data List =>  Data  => "+ data.getNameArray(false));
+          hideTitle(position);
+        String batchStatus = data.getFieldValue("is_approved").equals("0")?"N/A":"Approved";
+                holder.lineItemName.setText(data.getFieldValue("name"));
+                 holder.installedQty.setText(data.getFieldValue("installed_qty"));
+                 holder.batchStatus.setText(batchStatus);
+                 holder.batchNo.setText(data.getFieldValue("batch_number"));
+                 holder.date.setText(data.getFieldValue("date_entered"));
+                 holder.crewName.setText("Renecrew");
+                 holder.totalMan.setText(data.getFieldValue("totalmen"));
+                 holder.startTime.setText(data.getFieldValue("start_time"));
+                 holder.endTime.setText(data.getFieldValue("end_time"));
 
-        if (convertView == null) {
-            LayoutInflater inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(resourceId, parent, false);
-//        view = convertView;
+        return view;
+    }
+    private void hideTitle(int position)
+    {
+        if (position == 0) {
+            holder.mainLayout.getLayoutParams().height = convertDPToPx(90);
+                holder.title1.setVisibility(View.VISIBLE);
+                holder.title2.setVisibility(View.VISIBLE);
+                holder.title3.setVisibility(View.VISIBLE);
+                holder.title4.setVisibility(View.VISIBLE);
+                holder.title5.setVisibility(View.VISIBLE);
+                holder.title6.setVisibility(View.VISIBLE);
+                holder.title7.setVisibility(View.VISIBLE);
+                holder.title8.setVisibility(View.VISIBLE);
+                holder.title9.setVisibility(View.VISIBLE);
+//            holder.title1.getLayoutParams().height = convertDPToPx(45);
+//            holder.title2.getLayoutParams().height = convertDPToPx(45);
+//            holder.title3.getLayoutParams().height = convertDPToPx(45);
+//            holder.title4.getLayoutParams().height = convertDPToPx(45);
+//            holder.title5.getLayoutParams().height = convertDPToPx(45);
+//            holder.title6.getLayoutParams().height = convertDPToPx(45);
+//            holder.title7.getLayoutParams().height = convertDPToPx(45);
+//            holder.title8.getLayoutParams().height = convertDPToPx(45);
+//            holder.title9.getLayoutParams().height = convertDPToPx(45);
 
-            holder = new ViewHolder();
-
-            holder.lineItemName = (TextView) convertView.findViewById(R.id.lineItemText);
-            holder.installedQty = (TextView) convertView.findViewById(R.id.installedQtyText);
-            holder.batchStatus = (TextView) convertView.findViewById(R.id.batchStatusText);
-            holder.batchNo = (TextView) convertView.findViewById(R.id.batchNoText);
-            holder.date = (TextView) convertView.findViewById(R.id.dateText);
-            holder.crewName = (TextView) convertView.findViewById(R.id.crewNameText);
-            holder.totalMan = (TextView) convertView.findViewById(R.id.noOfManText);
-            holder.startTime = (TextView) convertView.findViewById(R.id.startTimeText);
-            holder.endTime = (TextView) convertView.findViewById(R.id.endTimeText);
-            holder.startTime = (TextView) convertView.findViewById(R.id.startTimeText);
-            holder.endTime = (TextView) convertView.findViewById(R.id.endTimeText);
-
-            holder.title1 = (TextView) convertView.findViewById(R.id.lineItemTitle);
-            holder.title2 = (TextView) convertView.findViewById(R.id.installedQtyTitle);
-            holder.title3 = (TextView) convertView.findViewById(R.id.batchStatusTitle);
-            holder.title4 = (TextView) convertView.findViewById(R.id.batchNoTitle);
-            holder.title5 = (TextView) convertView.findViewById(R.id.dateTitle);
-            holder.title6 = (TextView) convertView.findViewById(R.id.crewNameTitle);
-            holder.title7 = (TextView) convertView.findViewById(R.id.noOfManTitle);
-            holder.title8 = (TextView) convertView.findViewById(R.id.startTimeTitle);
-            holder.title9 = (TextView) convertView.findViewById(R.id.endTimeTitle);
-
-            holder.mainLayout = (LinearLayout) convertView.findViewById(R.id.linitem_heading);
-
-            convertView.setTag(holder);
         } else {
-//        view = convertView;
-            holder = (ViewHolder) convertView.getTag();
-        }
-
-        final ViewHolder finalHolder = holder;
-
-        if (this.data != null) {
-            final SugarBean object = this.data.get(position);
-                AlertHelper.printBeans(object);
-             try {
-
-                holder.lineItemName.setText(object.getFieldValue("name"));
-//                holder.notes.setText(object.getFieldValue("description"));
-                String quntity = String.valueOf((int) parseDoubleOrNull(object.getFieldValue("product_qty")));
-                holder.installedQty.setText("0");
-                holder.installedQty.setText(quntity);
-                if (quntity.equalsIgnoreCase("") || quntity.equalsIgnoreCase("0")) {
-
-                    holder.installedQty.setEnabled(false);
-                    holder.installedQty.setClickable(false);
-
-                }else{
-                    holder.installedQty.setEnabled(true);
-                    holder.installedQty.setClickable(true);
-                }
-//                    holder.installedQty.setText(String.valueOf((int) parseDoubleOrNull(object.getFieldValue("app_installed_qty"))));
-
-                holder.installedQty.setText(String.valueOf((int) parseDoubleOrNull(object.getFieldValue("app_prev_installed_qty"))));
-
-                int dueItem = (int) parseDoubleOrNull(object.getFieldValue("product_qty")) - (int) parseDoubleOrNull(object.getFieldValue("app_prev_installed_qty"));
-//                    holder.dueItem.setText(String.valueOf((int) parseDoubleOrNull(object.getFieldValue("app_due_item"))));
-//                holder.dueItem.setText(String.valueOf(dueItem));
-//                holder.additionalQty.setText(object.getFieldValue("app_additional_qty"));
-//                holder.deliveredQty.setText(object.getFieldValue("app_delivered_qty"));
-
-            } catch (Exception e) {
-//                Log.d("Exception", e.getMessage());
-            }
-/*
-            holder.requestQtyBtn.setTag(position);
-            holder.requestQtyBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    final int tag = (int) v.getTag();
-                    final String quantity = finalHolder.additionalQty.getText().toString();
-
-                    if (!quantity.equals("") && !(quantity.equalsIgnoreCase(object.getFieldValue("app_additional_qty")))) {
-
-                        android.app.AlertDialog diag = new android.app.AlertDialog.Builder(context).create();
-                        diag.setCancelable(true);
-                        diag.setMessage("Are you sure to request for additional quantity?");
-                        diag.setTitle(UserPreferences.APP_NAME);
-                        diag.setInverseBackgroundForced(true);
-                        diag.setButton("OK", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                requestQuantity(tag, quantity);
-                                dialog.dismiss();
-                            }
-                        });
-                        diag.setButton2("Cancel", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        });
-                        diag.show();
-
-                    }
-                }
-            });
-
-            try {
-                ArrayList<String> startTimeArr = new ArrayList<String>();
-                if (!(object.getFieldValue("start_time").equals("")))
-                    startTimeArr = convertJSONToArray(new JSONArray(object.getFieldValue("start_time")));
-
-                ArrayList<String> stopTimeArr = new ArrayList<String>();
-                if (!(object.getFieldValue("stop_time").equals("")))
-                    stopTimeArr = convertJSONToArray(new JSONArray(object.getFieldValue("stop_time")));
-
-                if (startTimeArr.size() == stopTimeArr.size())
-                    holder.startStopTime.setImageResource(R.drawable.start_time);
-                else
-                    holder.startStopTime.setImageResource(R.drawable.stop_time);
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            holder.startStopTime.setTag(position);
-            holder.startStopTime.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    int tag = (int) v.getTag();
-                    try {
-                        ArrayList<String> startTimeArr = new ArrayList<String>();
-                        if (!(object.getFieldValue("start_time").equals("")))
-                            startTimeArr = convertJSONToArray(new JSONArray(object.getFieldValue("start_time")));
-                        Log.d(" Start Responce -> ",startTimeArr.toString());
-                        ArrayList<String> stopTimeArr = new ArrayList<String>();
-                        if (!(object.getFieldValue("stop_time").equals("")))
-                            stopTimeArr = convertJSONToArray(new JSONArray(object.getFieldValue("stop_time")));
-                        Log.d("Stop Responce -> ",stopTimeArr.toString());
-
-                        saveStartStopTime(position, (ImageView) v, startTimeArr, stopTimeArr);
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
-
-                }
-            });
-
-            holder.installedQty.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-                @Override
-                public void onFocusChange(View v, boolean hasFocus) {
-                    if (!hasFocus) {
-                        selectedET = null;
-                        EditText ed = (EditText) v;
-                        int totalQty = (int) parseDoubleOrNull(ed.getText().toString().toString()) + (int) parseDoubleOrNull(object.getFieldValue("app_prev_installed_qty"));
-                        String product_qty = object.getFieldValue("product_qty");
-
-                        if (totalQty <= (int) (Double.parseDouble(object.getFieldValue("product_qty")))) {  }
-                        else {
-                            AlertHelper.showAlert((FragmentActivity) context, UserPreferences.APP_NAME, "Installed quantity must be less than or equal to total quantity");
-                            ed.setText( holder.dueItem.getText().toString());
-                        }
-                        Log.i(UserPreferences.APP_NAME, "DONE pressed");
-
-                    }
-                }
-            });
-
-
-            holder.installedQty.setOnKeyListener(new View.OnKeyListener() {
-                @Override
-                public boolean onKey(View view, int keyCode, KeyEvent event) {
-                    if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
-                            (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                        EditText ed = (EditText)view;
-                        int totalQty = Integer.parseInt(ed.getText().toString()) + (int) parseDoubleOrNull(object.getFieldValue("app_prev_installed_qty"));
-                        String product_qty = object.getFieldValue("product_qty");
-
-                        if (totalQty <= (int) (Double.parseDouble(object.getFieldValue("product_qty")))) {
-
-                            if (!ed.getText().toString().equals("0") && !ed.getText().toString().equals("") && !(ed.getText().toString().equalsIgnoreCase(object.getFieldValue("app_installed_qty")))) {
-                                saveInstalledQty(position, (EditText)ed);
-                                tmp=1;
-                            }
-
-                        } else {
-                            AlertHelper.showAlert((FragmentActivity) context, UserPreferences.APP_NAME, "Installed quantity must be less than or equal to total quantity");
-                        }
-                        Log.i(UserPreferences.APP_NAME, "DONE pressed");
-                        return true;
-                    }
-                    return false;
-                }
-            });
-
-            holder.installedQty.setOnEditorActionListener(
-                    new EditText.OnEditorActionListener() {
-                        public boolean onEditorAction(TextView ed, int actionId, KeyEvent event) {
-                            if(EditorInfo.IME_ACTION_DONE==actionId || EditorInfo.IME_ACTION_UNSPECIFIED==actionId)
-                            {
-                                int totalQty = Integer.parseInt(ed.getText().toString()) + (int) parseDoubleOrNull(object.getFieldValue("app_prev_installed_qty"));
-                                String product_qty = object.getFieldValue("product_qty");
-
-                                if (totalQty <= (int) (Double.parseDouble(object.getFieldValue("product_qty")))) {
-
-                                    if (!ed.getText().toString().equals("0") && !ed.getText().toString().equals("") && !(ed.getText().toString().equalsIgnoreCase(object.getFieldValue("app_installed_qty")))) {
-                                        saveInstalledQty(position, (EditText)ed);
-                                    }
-
-                                } else {
-                                    AlertHelper.showAlert((FragmentActivity) context, UserPreferences.APP_NAME, "Installed quantity must be less than or equal to total quantity");
-                                }
-                                Log.i(UserPreferences.APP_NAME, "DONE pressed");
-                                return true;
-                            }
-                    return false;
-                }
-            });
-
-
-            holder.additionalQty.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-                @Override
-                public void onFocusChange(View v, boolean hasFocus) {
-                    if (hasFocus) {
-                        if (finalHolder.additionalQty.getText().toString().equals("0"))
-                            finalHolder.additionalQty.setText("");
-                    }
-                }
-            });
-
-            holder.deliveredQty.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-                @Override
-                public void onFocusChange(View v, boolean hasFocus) {
-                    if (hasFocus) {
-                        if (finalHolder.deliveredQty.getText().toString().equals("0"))
-                            finalHolder.deliveredQty.setText("");
-                    }
-                }
-            });
-
-            holder.notesImage.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    String desc = object.getFieldValue("description");
-                    if (desc != null && desc.length() > 0) {
-                        showDialog(object.getFieldValue("description"));
-                    }
-                }
-            });
-
-            holder.deliveredQty.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-                @Override
-                public void onFocusChange(View v, boolean hasFocus) {
-                    if (!hasFocus) {
-                        selectedET = null;
-                        EditText ed = (EditText) v;
-                        if (ed.getText().toString() != null && !ed.getText().toString().equals("")) {
-
-                            if (!ed.getText().toString().equals("0") && !ed.getText().toString().equals("") && !(ed.getText().toString().equalsIgnoreCase(object.getFieldValue("app_delivered_qty")))) {
-                                saveDeliveredQty(position, ed);
-                            }
-                        }
-                    } else {
-                        selectedET = (EditText) v;
-                        if (finalHolder.deliveredQty.getText().toString().equals("0"))
-                            finalHolder.deliveredQty.setText("");
-                    }
-                }
-            });
-*/
-            if (position == 0) {
-                holder.mainLayout.getLayoutParams().height = convertDPToPx(90);
-//                holder.title1.setVisibility(View.VISIBLE);
-//                holder.title2.setVisibility(View.VISIBLE);
-//                holder.title3.setVisibility(View.VISIBLE);
-//                holder.title4.setVisibility(View.VISIBLE);
-//                holder.title5.setVisibility(View.VISIBLE);
-//                holder.title6.setVisibility(View.VISIBLE);
-//                holder.title7.setVisibility(View.VISIBLE);
-//                holder.title8.setVisibility(View.VISIBLE);
-                holder.title1.getLayoutParams().height = convertDPToPx(45);
-                holder.title2.getLayoutParams().height = convertDPToPx(45);
-                holder.title3.getLayoutParams().height = convertDPToPx(45);
-                holder.title4.getLayoutParams().height = convertDPToPx(45);
-                holder.title5.getLayoutParams().height = convertDPToPx(45);
-                holder.title6.getLayoutParams().height = convertDPToPx(45);
-                holder.title7.getLayoutParams().height = convertDPToPx(45);
-                holder.title8.getLayoutParams().height = convertDPToPx(45);
-                holder.title9.getLayoutParams().height = convertDPToPx(45);
-
-            } else {
-                holder.mainLayout.getLayoutParams().height = convertDPToPx(45);
-                holder.title1.getLayoutParams().height = 0;
-                holder.title2.getLayoutParams().height = 0;
-                holder.title3.getLayoutParams().height = 0;
-                holder.title4.getLayoutParams().height = 0;
-                holder.title5.getLayoutParams().height = 0;
-                holder.title6.getLayoutParams().height = 0;
-                holder.title7.getLayoutParams().height = 0;
-                holder.title8.getLayoutParams().height = 0;
-                holder.title9.getLayoutParams().height = 0;
-
-            }
-
-
-            if (position % 2 == 0) {
-                holder.mainLayout.setBackgroundColor(this.context.getResources().getColor(R.color.list_bg1));
-
-            } else {
-                holder.mainLayout.setBackgroundColor(this.context.getResources().getColor(R.color.list_bg2));
-            }
+            holder.mainLayout.getLayoutParams().height = convertDPToPx(45);
+            holder.title1.setVisibility(View.GONE);
+            holder.title2.setVisibility(View.GONE);
+            holder.title3.setVisibility(View.GONE);
+            holder.title4.setVisibility(View.GONE);
+            holder.title5.setVisibility(View.GONE);
+            holder.title6.setVisibility(View.GONE);
+            holder.title7.setVisibility(View.GONE);
+            holder.title8.setVisibility(View.GONE);
+            holder.title9.setVisibility(View.GONE);
 
         }
 
 
-        return convertView;
+        if (position % 2 == 0) {
+            holder.mainLayout.setBackgroundColor(this.context.getResources().getColor(R.color.list_bg1));
+
+        } else {
+            holder.mainLayout.setBackgroundColor(this.context.getResources().getColor(R.color.list_bg2));
+        }
+
     }
 
     public static int convertDPToPx(int dp) {
         return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
     }
 
-    public void updateReceiptsList(ArrayList<SugarBean> newlist) {
-        data.clear();
-        data.addAll(newlist);
-        this.notifyDataSetChanged();
-    }
+
 
     public static double parseDoubleOrNull(String str) {
         return !str.equals("") ? Double.parseDouble(str) : 0;
@@ -422,7 +168,6 @@ public class RoLineItemsAdapter extends BaseAdapter {
     public static class ViewHolder {
         TextView title1, title2, title3, title4, title5, title6, title7, title8, title9;
         TextView lineItemName,installedQty, crewName, batchStatus, totalMan,startTime,endTime,batchNo,date;
-
         LinearLayout mainLayout;
 
     }
@@ -447,251 +192,31 @@ public class RoLineItemsAdapter extends BaseAdapter {
         dialog.show();
 
     }
-
-    public void saveStartStopTime(final int position, final ImageView v, final ArrayList<String> startTimeArr, final ArrayList<String> stopTimeArr) {
-
-        p_bar = ProgressDialog.show(context, "Crew App", "Please wait...");
-        p_bar.setCanceledOnTouchOutside(false);
-        final SugarBean object1 = this.data.get(position);
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Log.e("Responce -> "," Name = "+object1.getFieldValue("name")+", Id = " +object1.getFieldValue("id")+" ,Start time = "+object1.getFieldValue("start_time")+", Stop time = "+object1.getFieldValue("stop_time"));
-                    long date1 = System.currentTimeMillis();
-                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-                    String dateString = sdf.format(date1);
-
-                    if (startTimeArr.size() == stopTimeArr.size()) {
-                        startTimeArr.add(dateString);
-                        JSONArray jArr = convertArrayListToJSON(startTimeArr);
-                        object1.updateFieldValue("start_time", jArr.toString());
-                    } else {
-                        stopTimeArr.add(dateString);
-                        JSONArray jArr = convertArrayListToJSON(stopTimeArr);
-                        object1.updateFieldValue("stop_time", jArr.toString());
-                    }
-                    String response;
-                    if (NetworkHelper.isAvailable(context)) {
-                        SOAPClient com = new SOAPClient(UserPreferences.url);
-                        response = object1.save(false);
-                    } else {
-                        response = object1.save(false);
-                    }
-
-                } catch (Exception e) {
-                    Log.d("ERROR", e.getMessage());
-                    AlertHelper.showAlert((Activity) context, "Error", e.getMessage());
-                }
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (p_bar.isShowing()) {
-                            p_bar.hide();
-                        }
-                        Toast.makeText(context, "Successfully Saved", Toast.LENGTH_SHORT).show();
-                        data.set(position, object1);
-                        notifyDataSetChanged();
-
-                    }
-                });
-
-            }
-        }).start();
-    }
+    private void initUI()
+    {
+        holder = new ViewHolder();
+        holder.lineItemName = (TextView) view.findViewById(R.id.lineItemText);
+        holder.installedQty = (TextView) view.findViewById(R.id.installedQtyText);
+        holder.batchStatus = (TextView) view.findViewById(R.id.batchStatusText);
+        holder.batchNo = (TextView) view.findViewById(R.id.batchNoText);
+        holder.date = (TextView) view.findViewById(R.id.dateText);
+        holder.crewName = (TextView) view.findViewById(R.id.crewNameText);
+        holder.totalMan = (TextView) view.findViewById(R.id.noOfManText);
+        holder.startTime = (TextView) view.findViewById(R.id.startTimeText);
+        holder.endTime = (TextView) view.findViewById(R.id.endTimeText);
 
 
-    public void saveInstalledQty(final int position, final EditText v) {
+        holder.title1 = (TextView) view.findViewById(R.id.lineItemTitle);
+        holder.title2 = (TextView) view.findViewById(R.id.installedQtyTitle);
+        holder.title3 = (TextView) view.findViewById(R.id.batchStatusTitle);
+        holder.title4 = (TextView) view.findViewById(R.id.batchNoTitle);
+        holder.title5 = (TextView) view.findViewById(R.id.dateTitle);
+        holder.title6 = (TextView) view.findViewById(R.id.crewNameTitle);
+        holder.title7 = (TextView) view.findViewById(R.id.noOfManTitle);
+        holder.title8 = (TextView) view.findViewById(R.id.startTimeTitle);
+        holder.title9 = (TextView) view.findViewById(R.id.endTimeTitle);
+        holder.mainLayout = (LinearLayout) view.findViewById(R.id.linitem_heading);
+        view.setTag(holder);
 
-        p_bar = ProgressDialog.show(context, "Crew App", "Please wait...");
-        p_bar.setCanceledOnTouchOutside(false);
-        final SugarBean object = data.get(position);
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-
-                    if (NetworkHelper.isAvailable(context)) {
-                        SOAPClient com = new SOAPClient(UserPreferences.url);
-                        object.updateFieldValue("app_installed_qty", "0");
-                        int prevQty = (int) parseDoubleOrNull(v.getText().toString()) + (int) parseDoubleOrNull(object.getFieldValue("app_prev_installed_qty"));
-                        object.updateFieldValue("app_prev_installed_qty", String.valueOf(prevQty));
-                        String response = object.save(false);
-                    } else {
-                        SugarBean wo_bean = new SugarBean(context, "AOS_Products_Quotes");
-                        wo_bean.updateFieldValue("id", object.getFieldValue("id"));
-                        wo_bean.updateFieldValue("app_installed_qty", "0");
-                        int prevQty = (int) parseDoubleOrNull(v.getText().toString()) + (int) parseDoubleOrNull(object.getFieldValue("app_prev_installed_qty"));
-                        wo_bean.updateFieldValue("app_prev_installed_qty", String.valueOf(prevQty));
-                        object.updateFieldValue("app_prev_installed_qty", String.valueOf(prevQty));
-                        object.updateFieldValue("app_installed_qty", "0");
-                        wo_bean.save(false);
-                    }
-
-                } catch (Exception e) {
-//                    Log.d("ERROR", e.getMessage());
-                }
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (p_bar.isShowing())
-                        {
-                            p_bar.dismiss();
-                        }
-                        Toast.makeText(context, "Successfully Saved", Toast.LENGTH_SHORT).show();
-                        data.set(position, object);
-                        notifyDataSetChanged();
-
-                    }
-                });
-
-            }
-        }).start();
-    }
-
-
-    public void saveDeliveredQty(final int position, final EditText v) {
-
-        p_bar = ProgressDialog.show(context, "Crew App", "Please wait...");
-        p_bar.setCanceledOnTouchOutside(false);
-        final SugarBean object = data.get(position);
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-
-                    if (NetworkHelper.isAvailable(context)) {
-                        SOAPClient com = new SOAPClient(UserPreferences.url);
-                        object.updateFieldValue("app_delivered_qty", v.getText().toString());
-                        String response = object.save(false);
-                    } else {
-                        SugarBean wo_bean = new SugarBean(context, "AOS_Products_Quotes");
-                        wo_bean.updateFieldValue("id", object.getFieldValue("id"));
-                        wo_bean.updateFieldValue("app_delivered_qty", v.getText().toString());
-                        object.updateFieldValue("app_delivered_qty", v.getText().toString());
-                        wo_bean.save(false);
-                    }
-
-                } catch (Exception e) {
-                     if(p_bar.isShowing())
-                         p_bar.cancel();
-                    Log.e("Crew ERROR", e.getMessage());
-                }
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (p_bar.isShowing()) {
-                            p_bar.cancel();
-                        }
-
-                        Toast.makeText(context, "Successfully Saved", Toast.LENGTH_SHORT).show();
-
-                        data.set(position, object);
-                        notifyDataSetChanged();
-
-                    }
-                });
-
-            }
-        }).start();
-    }
-
-    public JSONArray convertArrayListToJSON(ArrayList<String> list) {
-
-        JSONArray jsArray = new JSONArray(list);
-        return jsArray;
-    }
-
-    public ArrayList<String> convertJSONToArray(JSONArray jsonArray) {
-
-        ArrayList<String> listdata = new ArrayList<String>();
-
-        if (jsonArray != null) {
-            for (int i = 0; i < jsonArray.length(); i++) {
-                try {
-                    if (!jsonArray.get(i).toString().equals("")) {
-                        listdata.add(jsonArray.get(i).toString());
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
-        return listdata;
-    }
-
-    public static String toyyMMdd(Date day) {
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-        String date = formatter.format(day);
-        return date;
-    }
-
-    public void requestQuantity(final int tag, final String qty) {
-
-        p_bar = ProgressDialog.show(context, "Crew App", "Please wait...");
-        p_bar.setCanceledOnTouchOutside(false);
-        final SugarBean object = data.get(tag);
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    if (NetworkHelper.isAvailable(context)) {
-
-                        SOAPClient com = new SOAPClient(UserPreferences.url);
-                        String response = com.setValueEntry("AOS_Products_Quotes", qty, object.getFieldValue("id"));
-                        if (response != "-1") {
-                            object.updateFieldValue("app_additional_qty", qty);
-
-                            SugarBean wo_bean = new SugarBean(context, "AOS_Products_Quotes");
-                            wo_bean.loadCom(context, false, true);
-                            wo_bean.updateFieldValue("id", object.getFieldValue("id"));
-                            wo_bean.updateFieldValue("app_additional_qty", qty);
-                            wo_bean.save(false);
-
-                        } else {
-
-                        }
-                    } else {
-                        SugarBean wo_bean = new SugarBean(context, "AOS_Products_Quotes");
-                        wo_bean.updateFieldValue("id", object.getFieldValue("id"));
-                        wo_bean.updateFieldValue("app_additional_qty", qty);
-                        object.updateFieldValue("app_additional_qty", qty);
-                        wo_bean.save(false);
-
-                        if (UserPreferences.LineItemsQtyRequest == null)
-                            UserPreferences.LineItemsQtyRequest = new HashMap<String, String>();
-
-                        UserPreferences.LineItemsQtyRequest.put(object.getFieldValue("id"), qty);
-                        UserPreferences.save(context);
-                    }
-                } catch (Exception e) {
-                    if(p_bar.isShowing())
-                        p_bar.cancel();
-                    object.updateFieldValue("app_additional_qty", qty);
-                    Log.e("Crew ERROR", e.getMessage());
-                }
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (p_bar.isShowing()) {
-                            p_bar.hide();
-                        }
-
-                        Toast.makeText(context, "Successfully Saved", Toast.LENGTH_SHORT).show();
-
-                        data.set(tag, object);
-                        notifyDataSetChanged();
-
-                    }
-                });
-
-            }
-        }).start();
-    }
-
-    public void removeFocus() {
-        if (selectedET != null)
-            selectedET.clearFocus();
     }
 }

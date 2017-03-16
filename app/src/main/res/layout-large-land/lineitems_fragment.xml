@@ -28,31 +28,46 @@
             android:choiceMode="singleChoice"
             android:divider="@null"
             android:layout_centerHorizontal="true"
-            android:layout_above="@+id/lineitems_prev_button"
+            android:layout_above="@+id/bottom_buttons"
             android:background="@color/list_bg2">
 
         </ListView>
-
-
-        <Button
-            android:id="@+id/lineitems_prev_button"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:layout_marginBottom="20dp"
-            android:layout_marginLeft="20dp"
-            android:background="@drawable/previous_button" />
+            android:id="@+id/bottom_buttons"
+            android:layout_alignParentBottom="true">
+            <Button
+                android:id="@+id/lineitems_prev_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/previous_button" />
 
-        <Button
-            android:id="@+id/lineitems_save_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginBottom="20dp"
-            android:layout_marginRight="20dp"
-            android:background="@drawable/save_button" />
+            <Button
+                android:id="@+id/lineitems_save_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginBottom="20dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/save_button" />
+            <Button
+                android:id="@+id/lineitems_next_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginBottom="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/next_button" />
+        </LinearLayout>
 
     </RelativeLayout>
 

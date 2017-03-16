@@ -85,7 +85,7 @@ public class WorkOrderFragment extends Fragment implements OnClickListener {
         IFragment = new JobImagesFragment();
         LIFragment = new LineItemsFragment();
         Pfragment = new PlanImageFragment();
-
+        pofragment = new POLineItemFragment();
         MainActivity mainActivity = (MainActivity) this.fm;
         mainActivity.setTitle(title + " - " + getArguments().getString("JobName"));
 
@@ -104,15 +104,15 @@ public class WorkOrderFragment extends Fragment implements OnClickListener {
         workLocation = (TextView) view.findViewById(R.id.work_location);
         notes = (TextView) view.findViewById(R.id.notes);
         notes.setEnabled(false);
-        pmFeedbackTab = (ImageView) view.findViewById(R.id.tab_img);
+        pmFeedbackTab = (ImageView) view.findViewById(R.id.tab5_img);
         controllerTab = (ImageView) view.findViewById(R.id.tab1_img);
         jobImagesTab = (ImageView) view.findViewById(R.id.tab2_img);
         startTimer = (ImageView) view.findViewById(R.id.start_button);
         lineItemsTab = (ImageView) view.findViewById(R.id.tab3_img);
         planImageTab = (ImageView) view.findViewById(R.id.tab4_img);
-        poLineItemTab = (ImageView) view.findViewById(R.id.tab5_img);
+        poLineItemTab = (ImageView) view.findViewById(R.id.tab6_img);
         more_image = (ImageView) view.findViewById(R.id.detils_image);
-
+        ll = (LinearLayout) view.findViewById(R.id.more_item);
         more_image.setOnClickListener(this);
         more_text.setOnClickListener(this);
         requestHours.setOnClickListener(new OnClickListener() {
@@ -354,8 +354,8 @@ public class WorkOrderFragment extends Fragment implements OnClickListener {
     public void onClick(View view) {
        switch (view.getId())
        {
-           case R.id.tab_img:
-               nextAction(0);
+           case R.id.tab5_img:
+               nextAction(5);
                break;
            case R.id.tab1_img:
                nextAction(1);
@@ -368,6 +368,9 @@ public class WorkOrderFragment extends Fragment implements OnClickListener {
                break;
            case R.id.tab4_img:
                nextAction(4);
+               break;
+           case R.id.tab6_img:
+               nextAction(6);
                break;
            case R.id.detils_image:
 
@@ -586,8 +589,7 @@ public class WorkOrderFragment extends Fragment implements OnClickListener {
 
         if (lineItems != null && lineItems.length > 0)
             lItems = lineItems[0];
-
-        nextAction(0);
+        nextAction(1);
 
     }
 
@@ -622,20 +624,7 @@ public class WorkOrderFragment extends Fragment implements OnClickListener {
 
     public void nextAction(int index) {
         switch (index) {
-            case 0:
-                ViewAnimationUtils.expand(headerView);
-                pmFeedbackTab.setSelected(true);
-                controllerTab.setSelected(false);
-                jobImagesTab.setSelected(false);
-                lineItemsTab.setSelected(false);
-                planImageTab.setSelected(false);
-                poLineItemTab.setSelected(false);
-                Bundle args0 = new Bundle();
-                args0.putString("WorkOrderId", workOrder[0].getFieldValue("id"));
-                args0.putString("WorkOrderName", workOrder[0].getFieldValue("name"));
-                pmfragment.setArguments(args0);
-                switchTabContent(pmfragment);
-                break;
+
             case 1:
                 ViewAnimationUtils.expand(headerView);
                 pmFeedbackTab.setSelected(false);
@@ -697,18 +686,31 @@ public class WorkOrderFragment extends Fragment implements OnClickListener {
                 break;
             case 5:
                 ViewAnimationUtils.collapse(headerView);
+                pmFeedbackTab.setSelected(true);
+                controllerTab.setSelected(false);
+                jobImagesTab.setSelected(false);
+                lineItemsTab.setSelected(false);
+                planImageTab.setSelected(false);
+                poLineItemTab.setSelected(false);
+                Bundle args5 = new Bundle();
+                args5.putString("WorkOrderId", workOrder[0].getFieldValue("id"));
+                args5.putString("WorkOrderName", workOrder[0].getFieldValue("name"));
+                pmfragment.setArguments(args5);
+                switchTabContent(pmfragment);
+                break;
+            case 6:
+                ViewAnimationUtils.collapse(headerView);
                 pmFeedbackTab.setSelected(false);
                 controllerTab.setSelected(false);
                 jobImagesTab.setSelected(false);
                 lineItemsTab.setSelected(false);
                 planImageTab.setSelected(false);
                 poLineItemTab.setSelected(true);
-                Bundle args3 = new Bundle();
-                args3.putString("JobID", jobID);
-                args3.putString("WorkOrderId", workOrder[0].getFieldValue("id"));
-                args3.putString("WorkOrderName", workOrder[0].getFieldValue("name"));
-                Pfragment.setArguments(args3);
-                switchTabContent(Pfragment);
+                Bundle args6 = new Bundle();
+                args6.putString("WorkOrderId", workOrder[0].getFieldValue("id"));
+                args6.putString("WorkOrderName", workOrder[0].getFieldValue("name"));
+                pofragment.setArguments(args6);
+                switchTabContent(pofragment);
                 break;
             default:
                 break;
