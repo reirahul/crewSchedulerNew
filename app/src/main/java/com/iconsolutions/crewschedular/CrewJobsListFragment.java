@@ -2,6 +2,7 @@ package com.iconsolutions.crewschedular;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -12,12 +13,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.iconsolutions.adapter.JobsListAdapter;
+import com.iconsolutions.helper.UserPreferences;
+import com.iconsolutions.menuhelper.MenuListFragment;
+import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
 import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
@@ -28,7 +33,6 @@ import java.util.Hashtable;
 
 import crewschedular.fragmentinterface.BaseBackPressedListener;
 import rolustech.beans.SugarBean;
-import com.iconsolutions.helper.UserPreferences;
 import rolustech.helper.AlertHelper;
 import rolustech.helper.NetworkHelper;
 import rolustech.helper.NormalSync;
@@ -36,15 +40,13 @@ import rolustech.helper.NormalSync;
 /**
  * Created by kashif on 3/22/16.
  */
-public class CrewJobsListFragment extends Fragment {
+public class CrewJobsListFragment extends Fragment implements OnClickListener{
 
     View view;
     FragmentActivity fm;
     String title = "Crew Daily Schedule";
 
     ListView jobs_lv;
-    ImageView todayJobs, previousJobs;
-    RelativeLayout completedJobs, unCompletedJobs;
 
     ImageView previousDate, nextDate;
     TextView displayDate;
@@ -66,9 +68,17 @@ public class CrewJobsListFragment extends Fragment {
     Boolean isUpdated = false;
     JobsListAdapter adapter = null;
 
+    private SlidingMenu leftMenu;
+
+    private MenuListFragment menuListFragment;
+
+    private LinearLayout left_menu_btn;
+
     int daysCounter = 0;
 
     Boolean error = false;
+
+    View focus ;
 
     public CrewJobsListFragment() {
         this.fm = getActivity();
@@ -80,9 +90,11 @@ public class CrewJobsListFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         view = inflater.inflate(R.layout.fragment_jobslist, null);
-
+        focus = getActivity().getCurrentFocus();
         initUI();
         getContent();
+        setLeftSlideMenu();
+        toggleLeftSlideMenu();
         return view;
     }
 
@@ -90,18 +102,14 @@ public class CrewJobsListFragment extends Fragment {
 
         MainActivity mainActivity = (MainActivity) this.fm;
         mainActivity.setTitle(title);
+
         jobs_lv = (ListView) view.findViewById(R.id.jobs_lv);
-        todayJobs = (ImageView) view.findViewById(R.id.today_jobs);
-        previousJobs = (ImageView) view.findViewById(R.id.previous_jobs);
-        completedJobs = (RelativeLayout) view.findViewById(R.id.completed_jobs);
-        unCompletedJobs = (RelativeLayout) view.findViewById(R.id.uncompleted_jobs);
         displayDate = (TextView) view.findViewById(R.id.selected_date);
         previousDate = (ImageView) view.findViewById(R.id.previous_date);
         nextDate = (ImageView) view.findViewById(R.id.next_date);
-        todayJobs.setSelected(true);
-        previousJobs.setSelected(false);
-        completedJobs.setSelected(false);
-        unCompletedJobs.setSelected(false);
+
+        left_menu_btn = (LinearLayout)getActivity().findViewById(R.id.left_menu_btn);
+        left_menu_btn.setOnClickListener(this);
 
 
         final Date today = new Date();
@@ -128,93 +136,22 @@ public class CrewJobsListFragment extends Fragment {
 //        userWhere = "(" + bean.moduleName.toLowerCase() + ".system_job_type = '" + UserPreferences.PREFS_SYSTEM_TYPE + "'" + " AND " +bean.moduleName.toLowerCase() + ".assigned_user_id = '" + "1" + "')";
 
         }
-        todayJobs.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                todayJobs.setSelected(true);
-                previousJobs.setSelected(false);
-                completedJobs.setSelected(false);
-                unCompletedJobs.setSelected(false);
-                long date = System.currentTimeMillis();
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                String dateString = sdf.format(date);
-                displayDate.setText(dateForDisplay(new Date()));
-                userWhere = "(" + bean.moduleName.toLowerCase() + ".system_job_type = '" + UserPreferences.PREFS_SYSTEM_TYPE + "'" + " AND " + bean.moduleName.toLowerCase() + ".crew_work_id = '" + UserPreferences.userID + "'" + " AND " + bean.moduleName.toLowerCase() + ".date_start = '" + dateString + "')";
-                isUpdated = true;
-                displayDate.setTextColor(Color.GRAY);
-                getContent();
-            }
-        });
-
-        previousJobs.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                todayJobs.setSelected(false);
-                previousJobs.setSelected(true);
-                completedJobs.setSelected(false);
-                unCompletedJobs.setSelected(false);
-                long date = System.currentTimeMillis();
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                String dateString = sdf.format(date);
-                displayDate.setText(dateForDisplay(new Date()));
-                userWhere = "(" + bean.moduleName.toLowerCase() + ".system_job_type = '" + UserPreferences.PREFS_SYSTEM_TYPE + "'" + " AND " + bean.moduleName.toLowerCase() + ".crew_work_id = '" + UserPreferences.userID + "'" + " AND " + bean.moduleName.toLowerCase() + ".date_start < '" + dateString + "')";
-                isUpdated = true;
-                displayDate.setTextColor(Color.GRAY);
-                getContent();
-            }
-        });
-
-        completedJobs.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                todayJobs.setSelected(false);
-                previousJobs.setSelected(false);
-                completedJobs.setSelected(true);
-                unCompletedJobs.setSelected(false);
-                userWhere = "(" + bean.moduleName.toLowerCase() + ".system_job_type = '" + UserPreferences.PREFS_SYSTEM_TYPE + "'" + " AND " + bean.moduleName.toLowerCase() + ".crew_work_id = '" + UserPreferences.userID + "' AND " + bean.moduleName.toLowerCase() + ".status = 'All Task Completed' )";
-                isUpdated = true;
-                displayDate.setTextColor(Color.GRAY);
-                getContent();
-            }
-        });
-
-        unCompletedJobs.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                todayJobs.setSelected(false);
-                previousJobs.setSelected(false);
-                completedJobs.setSelected(false);
-                unCompletedJobs.setSelected(true);
-                userWhere = "(" + bean.moduleName.toLowerCase() + ".system_job_type = '" + UserPreferences.PREFS_SYSTEM_TYPE + "' AND " +bean.moduleName.toLowerCase() + ".crew_work_id = '" + UserPreferences.userID + "' AND (" + bean.moduleName.toLowerCase() + ".status <> 'All Task Completed' OR " + bean.moduleName.toLowerCase() + ".status IS NULL ))";
-                isUpdated = true;
-                displayDate.setTextColor(Color.GRAY);
-                getContent();
-            }
-        });
-
         nextDate.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                todayJobs.setSelected(false);
-                previousJobs.setSelected(false);
-                completedJobs.setSelected(false);
-                unCompletedJobs.setSelected(false);
+
                 daysCounter = daysCounter + 1;
                 userWhere = "(" + bean.moduleName.toLowerCase() + ".system_job_type = '" + UserPreferences.PREFS_SYSTEM_TYPE + "'" + " AND " + bean.moduleName.toLowerCase() + ".crew_work_id = '" + UserPreferences.userID + "'" + " AND " + bean.moduleName.toLowerCase() + ".date_start = '" + dateByAddingDays(daysCounter) + "')";
                 isUpdated = true;
                 displayDate.setTextColor(Color.BLACK);
                 getContent();
-
             }
         });
 
         previousDate.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                todayJobs.setSelected(false);
-                previousJobs.setSelected(false);
-                completedJobs.setSelected(false);
-                unCompletedJobs.setSelected(false);
+
                 daysCounter = daysCounter - 1;
                 userWhere = "(" + bean.moduleName.toLowerCase() + ".system_job_type = '" + UserPreferences.PREFS_SYSTEM_TYPE + "'" + " AND " + bean.moduleName.toLowerCase() + ".crew_work_id = '" + UserPreferences.userID + "'" + " AND " + bean.moduleName.toLowerCase() + ".date_start = '" + dateByAddingDays(daysCounter) + "')";
                 isUpdated = true;
@@ -223,6 +160,44 @@ public class CrewJobsListFragment extends Fragment {
 
             }
         });
+    }
+
+    public void onPreviousJob()
+    {
+        long date = System.currentTimeMillis();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String dateString = sdf.format(date);
+        displayDate.setText(dateForDisplay(new Date()));
+        userWhere = "(" + bean.moduleName.toLowerCase() + ".system_job_type = '" + UserPreferences.PREFS_SYSTEM_TYPE + "'" + " AND " + bean.moduleName.toLowerCase() + ".crew_work_id = '" + UserPreferences.userID + "'" + " AND " + bean.moduleName.toLowerCase() + ".date_start < '" + dateString + "')";
+        isUpdated = true;
+        displayDate.setTextColor(Color.GRAY);
+        getContent();
+    }
+    public void onCompletedJob()
+    {
+        userWhere = "(" + bean.moduleName.toLowerCase() + ".system_job_type = '" + UserPreferences.PREFS_SYSTEM_TYPE + "'" + " AND " + bean.moduleName.toLowerCase() + ".crew_work_id = '" + UserPreferences.userID + "' AND " + bean.moduleName.toLowerCase() + ".status = 'All Task Completed' )";
+        isUpdated = true;
+        displayDate.setTextColor(Color.GRAY);
+        getContent();
+
+    }
+    public void onInCompletedJob()
+    {
+        userWhere = "(" + bean.moduleName.toLowerCase() + ".system_job_type = '" + UserPreferences.PREFS_SYSTEM_TYPE + "' AND " +bean.moduleName.toLowerCase() + ".crew_work_id = '" + UserPreferences.userID + "' AND (" + bean.moduleName.toLowerCase() + ".status <> 'All Task Completed' OR " + bean.moduleName.toLowerCase() + ".status IS NULL ))";
+        isUpdated = true;
+        displayDate.setTextColor(Color.GRAY);
+        getContent();
+    }
+    public void onTodayJob()
+    {
+        long date = System.currentTimeMillis();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String dateString = sdf.format(date);
+        displayDate.setText(dateForDisplay(new Date()));
+        userWhere = "(" + bean.moduleName.toLowerCase() + ".system_job_type = '" + UserPreferences.PREFS_SYSTEM_TYPE + "'" + " AND " + bean.moduleName.toLowerCase() + ".crew_work_id = '" + UserPreferences.userID + "'" + " AND " + bean.moduleName.toLowerCase() + ".date_start = '" + dateString + "')";
+        isUpdated = true;
+        displayDate.setTextColor(Color.GRAY);
+        getContent();
     }
 
     public static String toyyMMdd(Date day) {
@@ -375,17 +350,6 @@ public class CrewJobsListFragment extends Fragment {
     }
 
     @Override
-    public void onStart() {
-        // TODO Auto-generated method stub
-        super.onStart();
-    }
-
-    @Override
-    public void onPause() {
-        // TODO Auto-generated method stub
-        super.onPause();
-    }
-    @Override
     public void onDetach() {
         super.onDetach();
 
@@ -400,4 +364,60 @@ public class CrewJobsListFragment extends Fragment {
             throw new RuntimeException(e);
         }
     }
+
+
+    private void setLeftSlideMenu() {
+//        getActionBar().hide();
+        leftMenu = new SlidingMenu(getActivity());
+        leftMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+ //       leftMenu.setShadowWidthRes(R.dimen.bottom_margin);
+//		menu.setShadowDrawable(R.drawable.shadow);
+ //       leftMenu.setBehindOffsetRes(R.dimen.slidingmenu_offset_left);
+        leftMenu.setBehindWidth(110);
+        leftMenu.setFadeDegree(0.35f);
+        leftMenu.attachToActivity(getActivity(), SlidingMenu.SLIDING_CONTENT);
+        leftMenu.setMenu(R.layout.left_menu_frame);
+        leftMenu.setMode(SlidingMenu.LEFT);
+        setLeftMenuListFragment();
+    }
+    public void setLeftMenuListFragment() {
+        menuListFragment = new MenuListFragment();
+        getFragmentManager()
+                .beginTransaction()
+                .replace(R.id.left_menu_frame, menuListFragment)
+                .commit();
+    }
+
+    private void toggleLeftSlideMenu() {
+        if (leftMenu.isMenuShowing()) {
+            leftMenu.showContent();
+        } else {
+            leftMenu.showMenu();
+        }
+    }
+
+
+    /**
+     * Called when a view has been clicked.
+     *
+     * @param v The view that was clicked.
+     */
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.left_menu_btn:
+                if (focus != null) {
+                    hiddenKeyboard(v);
+                }
+                toggleLeftSlideMenu();
+                break;
+
+        }
+    }
+
+    private void hiddenKeyboard(View v) {
+        InputMethodManager keyboard = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        keyboard.hideSoftInputFromWindow(v.getWindowToken(), 0);
+    }
+
 }

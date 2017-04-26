@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.iconsolutions.crewschedular.MainActivity;
 import com.iconsolutions.crewschedular.R;
 import com.iconsolutions.crewschedular.WorkOrderFragment;
+import com.iconsolutions.helper.UserPreferences;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -22,7 +23,6 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import rolustech.beans.SugarBean;
-import com.iconsolutions.helper.UserPreferences;
 import rolustech.communication.soap.SOAPClient;
 
 
@@ -75,6 +75,8 @@ public class JobsListAdapter extends BaseAdapter {
 //                view = convertView;
             holder = new ViewHolder();
             holder.jobName = (TextView) convertView.findViewById(R.id.job_title);
+            holder.jobDate = (TextView) convertView.findViewById(R.id.job_date);
+            holder.jobStatus = (TextView) convertView.findViewById(R.id.job_status);
             holder.updateStatusBtn = (Button) convertView.findViewById(R.id.update_button);
             convertView.setTag(holder);
         } else {
@@ -96,8 +98,10 @@ public class JobsListAdapter extends BaseAdapter {
            {
                status = "Incomplete";
            }
-            holder.jobName.setText(object.getFieldValue("name") + "   -   " + status + "   -   " + dateForDisplay(object.getFieldValue("date_start")));
-            holder.updateStatusBtn.setOnClickListener(new View.OnClickListener() {
+            holder.jobName.setText(object.getFieldValue("name"));
+            holder.jobStatus.setText( "   -   " + status + "   -   ");
+            holder.jobDate.setText( dateForDisplay(object.getFieldValue("date_start")));
+                    holder.updateStatusBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     MainActivity mainActivity = (MainActivity) context;
@@ -115,12 +119,13 @@ public class JobsListAdapter extends BaseAdapter {
                 }
             });
 
-            if (position % 2 == 0) {
+ /*           if (position % 2 == 0) {
                 convertView.setBackgroundColor(this.context.getResources().getColor(R.color.list_bg1));
 
             } else {
                 convertView.setBackgroundColor(this.context.getResources().getColor(R.color.list_bg2));
             }
+            */
         }
 //        } catch (Exception e) {
 //
@@ -146,7 +151,7 @@ public class JobsListAdapter extends BaseAdapter {
 //    }
 
     static class ViewHolder {
-        TextView jobName;
+        TextView jobName,jobDate,jobStatus;
         Button updateStatusBtn;
     }
 

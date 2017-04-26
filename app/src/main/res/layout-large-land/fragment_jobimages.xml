@@ -23,7 +23,7 @@
             android:numColumns="auto_fit"
             android:columnWidth="200dp"
             android:padding="10dp"
-            android:layout_above="@+id/select_image_btn"
+            android:layout_above="@+id/select_image"
             android:layout_alignParentTop="true">
 
         </GridView>
@@ -45,6 +45,7 @@
             android:layout_marginLeft="20dp"
             android:layout_marginBottom="20dp"
             android:background="@drawable/previous_button"
+            android:visibility="gone"
             />
 
         <Button
@@ -56,6 +57,7 @@
             android:layout_marginBottom="20dp"
             android:layout_marginRight="20dp"
             android:background="@drawable/next_button"
+            android:visibility="gone"
             />
 
         <ImageView
@@ -65,24 +67,37 @@
             android:layout_above="@+id/images_prev_button"
             android:layout_centerHorizontal="true"
             />
-
-        <Button
-            android:id="@+id/select_image_btn"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/select_image"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/library_select"
-            android:layout_above="@+id/images_prev_button"
-            android:layout_toLeftOf="@+id/center_image" />
+            android:layout_alignParentBottom="true">
+            <ImageView
+                android:id="@+id/select_image_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_margin="3dp"
+                android:layout_marginBottom="10dp"
+                android:background="@color/btn_back"
+                android:layout_alignParentBottom="true"
+                android:src="@drawable/library_select"
+                android:layout_toLeftOf="@+id/center_image" />
 
-        <Button
-            android:id="@+id/camera_image_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/camera_capture"
-            android:layout_above="@+id/images_prev_button"
-            android:layout_toRightOf="@+id/center_image"/>
+            <ImageView
+                android:id="@+id/camera_image_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/btn_back"
+                android:layout_margin="3dp"
+                android:layout_weight="1"
+                android:src="@drawable/camera_capture"
+                android:layout_below="@+id/gridview"
+                android:layout_toRightOf="@+id/center_image"
+                android:layout_toEndOf="@+id/center_image" />
+        </LinearLayout>
+
+
 
     </RelativeLayout>
 </LinearLayout>

@@ -36,7 +36,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/bottom_buttons"
-            android:layout_alignParentBottom="true">
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true">
             <Button
                 android:id="@+id/lineitems_prev_button"
                 android:layout_width="wrap_content"
@@ -45,6 +47,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="10dp"
                 android:layout_weight="1"
+                android:visibility="gone"
                 android:background="@drawable/previous_button" />
 
             <Button
@@ -52,10 +55,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:layout_marginBottom="20dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginLeft="10dp"
-                android:background="@drawable/save_button" />
+                android:textColor="@color/white"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="save"
+                android:background="@color/colorPrimary"/>
+
             <Button
                 android:id="@+id/lineitems_next_button"
                 android:layout_width="wrap_content"
@@ -65,6 +69,7 @@
                 android:layout_marginBottom="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginLeft="10dp"
+                android:visibility="gone"
                 android:layout_weight="1"
                 android:background="@drawable/next_button" />
         </LinearLayout>

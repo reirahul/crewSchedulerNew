@@ -3,6 +3,7 @@ package com.iconsolutions.crewschedular;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -11,10 +12,13 @@ import android.os.Handler;
 import android.os.SystemClock;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -22,7 +26,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.iconsolutions.helper.UserPreferences;
 import com.iconsolutions.helper.ViewAnimationUtils;
+import com.iconsolutions.menuhelper.JobMenuFragment;
+import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -31,7 +38,6 @@ import java.util.Locale;
 
 import crewschedular.fragmentinterface.BaseBackPressedListener;
 import rolustech.beans.SugarBean;
-import com.iconsolutions.helper.UserPreferences;
 import rolustech.communication.soap.SOAPClient;
 import rolustech.helper.AlertHelper;
 import rolustech.helper.NetworkHelper;
@@ -39,7 +45,7 @@ import rolustech.helper.NetworkHelper;
 /**
  * Created by kashif on 3/30/16.
  */
-public class WorkOrderFragment extends Fragment implements OnClickListener {
+public class WorkOrderFragment extends Fragment implements OnClickListener{
 
     View view;
     FragmentActivity fm;
@@ -49,12 +55,22 @@ public class WorkOrderFragment extends Fragment implements OnClickListener {
     ProgressDialog p_bar;
     android.os.Handler handler = new android.os.Handler();
     ArrayList<SugarBean> lItems = null;
-    RelativeLayout headerView,purchageOrder,pOItems;
+    RelativeLayout headerView;
     LinearLayout ll;
-    TextView job_Name,workOrderNo,workLocation, notes,timer,manualy_time,more_text;
+    TextView job_Name,workOrderNo,workLocation, notes,timer,manualy_time,requestHrsButton;
+
+    SwitchCompat startTimer;
+
     EditText requestHours;
-    ImageView pmFeedbackTab,controllerTab, jobImagesTab, lineItemsTab, planImageTab,poLineItemTab, mapsButton, requestHrsButton,startTimer,more_image;
+    ImageView mapsButton;
+
     ArrayList listRecords;
+
+    private SlidingMenu leftMenu;
+
+    private JobMenuFragment menuListFragment;
+
+    private LinearLayout left_menu_btn;
 
     Fragment pmfragment,Cfragment, IFragment, Pfragment, LIFragment,pofragment;
     private long startTime = 0L;
@@ -72,10 +88,10 @@ public class WorkOrderFragment extends Fragment implements OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup v, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         view = inflater.inflate(R.layout.fragment_workorder, null);
-
         initUI();
+        setLeftSlideMenu();
+        toggleLeftSlideMenu();
         return view;
     }
 
@@ -99,22 +115,19 @@ public class WorkOrderFragment extends Fragment implements OnClickListener {
 //        endDate = (TextView) view.findViewById(R.id.end_date);
         requestHours = (EditText) view.findViewById(R.id.additional_hrs_text);
         job_Name = (TextView) view.findViewById(R.id.job_name);
-        more_text = (TextView) view.findViewById(R.id.detils_text);
+
         manualy_time = (TextView) view.findViewById(R.id.manualy_time);
         workLocation = (TextView) view.findViewById(R.id.work_location);
         notes = (TextView) view.findViewById(R.id.notes);
         notes.setEnabled(false);
-        pmFeedbackTab = (ImageView) view.findViewById(R.id.tab5_img);
-        controllerTab = (ImageView) view.findViewById(R.id.tab1_img);
-        jobImagesTab = (ImageView) view.findViewById(R.id.tab2_img);
-        startTimer = (ImageView) view.findViewById(R.id.start_button);
-        lineItemsTab = (ImageView) view.findViewById(R.id.tab3_img);
-        planImageTab = (ImageView) view.findViewById(R.id.tab4_img);
-        poLineItemTab = (ImageView) view.findViewById(R.id.tab6_img);
-        more_image = (ImageView) view.findViewById(R.id.detils_image);
-        ll = (LinearLayout) view.findViewById(R.id.more_item);
-        more_image.setOnClickListener(this);
-        more_text.setOnClickListener(this);
+
+        left_menu_btn = (LinearLayout)getActivity().findViewById(R.id.left_menu_btn);
+        left_menu_btn.setOnClickListener(this);
+
+        startTimer = (SwitchCompat) view.findViewById(R.id.toggle);
+
+        /// Detect touched area
+
         requestHours.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -123,7 +136,7 @@ public class WorkOrderFragment extends Fragment implements OnClickListener {
             }
         });
 
-        requestHrsButton = (ImageView) view.findViewById(R.id.request_hrs_button);
+        requestHrsButton = (TextView) view.findViewById(R.id.request_hrs_button);
         requestHrsButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -168,12 +181,7 @@ public class WorkOrderFragment extends Fragment implements OnClickListener {
                 }
             }
         });
-        pmFeedbackTab.setSelected(true);
-        controllerTab.setSelected(false);
-        jobImagesTab.setSelected(false);
-        lineItemsTab.setSelected(false);
-        planImageTab.setSelected(false);
-        poLineItemTab.setSelected(false);
+
 
 //        ViewAnimationUtils.expand(headerView);
 
@@ -186,12 +194,7 @@ public class WorkOrderFragment extends Fragment implements OnClickListener {
         jobName = getArguments().getString("JobName");
         createWorkOrderAndLineItems();
 
-        pmFeedbackTab.setOnClickListener(this);
-        controllerTab.setOnClickListener(this);
-        jobImagesTab.setOnClickListener(this);
-        lineItemsTab.setOnClickListener(this);
-        planImageTab.setOnClickListener(this);
-        poLineItemTab.setOnClickListener(this);
+
 
         manualy_time.setOnClickListener(new OnClickListener() {
             @Override
@@ -216,25 +219,28 @@ public class WorkOrderFragment extends Fragment implements OnClickListener {
                 Toast.makeText(getContext(),"Dialog Successfully Open",Toast.LENGTH_LONG).show();
             }
         });
-        startTimer.setOnClickListener(new OnClickListener() {
+
+        startTimer.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View view) {
-              if(start)
-              {
-                  start=false;
-                  startTime = SystemClock.uptimeMillis();
-                  customHandler.postDelayed(updateTimerThread, 0);
-                  startTimer.setImageResource(R.drawable.btn_stop);
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked)
+                {
+                    start=!isChecked;
+                    startTime = SystemClock.uptimeMillis();
+                    customHandler.postDelayed(updateTimerThread, 0);
+                    startTimer.setBackgroundResource(R.drawable.stop_toggle_style);
+                    startTimer.setText("STOP");
 
-              }
+                }
                 else
-              {
-                  start=true;
-                  timeSwapBuff += timeInMilliseconds;
-                  customHandler.removeCallbacks(updateTimerThread);
-                  startTimer.setImageResource(R.drawable.btn_start);
+                {
+                    start= !isChecked;
+                    timeSwapBuff += timeInMilliseconds;
+                    customHandler.removeCallbacks(updateTimerThread);
+                    startTimer.setBackgroundResource(R.drawable.start_toggle_style);
+                    startTimer.setText("START");
 
-              }
+                }
 
             }
         });
@@ -352,40 +358,14 @@ public class WorkOrderFragment extends Fragment implements OnClickListener {
 
     @Override
     public void onClick(View view) {
+        View focus = getActivity().getCurrentFocus();
        switch (view.getId())
        {
-           case R.id.tab5_img:
-               nextAction(5);
-               break;
-           case R.id.tab1_img:
-               nextAction(1);
-               break;
-           case R.id.tab2_img:
-               nextAction(2);
-               break;
-           case R.id.tab3_img:
-               nextAction(3);
-               break;
-           case R.id.tab4_img:
-               nextAction(4);
-               break;
-           case R.id.tab6_img:
-               nextAction(6);
-               break;
-           case R.id.detils_image:
-
-           case R.id.detils_text :
-                   if(ll.getVisibility()!=View.VISIBLE)
-                   {
-                       ll.setVisibility(View.VISIBLE);
-                       more_image.setImageResource(R.drawable.drop_list_btn);
-                       more_text.setText("Less");
-                   }
-                   else {
-                       ll.setVisibility(View.GONE);
-                       more_image.setImageResource(R.drawable.up_drop_list_btn);
-                       more_text.setText("More Details");
-                   }
+           case R.id.left_menu_btn:
+               if (focus != null) {
+                   hiddenKeyboard(view);
+               }
+               toggleLeftSlideMenu();
                break;
 
        }
@@ -593,6 +573,45 @@ public class WorkOrderFragment extends Fragment implements OnClickListener {
 
     }
 
+
+
+    private void setLeftSlideMenu() {
+//        getActionBar().hide();
+        leftMenu = new SlidingMenu(getActivity());
+        leftMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+//      leftMenu.setShadowWidthRes(R.dimen.bottom_margin);
+//		menu.setShadowDrawable(R.drawable.shadow);
+//      leftMenu.setBehindOffsetRes(R.dimen.slidingmenu_offset_left);
+//		menu.setFadeDegree(0.35f);
+        leftMenu.setBehindWidth(110);
+        leftMenu.setFadeDegree(0.35f);
+        leftMenu.attachToActivity(getActivity(), SlidingMenu.SLIDING_CONTENT);
+        leftMenu.setMenu(R.layout.left_menu_frame);
+        leftMenu.setMode(SlidingMenu.LEFT);
+        setLeftMenuListFragment();
+    }
+    public void setLeftMenuListFragment() {
+        menuListFragment = new JobMenuFragment();
+        getFragmentManager()
+                .beginTransaction()
+                .replace(R.id.left_menu_frame, menuListFragment)
+                .commit();
+    }
+
+    private void toggleLeftSlideMenu() {
+        if (leftMenu.isMenuShowing()) {
+            leftMenu.showContent();
+        } else {
+            leftMenu.showMenu();
+        }
+    }
+
+
+    private void hiddenKeyboard(View v) {
+        InputMethodManager keyboard = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        keyboard.hideSoftInputFromWindow(v.getWindowToken(), 0);
+    }
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -627,23 +646,11 @@ public class WorkOrderFragment extends Fragment implements OnClickListener {
 
             case 1:
                 ViewAnimationUtils.expand(headerView);
-                pmFeedbackTab.setSelected(false);
-                controllerTab.setSelected(true);
-                jobImagesTab.setSelected(false);
-                lineItemsTab.setSelected(false);
-                planImageTab.setSelected(false);
-                poLineItemTab.setSelected(false);
                 switchTabContent(Cfragment);
                 break;
             case 2:
                 ViewAnimationUtils.collapse(headerView);
-                pmFeedbackTab.setSelected(false);
-                controllerTab.setSelected(false);
-                jobImagesTab.setSelected(true);
-                lineItemsTab.setSelected(false);
-                planImageTab.setSelected(false);
-                poLineItemTab.setSelected(false);
-                Bundle args = new Bundle();
+                 Bundle args = new Bundle();
                 args.putString("WorkOrderId", workOrder[0].getFieldValue("id"));
                 args.putString("WorkOrderName", workOrder[0].getFieldValue("name"));
                 IFragment.setArguments(args);
@@ -651,12 +658,6 @@ public class WorkOrderFragment extends Fragment implements OnClickListener {
                 break;
             case 3:
                 ViewAnimationUtils.collapse(headerView);
-                pmFeedbackTab.setSelected(false);
-                controllerTab.setSelected(false);
-                jobImagesTab.setSelected(false);
-                lineItemsTab.setSelected(true);
-                planImageTab.setSelected(false);
-                poLineItemTab.setSelected(false);
                 Bundle args1 = new Bundle();
                 args1.putString("SaleOrderId", salesOrderId);
                 args1.putString("WorkOrderId", workOrder[0].getFieldValue("id"));
@@ -667,16 +668,9 @@ public class WorkOrderFragment extends Fragment implements OnClickListener {
                 args1.putString("Description", workOrder[0].getFieldValue("description"));
                 LIFragment.setArguments(args1);
                 switchTabContent(LIFragment);
-
                 break;
             case 4:
                 ViewAnimationUtils.collapse(headerView);
-                pmFeedbackTab.setSelected(false);
-                controllerTab.setSelected(false);
-                jobImagesTab.setSelected(false);
-                lineItemsTab.setSelected(false);
-                planImageTab.setSelected(true);
-                poLineItemTab.setSelected(false);
                 Bundle args2 = new Bundle();
                 args2.putString("JobID", jobID);
                 args2.putString("WorkOrderId", workOrder[0].getFieldValue("id"));
@@ -686,12 +680,6 @@ public class WorkOrderFragment extends Fragment implements OnClickListener {
                 break;
             case 5:
                 ViewAnimationUtils.collapse(headerView);
-                pmFeedbackTab.setSelected(true);
-                controllerTab.setSelected(false);
-                jobImagesTab.setSelected(false);
-                lineItemsTab.setSelected(false);
-                planImageTab.setSelected(false);
-                poLineItemTab.setSelected(false);
                 Bundle args5 = new Bundle();
                 args5.putString("WorkOrderId", workOrder[0].getFieldValue("id"));
                 args5.putString("WorkOrderName", workOrder[0].getFieldValue("name"));
@@ -700,12 +688,6 @@ public class WorkOrderFragment extends Fragment implements OnClickListener {
                 break;
             case 6:
                 ViewAnimationUtils.collapse(headerView);
-                pmFeedbackTab.setSelected(false);
-                controllerTab.setSelected(false);
-                jobImagesTab.setSelected(false);
-                lineItemsTab.setSelected(false);
-                planImageTab.setSelected(false);
-                poLineItemTab.setSelected(true);
                 Bundle args6 = new Bundle();
                 args6.putString("WorkOrderId", workOrder[0].getFieldValue("id"));
                 args6.putString("WorkOrderName", workOrder[0].getFieldValue("name"));
@@ -752,7 +734,6 @@ public class WorkOrderFragment extends Fragment implements OnClickListener {
             throw new RuntimeException(e);
         }
     }
-
 
 }
 

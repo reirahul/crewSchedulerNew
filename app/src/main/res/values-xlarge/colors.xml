@@ -13,7 +13,10 @@
     <color name="opaque_red">#f00</color>
     <color name="translucent_red">#80ff0000</color>
     <color name="white">#ffffffff</color>
-    <color name="light_gray">#008AF9</color>
+    <color name="light_gray">#3787DA</color>
+    <color name="colorPrimary">#3787DA</color>
+    <color name="colorAccent">#008AF9</color>
+    <color name="colorPrimaryDark">#196dc3</color>
     <color name="black">#ff000000</color>
     <color name="light_shade">#F1F5F8</color>
     <color name="transparent">#00000000</color>
@@ -22,8 +25,16 @@
     <color name="font_color">#4F4F4F</color>
     <color name="tab_background">#3b3b3b</color>
     <color name="light_green">#e1e000</color>
-    <color name="light_grey">#929696</color>
-         
+    <color name="green">#31cc92</color>
+    <color name="light_grey">#3787da</color>
+    <color name="text_item">#4779ac</color>
+    <color name="menu_selected">#79a8f5</color>
+    <color name="text_status">#da826d</color>
+    <color name="text_date">#151718</color>
+    <color name="text_date_dark">#4F4F4F</color>
+    <color name="menu_back">#062945</color>
+    <color name="next_btn">#1869b8</color>
+
 </resources>
 
 

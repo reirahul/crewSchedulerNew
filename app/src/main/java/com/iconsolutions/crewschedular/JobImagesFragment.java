@@ -12,15 +12,16 @@ import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.util.Base64;
 
 import com.iconsolutions.adapter.JobImagesAdapter;
+import com.iconsolutions.helper.UserPreferences;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -31,7 +32,6 @@ import java.util.HashMap;
 
 import crewschedular.fragmentinterface.BaseBackPressedListener;
 import rolustech.beans.SugarBean;
-import com.iconsolutions.helper.UserPreferences;
 import rolustech.communication.db.DBClient;
 import rolustech.communication.soap.SOAPClient;
 import rolustech.helper.NetworkHelper;
@@ -43,7 +43,7 @@ import static com.iconsolutions.helper.UserPreferences.imageVarify;
 /**
  * Created by kashif on 4/11/16.
  */
-public class JobImagesFragment extends Fragment {
+public class JobImagesFragment extends Fragment{
 
     private static final int RESULT_OK = 1;
     View view;
@@ -55,7 +55,8 @@ public class JobImagesFragment extends Fragment {
     ProgressDialog p_bar;
     android.os.Handler handler = new android.os.Handler();
 
-    Button nextButton, previousButton, imagesButton, cameraButton;
+    Button nextButton, previousButton;
+    ImageView imagesButton, cameraButton;
     private static int RESULT_LOAD_IMG = 1, REQUEST_IMAGE_CAPTURE = 100;
     String imgDecodableString;
 
@@ -94,8 +95,8 @@ public class JobImagesFragment extends Fragment {
         workOrderId = getArguments().getString("WorkOrderId");
         workOrderName = getArguments().getString("WorkOrderName");
 
-        imagesButton = (Button) view.findViewById(R.id.select_image_btn);
-        cameraButton = (Button) view.findViewById(R.id.camera_image_btn);
+        imagesButton = (ImageView) view.findViewById(R.id.select_image_btn);
+        cameraButton = (ImageView) view.findViewById(R.id.camera_image_btn);
         imagesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -478,4 +479,6 @@ public class JobImagesFragment extends Fragment {
             throw new RuntimeException(e);
         }
     }
+
+
 }

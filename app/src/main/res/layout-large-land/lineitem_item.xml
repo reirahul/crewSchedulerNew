@@ -13,6 +13,7 @@
         android:id="@+id/linitem_heading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
         android:layout_centerHorizontal="true"
         android:orientation="horizontal">
 
@@ -27,19 +28,20 @@
                 android:singleLine="true"
                 android:id="@+id/qtyTitle"
                 android:layout_width="match_parent"
-                android:layout_height="45dp"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
                 android:background="@color/light_gray"
+               android:padding="5dp"
                 android:gravity="center"
                 android:text="Qty"
                 android:textColor="@color/white"
-                android:textSize="22sp"
+                android:textSize="15sp"
                 />
             <TextView
                 android:singleLine="true"
                 android:id="@+id/qty_text"
                 android:layout_width="wrap_content"
-                android:layout_height="45dp"
+                android:layout_height="wrap_content"
                 android:background="@drawable/edit_field_bg4"
                 android:gravity="center"
                 android:text="12"
@@ -47,7 +49,7 @@
                 android:paddingLeft="1dp"
                 android:paddingRight="1dp"
                 android:textColor="@color/black"
-                android:textSize="18sp" />
+                android:textSize="15sp" />
 
         </LinearLayout>
 
@@ -67,19 +69,20 @@
                 android:singleLine="true"
                 android:id="@+id/productTitle"
                 android:layout_width="fill_parent"
-                android:layout_height="45dp"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
                 android:background="@color/light_gray"
+                android:padding="5dp"
                 android:gravity="center"
                 android:text="Product"
                 android:textColor="@color/white"
-                android:textSize="22sp"
+                android:textSize="15sp"
                />
             <TextView
                 android:singleLine="true"
                 android:id="@+id/product_text"
                 android:layout_width="wrap_content"
-                android:layout_height="45dp"
+                android:layout_height="wrap_content"
                 android:background="@drawable/edit_field_bg2"
                 android:ellipsize="end"
                 android:gravity="center"
@@ -88,7 +91,7 @@
                 android:paddingLeft="1dp"
                 android:paddingRight="1dp"
                 android:textColor="@color/black"
-                android:textSize="18sp" />
+                android:textSize="15sp" />
 
         </LinearLayout>
 
@@ -107,19 +110,20 @@
                 android:singleLine="true"
                 android:id="@+id/deliveredQtyTitle"
                 android:layout_width="fill_parent"
-                android:layout_height="45dp"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
                 android:background="@color/light_gray"
+                android:padding="5dp"
                 android:gravity="center"
                 android:text="Del Qty"
                 android:textColor="@color/white"
-                android:textSize="22sp"
+                android:textSize="15sp"
                 />
             <EditText
                 android:singleLine="true"
                 android:id="@+id/delqty_text"
                 android:layout_width="wrap_content"
-                android:layout_height="45dp"
+                android:layout_height="wrap_content"
                 android:background="@drawable/additional_hrs_bg"
                 android:gravity="center"
                 android:ellipsize="end"
@@ -130,7 +134,7 @@
                 android:paddingLeft="1dp"
                 android:paddingRight="1dp"
                 android:textColor="@color/black"
-                android:textSize="18sp" />
+                android:textSize="15sp" />
 
         </LinearLayout>
 
@@ -150,9 +154,10 @@
                 android:singleLine="true"
                 android:id="@+id/prevInstQtyTitle"
                 android:layout_width="fill_parent"
-                android:layout_height="45dp"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
                 android:background="@color/light_gray"
+                android:padding="5dp"
                 android:gravity="center"
                 android:text="Prev. Inst. Qty"
                 android:textColor="@color/white"
@@ -164,7 +169,7 @@
                 android:singleLine="true"
                 android:id="@+id/prev_inst_qty_text"
                 android:layout_width="wrap_content"
-                android:layout_height="45dp"
+                android:layout_height="wrap_content"
                 android:background="@drawable/edit_field_bg3"
                 android:gravity="center"
                 android:text="0"
@@ -172,7 +177,7 @@
                 android:paddingLeft="1dp"
                 android:paddingRight="1dp"
                 android:textColor="@color/black"
-                android:textSize="18sp" />
+                android:textSize="15sp" />
 
         </LinearLayout>
 
@@ -190,9 +195,10 @@
                 android:singleLine="true"
                 android:id="@+id/prevResvQtyTitle"
                 android:layout_width="fill_parent"
-                android:layout_height="45dp"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
                 android:background="@color/light_gray"
+                android:padding="5dp"
                 android:gravity="center"
                 android:text="Prev.Resv. Qty"
                 android:textColor="@color/white"
@@ -204,7 +210,7 @@
                 android:singleLine="true"
                 android:id="@+id/prev_resv_qty_text"
                 android:layout_width="wrap_content"
-                android:layout_height="45dp"
+                android:layout_height="wrap_content"
                 android:background="@drawable/edit_field_bg3"
                 android:gravity="center"
                 android:text="0"
@@ -212,7 +218,7 @@
                 android:paddingLeft="1dp"
                 android:paddingRight="1dp"
                 android:textColor="@color/black"
-                android:textSize="18sp" />
+                android:textSize="15sp" />
 
         </LinearLayout>
         <LinearLayout
@@ -226,24 +232,25 @@
 
 
             <TextView
-                android:singleLine="true"
                 android:id="@+id/resvQtyTitle"
                 android:layout_width="fill_parent"
-                android:layout_height="45dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
                 android:layout_marginBottom="5dp"
                 android:background="@color/light_gray"
+                android:padding="5dp"
                 android:gravity="center"
+                android:singleLine="true"
                 android:text="Resv.Qty"
                 android:textColor="@color/white"
-                android:textSize="20sp"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"/>
+                android:textSize="20sp" />
 
             <EditText
                 android:singleLine="true"
                 android:id="@+id/resv_qty_text"
                 android:layout_width="wrap_content"
-                android:layout_height="45dp"
+                android:layout_height="wrap_content"
                 android:background="@drawable/additional_hrs_bg"
                 android:gravity="center"
                 android:text="0"
@@ -251,7 +258,7 @@
                 android:paddingLeft="1dp"
                 android:paddingRight="1dp"
                 android:textColor="@color/black"
-                android:textSize="18sp" />
+                android:textSize="15sp" />
 
         </LinearLayout>
 
@@ -270,19 +277,20 @@
                 android:singleLine="true"
                 android:id="@+id/instQtyTitle"
                 android:layout_width="fill_parent"
-                android:layout_height="45dp"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
                 android:background="@color/light_gray"
+                android:padding="5dp"
                 android:gravity="center"
                 android:text="Inst.Qty"
                 android:textColor="@color/white"
-                android:textSize="22sp"
+                android:textSize="15sp"
                 />
             <EditText
                 android:singleLine="true"
                 android:id="@+id/installed_qty_text"
                 android:layout_width="wrap_content"
-                android:layout_height="45dp"
+                android:layout_height="wrap_content"
                 android:background="@drawable/additional_hrs_bg"
                 android:gravity="center"
                 android:inputType="number"
@@ -291,7 +299,7 @@
                 android:paddingLeft="1dp"
                 android:paddingRight="1dp"
                 android:textColor="@color/black"
-                android:textSize="18sp"
+                android:textSize="15sp"
                 android:imeOptions="actionDone"
                 />
 
@@ -310,13 +318,14 @@
                 android:singleLine="true"
                 android:id="@+id/adtQtyTitle"
                 android:layout_width="fill_parent"
-                android:layout_height="45dp"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
                 android:background="@color/light_gray"
+                android:padding="5dp"
                 android:gravity="center"
                 android:text="Adt.Qty"
                 android:textColor="@color/white"
-                android:textSize="22sp"
+                android:textSize="15sp"
                />
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -325,7 +334,7 @@
                 android:singleLine="true"
                 android:id="@+id/additional_qty_lineitem"
                 android:layout_width="wrap_content"
-                android:layout_height="45dp"
+                android:layout_height="wrap_content"
                 android:background="@drawable/additional_hrs_bg"
                 android:inputType="number"
                 android:maxLength="4"
@@ -369,19 +378,20 @@
               android:singleLine="true"
                 android:id="@+id/dueItemTitle"
                 android:layout_width="fill_parent"
-                android:layout_height="45dp"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
                 android:background="@color/light_gray"
+              android:padding="5dp"
                 android:gravity="center"
                 android:text="Due Item"
                 android:textColor="@color/white"
-                android:textSize="22sp"
+                android:textSize="15sp"
                />
             <TextView
                 android:singleLine="true"
                 android:id="@+id/due_item"
                 android:layout_width="wrap_content"
-                android:layout_height="45dp"
+                android:layout_height="wrap_content"
                 android:background="@drawable/edit_field_bg3"
                 android:gravity="center"
                 android:text="1"
@@ -389,7 +399,7 @@
                 android:paddingLeft="1dp"
                 android:paddingRight="1dp"
                 android:textColor="@color/black"
-                android:textSize="18sp" />
+                android:textSize="15sp" />
 
         </LinearLayout>
 
@@ -406,9 +416,10 @@
                 android:singleLine="true"
                 android:id="@+id/timeTitle"
                 android:layout_width="wrap_content"
-                android:layout_height="45dp"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
                  android:background="@color/light_gray"
+                android:padding="5dp"
                 android:gravity="center"
                 android:text="Start/End Time"
                 android:textColor="@color/white"
@@ -418,7 +429,7 @@
                 android:layout_gravity="center"
                 android:id="@+id/start_stop_clock"
                 android:layout_width="wrap_content"
-                android:layout_height="45dp"
+                android:layout_height="wrap_content"
                 android:src="@drawable/start_time" />
 
         </LinearLayout>
@@ -438,7 +449,7 @@
                 android:singleLine="true"
                 android:id="@+id/notesTitle"
                 android:layout_width="wrap_content"
-                android:layout_height="45dp"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
                 android:background="@color/light_gray"
                 android:gravity="center"
@@ -450,7 +461,7 @@
             <ImageView
                 android:id="@+id/notesImage"
                 android:layout_width="wrap_content"
-                android:layout_height="45dp"
+                android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:src="@drawable/file_icon" />
         </LinearLayout>

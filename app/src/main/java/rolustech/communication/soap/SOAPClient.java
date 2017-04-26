@@ -121,7 +121,7 @@ public class SOAPClient implements Communicator {
     private int soapLogin(String username, String password) {
         try {
             SoapObject request = new SoapObject(NAMESPACE, "login");
-
+            Log.v("Crew_App"," NameSpace = >  "+NAMESPACE);
 			/* Creating input parameters*/
             SoapObject userAuth = new SoapObject(NAMESPACE, "user_auth");
             userAuth.addProperty("user_name", username);
@@ -960,7 +960,8 @@ public class SOAPClient implements Communicator {
                 throw new Exception("Session is null");
             }
         }
-        Log.v("Crew_App"," Request = >  "+request.toString());
+        Log.v("Crew_App"," Request = >  "+URL+" Parameter :> "+request.toString());
+
 
         SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
         envelope.setOutputSoapObject(request);

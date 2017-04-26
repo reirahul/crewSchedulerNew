@@ -15,6 +15,8 @@ import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.iconsolutions.helper.UserPreferences;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Hashtable;
@@ -23,8 +25,9 @@ import crewschedular.fragmentinterface.BaseBackPressedListener;
 import rolustech.beans.Field;
 import rolustech.beans.ModuleConfig;
 import rolustech.beans.SugarBean;
-import com.iconsolutions.helper.UserPreferences;
 import rolustech.helper.NetworkHelper;
+
+import static com.iconsolutions.crewschedular.R.id.controller_layout;
 //import java.lang.reflect.Field;
 
 /**
@@ -51,6 +54,7 @@ public class ControllerFragment extends Fragment {
     {
         super.onCreate(savedInstanceState);
         view = inflater.inflate(R.layout.fragment_controller, null);
+
 
         WorkOrderFragment parentFragment = (WorkOrderFragment) this.getParentFragment();
         String modName = "ro_crew_work_order";
@@ -127,7 +131,7 @@ public class ControllerFragment extends Fragment {
 
                 int counter = 0;
 
-                LinearLayout mainLayout = (LinearLayout) view.findViewById(R.id.controller_layout);
+                LinearLayout mainLayout = (LinearLayout) view.findViewById(controller_layout);
                 int size = names.length / 3 + names.length % 3;
                 for (int i = 0; i < size; i++) {
                     RelativeLayout layout2 = new RelativeLayout(this.getContext());
@@ -148,7 +152,7 @@ public class ControllerFragment extends Fragment {
 
                         final CheckBox checkBox = new CheckBox(this.getContext());
                         checkBox.setText(fieldName);
-                        checkBox.setTextColor(Color.BLACK);
+                        checkBox.setTextColor(Color.GRAY);
                         checkBox.setTextSize(18);
                         checkBox.setTag(counter);
                         checkBox.setWidth(300);

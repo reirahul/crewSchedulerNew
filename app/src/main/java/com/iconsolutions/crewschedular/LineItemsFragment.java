@@ -23,8 +23,11 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.iconsolutions.adapter.LineItemsAdapter;
+import com.iconsolutions.helper.OnSwipeTouchListener;
+import com.iconsolutions.helper.UserPreferences;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -34,7 +37,6 @@ import crewschedular.fragmentinterface.BaseBackPressedListener;
 import rolustech.beans.Field;
 import rolustech.beans.ModuleConfig;
 import rolustech.beans.SugarBean;
-import com.iconsolutions.helper.UserPreferences;
 import rolustech.communication.soap.SOAPClient;
 import rolustech.helper.AlertHelper;
 import rolustech.helper.NetworkHelper;
@@ -42,12 +44,11 @@ import rolustech.helper.NormalSync;
 
 import static com.iconsolutions.adapter.LineItemsAdapter.parseDoubleOrNull;
 import static com.iconsolutions.helper.UserPreferences.imageVarify;
-import static com.iconsolutions.helper.UserPreferences.trialDate;
 
 /**
  * Created by kashif on 4/11/16.
  */
-public class LineItemsFragment extends Fragment{
+public class LineItemsFragment extends Fragment {
 
     View view;
     FragmentActivity fm;
@@ -69,6 +70,7 @@ public class LineItemsFragment extends Fragment{
     Dialog dialog;
     WorkOrderFragment parentFragment;
     int batch = 0;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -79,6 +81,23 @@ public class LineItemsFragment extends Fragment{
         this.lineItems = new ArrayList<SugarBean>();
         this.lineItems = parentFragment.getLineItems();
         initUI();
+
+        view.findViewById(R.id.lineitems_lv).setOnTouchListener(new OnSwipeTouchListener(getActivity()) {
+            public void onSwipeTop() {
+                Toast.makeText(getActivity(), "top", Toast.LENGTH_SHORT).show();
+            }
+            public void onSwipeRight() {
+                Toast.makeText(getActivity(), "right", Toast.LENGTH_SHORT).show();
+            }
+            public void onSwipeLeft() {
+                Toast.makeText(getActivity(), "left", Toast.LENGTH_SHORT).show();
+            }
+            public void onSwipeBottom() {
+                Toast.makeText(getActivity(), "bottom", Toast.LENGTH_SHORT).show();
+            }
+
+        });
+
         return view;
     }
 
@@ -88,7 +107,7 @@ public class LineItemsFragment extends Fragment{
         nextButton = (Button) view.findViewById(R.id.lineitems_next_button);
         saveButton = (Button) view.findViewById(R.id.lineitems_save_button);
         lineItems_lv = (ListView) view.findViewById(R.id.lineitems_lv);
-
+        // Detect touched area
         saleOrderId = getArguments().getString("SaleOrderId");
         workOrderId = getArguments().getString("WorkOrderId");
         workOrderName = getArguments().getString("WorkOrderName");
@@ -522,5 +541,6 @@ public class LineItemsFragment extends Fragment{
             throw new RuntimeException(e);
         }
     }
+
 }
 

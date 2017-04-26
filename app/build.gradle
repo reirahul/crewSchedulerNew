@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 22
+    compileSdkVersion 24
     buildToolsVersion '25.0.0'
 
     defaultConfig {
         applicationId "com.iconsolutions.crewschedular"
         minSdkVersion 14
-        targetSdkVersion 22
+        targetSdkVersion 24
         versionCode 3
         versionName "3.0"
         multiDexEnabled true
@@ -54,8 +54,6 @@ dependencies {
     compile files('libs/ksoap2.jar')
     compile files('libs/zip4j_1.3.1.jar')
     compile files('libs/json.jar')
-    compile 'com.android.support:appcompat-v7:22.2.1'
-    compile 'com.android.support:design:22.2.1'
     compile 'com.jeremyfeinstein.slidingmenu:library:1.3@aar'
     compile 'com.google.android.gms:play-services-maps:10.2.0'
     compile 'com.google.android.gms:play-services-location:10.2.0'
@@ -63,6 +61,8 @@ dependencies {
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
     compile 'net.zetetic:android-database-sqlcipher:3.3.1-1@aar'
     compile 'com.prolificinteractive:material-calendarview:1.2.0'
-    compile 'com.android.support:support-v4:22.2.1'
+    compile 'com.android.support:design:24.2.1'
+    compile 'com.android.support:support-v4:24.2.1'
+    compile 'com.android.support:appcompat-v7:24.2.1'
     testCompile 'junit:junit:4.12'
 }

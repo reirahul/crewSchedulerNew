@@ -1,35 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="50dp"
-    android:background="@color/light_gray" >
 
-    <TextView
-        android:id="@+id/header_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="Crew Daily Schedule"
-        android:textColor="@color/white"
-        android:singleLine="true"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:gravity="center"
-         />
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/light_gray" >
+        <LinearLayout
+            android:id="@+id/left_menu_btn"
+            android:layout_width="35dp"
+            android:layout_marginLeft="20dp"
+            android:layout_height="fill_parent"
+            >
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/menu_btn"
+                android:layout_gravity="center_vertical|center_horizontal"/>"
+        </LinearLayout>
+        <TextView
+            android:id="@+id/header_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="Crew Daily Schedule"
+            android:textColor="@color/white"
+            android:singleLine="true"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            />
 
-    <LinearLayout
-        android:id="@+id/menu_btn"
-        android:layout_width="35dp"
-        android:layout_height="fill_parent"
-        android:layout_alignParentRight="true"
-        >
-        
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/menu_btn"
-        android:layout_gravity="center_vertical|center_horizontal"/>"
-
-    </LinearLayout>
-</RelativeLayout>
+        <LinearLayout
+            android:id="@+id/menu_btn"
+            android:layout_width="35dp"
+            android:layout_height="fill_parent"
+            android:layout_alignParentRight="true"
+            >
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/menu_btn"
+                android:layout_gravity="center_vertical"/>"
+        </LinearLayout>
+    </RelativeLayout>

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/leftMenu"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:background="@color/menu_back"
+    android:paddingTop="20dp"
+    android:weightSum="6"
+    android:orientation="vertical">
+    <TextView
+        android:id="@+id/home"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/icon_home"
+        android:layout_centerVertical="true"
+        />
+    <View
+        android:layout_width="109dp"
+        android:layout_height="5dp"
+        android:background="@drawable/menu_seprator"/>
+    <TextView
+        android:id="@+id/tab1_img"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@drawable/tab1_states"
+        android:layout_centerVertical="true"
+        />
+    <View
+        android:layout_width="109dp"
+        android:background="@drawable/menu_seprator"
+        android:layout_height="5dp"/>
+    <TextView
+        android:id="@+id/tab2_img"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@drawable/tab2_states"
+        android:layout_centerVertical="true"
+        />
+    <View
+        android:layout_width="109dp"
+        android:layout_height="5dp"
+        android:background="@drawable/menu_seprator"/>
+
+    <TextView
+        android:id="@+id/tab3_img"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_centerVertical="true"
+        android:layout_weight="1"
+        android:background="@drawable/tab3_states" />
+
+    <View
+        android:layout_width="109dp"
+        android:layout_height="5dp"
+        android:background="@drawable/menu_seprator"/>
+    <TextView
+        android:id="@+id/tab4_img"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@drawable/tab4_states"
+        android:layout_centerVertical="true"
+        />
+    <View
+        android:layout_width="109dp"
+        android:layout_height="5dp"
+        android:background="@drawable/menu_seprator"/>
+    <TextView
+        android:id="@+id/tab5_img"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_centerVertical="true"
+        android:layout_weight="1"
+        android:background="@drawable/tab5_states" />
+
+    <View
+        android:layout_width="109dp"
+        android:layout_height="5dp"
+        android:background="@drawable/menu_seprator"/>
+    <TextView
+        android:id="@+id/tab6_img"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@drawable/tab_states"
+        android:layout_centerVertical="true"
+        />
+    <View
+        android:layout_width="109dp"
+        android:layout_height="5dp"
+        android:background="@drawable/menu_seprator"/>
+
+</LinearLayout>
+

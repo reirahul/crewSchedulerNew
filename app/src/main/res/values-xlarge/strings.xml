@@ -11,6 +11,9 @@
 	<string name="title_activity_login">LoginActivity</string>
 	<string name="no_data">No data available</string>
 
+	<string name="closeDrawer">Navigation View</string>
+	<string name="openDrawer">Navigation View Closed</string>
+
     <string name="liteSyncAlertTitle">Lite Sync ?</string>
     <string name="liteSyncAlertMessage">The process will sync data on modules without their relationships. Are you sure to continue?</string>
     <string name="fullSyncAlertTitle">Full Sync ?</string>

@@ -24,6 +24,9 @@
     <dimen name="field_left_margin">15dp</dimen>
 
     <dimen name="slidingmenu_offset">600dp</dimen>
+
+    <dimen name="slidingmenu_offset_left">930dp</dimen>
+
     <dimen name="list_padding">10dp</dimen>
  <!--    <dimen name="shadow_width">15dp</dimen>
  -->

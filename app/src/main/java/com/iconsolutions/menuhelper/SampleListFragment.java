@@ -20,10 +20,10 @@ import com.iconsolutions.crewschedular.LoginActivity;
 import com.iconsolutions.crewschedular.MainActivity;
 import com.iconsolutions.crewschedular.R;
 import com.iconsolutions.crewschedular.SampleListAdapter;
+import com.iconsolutions.helper.UserPreferences;
 
 import java.io.File;
 
-import com.iconsolutions.helper.UserPreferences;
 import rolustech.communication.soap.SOAPClient;
 import rolustech.helper.AlertHelper;
 import rolustech.helper.ImportDatabase;
@@ -70,7 +70,7 @@ public class SampleListFragment extends Fragment {
         adapter.add(new SampleItem("Sync", 0));
         adapter.add(new SampleItem("Logout", 0));
         adapter.add(new SampleItem("Switch to " + (UserPreferences.PREFS_SYSTEM_TYPE.equalsIgnoreCase(UserPreferences.SYSTEM_TYPE_COMMERCIAL) ? "Residential" : "Commercial"), 0));
-        adapter.add(new SampleItem(UserPreferences.name + "/" + UserPreferences.department + "/" + UserPreferences.PREFS_SYSTEM_TYPE, 0));
+        adapter.add(new SampleItem(UserPreferences.name + "/" + UserPreferences.PREFS_SYSTEM_TYPE, 0));
 
         ListView lv = (ListView) view.findViewById(R.id.menuList);
         lv.setOnItemClickListener(new OnItemClickListener() {

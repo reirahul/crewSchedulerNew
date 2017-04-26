@@ -6,10 +6,13 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -17,6 +20,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.iconsolutions.menuhelper.MenuListFragment;
 import com.iconsolutions.menuhelper.SampleListFragment;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
@@ -25,9 +29,9 @@ import crewschedular.fragmentinterface.OnBackPressedListener;
 /**
  * Created by kashif on 3/22/16.
  */
-public class MainActivity extends FragmentActivity implements OnClickListener {
+public class MainActivity extends AppCompatActivity implements OnClickListener {
 
-    LinearLayout menu_btn;
+    LinearLayout menu_btn,left_menu_btn;
     TextView title;
 
     private SlidingMenu menu;
@@ -35,11 +39,16 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 
     public static FragmentManager fManager;
     Fragment sampleListFragment, crewJobsFragment;
+    private DrawerLayout drawerLayout;
+    private Toolbar toolbar;
+    private NavigationView navigationView;
+    private MenuListFragment menuListFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         int PERMISSION_ALL = 1;
         String[] PERMISSIONS = {android.Manifest.permission.READ_EXTERNAL_STORAGE,android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 android.Manifest.permission.ACCESS_COARSE_LOCATION,android.Manifest.permission.ACCESS_FINE_LOCATION,android.Manifest.permission.ACCESS_NETWORK_STATE,
@@ -47,12 +56,43 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
         if(!hasPermissions(this, PERMISSIONS)){
             ActivityCompat.requestPermissions(this, PERMISSIONS, PERMISSION_ALL);
         }
+    //    toolbar = (Toolbar) findViewById(R.id.toolbar);
+  //      setSupportActionBar(toolbar);
+   /*     navigationView = (NavigationView) findViewById(R.id.navigation_view);
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
+        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.openDrawer, R.string.closeDrawer){
 
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                // Code here will be triggered once the drawer closes as we dont want anything to happen so we leave this blank
+                super.onDrawerClosed(drawerView);
+            }
+
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                // Code here will be triggered once the drawer open as we dont want anything to happen so we leave this blank
+
+                super.onDrawerOpened(drawerView);
+            }
+        };
+
+        //Setting the actionbarToggle to drawer layout
+        drawerLayout.setDrawerListener(actionBarDrawerToggle);
+        //calling sync state is necessay or else your hamburger icon wont show up
+        actionBarDrawerToggle.syncState();
+
+     drawerLayout.openDrawer(Gravity.START);
+*/
         setSlideMenu();
 
         crewJobsFragment = new CrewJobsListFragment();
         switchContent(crewJobsFragment);
-
+/*
+        int width = getResources().getDisplayMetrics().widthPixels/10;
+        DrawerLayout.LayoutParams params = (android.support.v4.widget.DrawerLayout.LayoutParams) navigationView.getLayoutParams();
+        params.width = width;
+        navigationView.setLayoutParams(params);
+*/
         initUI();
 
 //        fManager = getSupportFragmentManager();
@@ -87,7 +127,6 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
     private void initUI() {
         menu_btn = (LinearLayout) findViewById(R.id.menu_btn);
         menu_btn.setOnClickListener(this);
-
         title = (TextView) findViewById(R.id.header_title);
     }
 
@@ -97,13 +136,14 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
         menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
 //		menu.setShadowWidthRes(R.dimen.shadow_width);
 //		menu.setShadowDrawable(R.drawable.shadow);
-        menu.setBehindOffsetRes(R.dimen.slidingmenu_offset);
-//		menu.setFadeDegree(0.35f);
+        menu.setBehindWidth(250);
+		menu.setFadeDegree(0.35f);
         menu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
         menu.setMenu(R.layout.menu_frame);
         menu.setMode(SlidingMenu.RIGHT);
         setSampleListFragment();
     }
+
 
     public void setSampleListFragment() {
         sampleListFragment = new SampleListFragment();
@@ -210,10 +250,9 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
     @Override
     public void onClick(View v) {
         int id = v.getId();
-
+        View focus = getCurrentFocus();
         switch (id) {
             case R.id.menu_btn:
-                View focus = getCurrentFocus();
                 if (focus != null) {
                     hiddenKeyboard(v);
                 }

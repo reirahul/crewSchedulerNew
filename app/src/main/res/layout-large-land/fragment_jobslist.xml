@@ -1,46 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
+    android:background="@color/white"
     >
-
-    <RelativeLayout
-        android:id="@+id/topHeader"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:orientation="horizontal"
-        android:layout_gravity="center_horizontal"
-        android:layout_alignParentTop="true"
-        >
-
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true">
-
-
-        <ImageView
-            android:id="@+id/today_jobs"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/list_icon_todayjobs_states"
-            >
-        </ImageView>
-
-        <ImageView
-            android:id="@+id/previous_jobs"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/list_icon_prevjobs_states"
-            >
-        </ImageView>
-
-        </LinearLayout>
-    </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/dateNavigator"
@@ -48,15 +12,13 @@
         android:layout_height="50dp"
         android:orientation="horizontal"
         android:layout_gravity="center_horizontal"
-        android:layout_below="@id/topHeader">
         >
-
         <ImageView
             android:id="@+id/previous_date"
-            android:layout_width="37dp"
-            android:layout_height="37dp"
-            android:layout_marginRight="300dp"
-            android:layout_toLeftOf="@+id/selected_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="52dp"
+            android:layout_marginLeft="52dp"
             android:src="@drawable/previous_arrow"/>
 
         <TextView
@@ -65,17 +27,21 @@
             android:layout_height="match_parent"
             android:text="March 30, 2016"
             android:layout_marginTop="5dp"
+            android:textColor="@color/text_date"
             android:textSize="22sp"
             android:gravity="center_vertical"
             android:layout_centerHorizontal="true"/>
 
         <ImageView
             android:id="@+id/next_date"
-            android:layout_width="37dp"
-            android:layout_height="37dp"
-            android:layout_marginLeft="300dp"
-            android:layout_toRightOf="@+id/selected_date"
-            android:src="@drawable/next_arrow"/>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/next_arrow"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="52dp"
+            android:layout_marginEnd="52dp" />
 
     </RelativeLayout>
 
@@ -92,6 +58,7 @@
             android:layout_height="30dp"
             android:text="Previous Jobs Incompleted"
             android:textSize="16sp"
+            android:visibility="gone"
             android:textColor="@android:color/white"
             android:gravity="center_vertical" />
 
@@ -105,45 +72,5 @@
         android:layout_below="@id/red_header"
         android:choiceMode="singleChoice"
         android:divider="@null">
-
     </ListView>
-
-    <RelativeLayout
-        android:id="@+id/bottomHeader"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:orientation="horizontal"
-        android:layout_gravity="center_horizontal"
-        android:layout_alignParentBottom="true"
-        >
-
-        <View
-            android:id="@+id/centeredView1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"/>
-
-
-        <RelativeLayout
-            android:id="@+id/completed_jobs"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toLeftOf="@id/centeredView1"
-            android:background="@drawable/list_icon_completejobs_states"
-            android:layout_centerVertical="true"
-            >
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/uncompleted_jobs"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/centeredView1"
-            android:background="@drawable/list_icon_incompletejobs_states"
-            android:layout_centerVertical="true"
-            >
-        </RelativeLayout>
-
-    </RelativeLayout>
-
 </RelativeLayout>

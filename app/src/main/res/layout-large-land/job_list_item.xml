@@ -1,34 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:background="@android:color/white" >
+    android:background="@color/list_bg1"
+     >
 
         <RelativeLayout
             android:id="@+id/jobs_heading"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:layout_marginTop="5dp"
+            android:background="@android:color/white"
             >
             <TextView
                 android:id="@+id/job_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
                 android:text="This is job title"
                 android:textColor="@color/black"
                 android:textSize="20sp" />
+            <TextView
+                android:id="@+id/job_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="10dp"
+                android:text="This is job title"
+                android:textColor="@color/text_status"
+                android:layout_toRightOf="@+id/job_title"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/job_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="10dp"
+                android:text="This is job title"
+                android:textColor="@color/text_date_dark"
+                android:layout_toRightOf="@+id/job_status"
+                android:textSize="20sp" />
 
             <Button
                 android:id="@+id/update_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_marginRight="20dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:background="@drawable/update_status_btn"
+                android:background="@drawable/btn_update"
                 android:textColor="@android:color/white"
                 android:layout_alignParentRight="true"/>
 

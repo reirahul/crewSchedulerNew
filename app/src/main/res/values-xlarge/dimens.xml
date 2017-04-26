@@ -22,6 +22,8 @@
 
     <dimen name="slidingmenu_offset">900dp</dimen>
 
+    <dimen name="slidingmenu_offset_left">1250dp</dimen>
+
     <dimen name="time_field_left_margin">20dp</dimen>
     <dimen name="field_left_margin">20dp</dimen>
 
