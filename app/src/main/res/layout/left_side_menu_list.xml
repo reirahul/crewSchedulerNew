@@ -6,12 +6,12 @@
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
     android:background="@color/menu_back"
-    android:paddingTop="15dp"
+    android:paddingTop="20dp"
     android:weightSum="6"
     android:orientation="vertical">
     <TextView
         android:id="@+id/home"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@drawable/icon_home"
         android:layout_centerVertical="true"
@@ -23,8 +23,7 @@
     <TextView
         android:id="@+id/today_jobs"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="wrap_content"
         android:background="@drawable/list_icon_todayjobs_states"
         android:layout_centerVertical="true"
         />
@@ -35,8 +34,7 @@
     <TextView
         android:id="@+id/previous_jobs"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="wrap_content"
         android:background="@drawable/list_icon_prevjobs_states"
         android:layout_centerVertical="true"
         />
@@ -47,8 +45,7 @@
     <TextView
         android:id="@+id/completed_jobs"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="wrap_content"
         android:background="@drawable/list_icon_completejobs_states"
         android:layout_centerVertical="true"
         />
@@ -59,8 +56,7 @@
     <TextView
         android:id="@+id/uncompleted_jobs"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="wrap_content"
         android:background="@drawable/list_icon_incompletejobs_states"
         android:layout_centerVertical="true"
         />

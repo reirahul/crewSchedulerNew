@@ -5,58 +5,139 @@
     android:orientation="horizontal"
     android:background="@color/list_bg1"
      >
-
-        <RelativeLayout
-            android:id="@+id/jobs_heading"
-            android:layout_width="fill_parent"
+        <LinearLayout
+            android:id="@+id/linitem_heading"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginTop="5dp"
-            android:background="@android:color/white"
-            >
+            android:weightSum="15.2">
+                <TextView
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:singleLine="true"
+                    android:id="@+id/job_no"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/edit_field_bg4"
+                    android:gravity="center"
+                    android:text="12"
+                    android:maxWidth="0dp"
+                    android:paddingLeft="1dp"
+                    android:paddingRight="1dp"
+                    android:textColor="@color/black"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:layout_weight="4"
+                    android:layout_width="0dp"
+                    android:singleLine="true"
+                    android:id="@+id/job_title"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/edit_field_bg2"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:maxWidth="0dp"
+                    android:paddingLeft="1dp"
+                    android:paddingRight="1dp"
+                    android:textColor="@color/black"
+                    android:textSize="15sp" />
+
             <TextView
-                android:id="@+id/job_title"
-                android:layout_width="wrap_content"
+                android:id="@+id/job_builder"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:text="This is job title"
+                android:layout_weight="2"
+                android:background="@drawable/edit_field_bg2"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:maxLines="1"
+                android:maxWidth="0dp"
+                android:paddingLeft="1dp"
+                android:paddingRight="1dp"
+                android:singleLine="true"
                 android:textColor="@color/black"
-                android:textSize="20sp" />
-            <TextView
-                android:id="@+id/job_status"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="30dp"
-                android:layout_marginTop="10dp"
-                android:text="This is job title"
-                android:textColor="@color/text_status"
-                android:layout_toRightOf="@+id/job_title"
-                android:textSize="20sp" />
+                android:textSize="15sp" />
 
             <TextView
-                android:id="@+id/job_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="30dp"
-                android:layout_marginTop="10dp"
-                android:text="This is job title"
-                android:textColor="@color/text_date_dark"
-                android:layout_toRightOf="@+id/job_status"
-                android:textSize="20sp" />
+                    android:layout_weight="2"
+                    android:layout_width="0dp"
+                    android:singleLine="true"
+                    android:id="@+id/job_city"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/edit_field_bg3"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:maxWidth="0dp"
+                    android:paddingLeft="1dp"
+                    android:paddingRight="1dp"
+                    android:textColor="@color/black"
+                    android:textSize="15sp" />
 
-            <Button
-                android:id="@+id/update_button"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginRight="20dp"
-                android:background="@drawable/btn_update"
-                android:textColor="@android:color/white"
-                android:layout_alignParentRight="true"/>
+                <TextView
+                    android:layout_weight="2"
+                    android:layout_width="0dp"
+                    android:singleLine="true"
+                    android:id="@+id/job_status"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/edit_field_bg2"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:maxWidth="0dp"
+                    android:paddingLeft="1dp"
+                    android:paddingRight="1dp"
+                    android:textColor="@color/black"
+                    android:textSize="15sp" />
 
-        </RelativeLayout>
+                <LinearLayout
+                    android:layout_weight="4.2"
+                    android:layout_width="0dp"
+                    android:gravity="center"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:singleLine="true"
+                        android:id="@+id/update_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/light_gray"
+                        android:padding="7dp"
+                        android:layout_margin="2dp"
+                        android:gravity="center"
+                        android:text="Update"
+                        android:textColor="@color/white"
+                        android:textSize="15sp"
+                        />
+                    <TextView
+                        android:singleLine="true"
+                        android:id="@+id/viewDetails"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/green"
+                        android:padding="7dp"
+                        android:layout_margin="2dp"
+                        android:gravity="center"
+                        android:text="View Details"
+                        android:textColor="@color/white"
+                        android:textSize="15sp"
+                        />
+                    <TextView
+                        android:singleLine="true"
+                        android:id="@+id/receivePO"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="2dp"
+                        android:background="@color/green"
+                        android:padding="7dp"
+                        android:gravity="center"
+                        android:text="PO Receive"
+                        android:textColor="@color/white"
+                        android:textSize="15sp"
+                        />
+                </LinearLayout>
+
+        </LinearLayout>
 
 </RelativeLayout>

@@ -15,7 +15,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 import com.iconsolutions.crewschedular.CalendarFragment;
-import com.iconsolutions.crewschedular.CrewJobsListFragment;
+import com.iconsolutions.crewschedular.CrewJobsListFragmentHome;
 import com.iconsolutions.crewschedular.LoginActivity;
 import com.iconsolutions.crewschedular.MainActivity;
 import com.iconsolutions.crewschedular.R;
@@ -65,7 +65,13 @@ public class SampleListFragment extends Fragment {
         UserPreferences.reLoadPrefernces(getActivity());
         SampleListAdapter adapter = new SampleListAdapter(getActivity());
 
+
+
         adapter.add(new SampleItem("Schedular", 0));
+
+//        adapter.add(new SampleItem("Return to Yard", 0));
+//        adapter.add(new SampleItem("Switch to GD CRM", 0));
+
         adapter.add(new SampleItem("Calendar", 0));
         adapter.add(new SampleItem("Sync", 0));
         adapter.add(new SampleItem("Logout", 0));
@@ -79,11 +85,10 @@ public class SampleListFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
                 MainActivity mainActivity = (MainActivity) SampleListFragment.this.getActivity();
-
                 Fragment fragment = null;
                 switch (position) {
                     case 0:
-                        fragment = new CrewJobsListFragment();
+                        fragment = new CrewJobsListFragmentHome();
                         break;
                     case 1:
                         fragment = new CalendarFragment();
@@ -114,8 +119,7 @@ public class SampleListFragment extends Fragment {
                         }
                         UserPreferences.saveSystemType(getActivity());
                         mainActivity.setSampleListFragment();
-                        fragment = new CrewJobsListFragment();
-
+                        fragment = new CrewJobsListFragmentHome();
                         break;
                     default:
                         break;
@@ -125,7 +129,7 @@ public class SampleListFragment extends Fragment {
 //					mainActivity.switchContent(fragment);
 //				} else
                 if (fragment != null)
-                    mainActivity.addContent(fragment);
+                    mainActivity.switchContent(fragment);
 
             }
         });
@@ -197,7 +201,6 @@ public class SampleListFragment extends Fragment {
     public void sendEmailtoManager() {
 
         try {
-
             Object[] wKeys = UserPreferences.WorkOrderHoursRequest.keySet().toArray();
             for (int i = 0; i < wKeys.length; i++) {
                 String workOrderId = (String) wKeys[i];

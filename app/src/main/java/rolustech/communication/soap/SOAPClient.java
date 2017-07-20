@@ -2,6 +2,8 @@ package rolustech.communication.soap;
 
 import android.util.Log;
 
+import com.iconsolutions.helper.UserPreferences;
+
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
@@ -14,7 +16,6 @@ import java.util.Vector;
 
 import rolustech.beans.Field;
 import rolustech.beans.SyncData;
-import com.iconsolutions.helper.UserPreferences;
 import rolustech.communication.Communicator;
 import rolustech.helper.AlertHelper;
 import rolustech.tempStorage.SugarBeanContainer;
@@ -121,7 +122,7 @@ public class SOAPClient implements Communicator {
     private int soapLogin(String username, String password) {
         try {
             SoapObject request = new SoapObject(NAMESPACE, "login");
-            Log.v("Crew_App"," NameSpace = >  "+NAMESPACE);
+            Log.v("SOAPClient","Crew_App NameSpace = >  "+NAMESPACE);
 			/* Creating input parameters*/
             SoapObject userAuth = new SoapObject(NAMESPACE, "user_auth");
             userAuth.addProperty("user_name", username);
@@ -960,7 +961,7 @@ public class SOAPClient implements Communicator {
                 throw new Exception("Session is null");
             }
         }
-        Log.v("Crew_App"," Request = >  "+URL+" Parameter :> "+request.toString());
+        Log.v("SOAPClient","Crew_App Request = >  "+URL+" Parameter :> "+request.toString());
 
 
         SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
@@ -984,7 +985,7 @@ public class SOAPClient implements Communicator {
             reset();
             return call(method, request, true);
         }
-        Log.e("Crew_App"," Response from  "+method+"  = >  "+envelope.getResponse().toString());
+        Log.e("SOAPClient","Crew_App Response from  "+method+"  = >  "+envelope.getResponse().toString());
         return envelope.getResponse();
     }
 

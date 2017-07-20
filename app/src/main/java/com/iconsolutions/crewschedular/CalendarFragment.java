@@ -2,6 +2,7 @@ package com.iconsolutions.crewschedular;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -12,7 +13,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.RadioButton;
@@ -22,6 +25,9 @@ import android.widget.TextView;
 
 import com.iconsolutions.adapter.JobsListAdapter;
 import com.iconsolutions.helper.EventDecorator;
+import com.iconsolutions.helper.UserPreferences;
+import com.iconsolutions.menuhelper.MenuListFragment;
+import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.CalendarMode;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
@@ -36,14 +42,13 @@ import java.util.List;
 
 import crewschedular.fragmentinterface.BaseBackPressedListener;
 import rolustech.beans.SugarBean;
-import com.iconsolutions.helper.UserPreferences;
 import rolustech.helper.NetworkHelper;
 import rolustech.helper.NormalSync;
 
 /**
  * Created by kashif on 4/19/16.
  */
-public class CalendarFragment extends Fragment implements RadioGroup.OnCheckedChangeListener {
+public class CalendarFragment extends Fragment implements RadioGroup.OnCheckedChangeListener,View.OnClickListener {
 
     View view;
     FragmentActivity fm;
@@ -57,14 +62,21 @@ public class CalendarFragment extends Fragment implements RadioGroup.OnCheckedCh
 
     String selectedDate;
     ListView jobs_lv;
-    RelativeLayout completedJobs, unCompletedJobs;
+    RelativeLayout completedJobs, inCompletedJobs;
 
     ArrayList<SugarBean> jobs = null;
     ProgressDialog p_bar;
     Handler handler = new Handler();
 
+    private View focus;
+
     protected SugarBean beans[];
     protected SugarBean bean;
+
+    private SlidingMenu leftMenu;
+
+    private LinearLayout left_menu_btn;
+    private MenuListFragment menuListFragment;
 
     protected String where = "", userWhere = "", orderByField = "date_start", orderByDir = "ASC";
     protected int offset = 0;
@@ -100,10 +112,17 @@ public class CalendarFragment extends Fragment implements RadioGroup.OnCheckedCh
         next_date = (ImageView) view.findViewById(R.id.next_date);
         jobs_lv = (ListView) view.findViewById(R.id.jobs_listview);
         completedJobs = (RelativeLayout) view.findViewById(R.id.complete_jobs);
-        unCompletedJobs = (RelativeLayout) view.findViewById(R.id.incompleted_jobs);
+        inCompletedJobs = (RelativeLayout) view.findViewById(R.id.incompleted_jobs);
 
         completedJobs.setSelected(false);
-        unCompletedJobs.setSelected(false);
+        inCompletedJobs.setSelected(false);
+
+        left_menu_btn = (LinearLayout)getActivity().findViewById(R.id.left_menu_btn);
+        left_menu_btn.setOnClickListener(this);
+
+        focus = getActivity().getCurrentFocus();
+        setLeftSlideMenu();
+        toggleLeftSlideMenu();
 
         isMonthData = true;
 
@@ -154,12 +173,56 @@ public class CalendarFragment extends Fragment implements RadioGroup.OnCheckedCh
         listView.setLayoutParams(params);
     }
 
+    public void PreviousJob()
+    {
+        long date = System.currentTimeMillis();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String dateString = sdf.format(date);
+        userWhere = "(" + bean.moduleName.toLowerCase() + ".system_job_type = '" + UserPreferences.PREFS_SYSTEM_TYPE + "'" + " AND " + bean.moduleName.toLowerCase() + ".crew_work_id = '" + UserPreferences.userID + "'" + " AND " + bean.moduleName.toLowerCase() + ".date_start < '" + dateString + "')";
+        isMonthData = false;
+        completedJobs.setSelected(true);
+        inCompletedJobs.setSelected(false);
+        getContent();
+    }
+    public void TodayJob()
+    {
+        long date = System.currentTimeMillis();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String dateString = sdf.format(date);
+        userWhere = "(" + bean.moduleName.toLowerCase() + ".system_job_type = '" + UserPreferences.PREFS_SYSTEM_TYPE + "'" + " AND " + bean.moduleName.toLowerCase() + ".crew_work_id = '" + UserPreferences.userID + "'" + " AND " + bean.moduleName.toLowerCase() + ".date_start = '" + dateString + "')";
+        isUpdated = true;
+        isUpdated = true;
+        isMonthData = false;
+        getContent();
+    }
+
+ public void CompletedJob()
+    {
+        userWhere = "(" + bean.moduleName.toLowerCase() + ".system_job_type = '" + UserPreferences.PREFS_SYSTEM_TYPE + "'" + " AND " + bean.moduleName.toLowerCase() + ".crew_work_id = '" + UserPreferences.userID + "'" + " AND  " + bean.moduleName.toLowerCase() + ".status = 'All Task Completed' )";
+//                userWhere = "(" + bean.moduleName.toLowerCase() + ".system_job_type = '" + UserPreferences.PREFS_SYSTEM_TYPE + "'" + " AND " +bean.moduleName.toLowerCase() + ".crew_work_id = '" + UserPreferences.userID + "'" + " AND " + bean.moduleName.toLowerCase() + ".complete = 1 )";
+        isUpdated = true;
+        isMonthData = false;
+        getContent();
+    }
+
+ public void InCompletedJob()
+    {
+        userWhere = "(" + bean.moduleName.toLowerCase() + ".system_job_type = '" + UserPreferences.PREFS_SYSTEM_TYPE + "'" + " AND " +bean.moduleName.toLowerCase() + ".crew_work_id = '" + UserPreferences.userID + "' AND (" + bean.moduleName.toLowerCase() + ".status <> 'All Task Completed' OR " + bean.moduleName.toLowerCase() + ".status IS NULL ))";
+        //          userWhere = "(" +bean.moduleName.toLowerCase() + ".system_job_type = '" + UserPreferences.PREFS_SYSTEM_TYPE + "'" + " AND " + bean.moduleName.toLowerCase() + ".crew_work_id = '" + UserPreferences.userID + "'" + " AND " + bean.moduleName.toLowerCase() + ".complete = 0  OR B IS NULL)";
+        isUpdated = true;
+        isMonthData = false;
+        completedJobs.setSelected(false);
+        inCompletedJobs.setSelected(true);
+        getContent();
+    }
+
+
     private void setListener() {
         previous_date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 completedJobs.setSelected(false);
-                unCompletedJobs.setSelected(false);
+                inCompletedJobs.setSelected(false);
 
                 Calendar calendar = Calendar.getInstance();
 
@@ -176,7 +239,7 @@ public class CalendarFragment extends Fragment implements RadioGroup.OnCheckedCh
             @Override
             public void onClick(View v) {
                 completedJobs.setSelected(false);
-                unCompletedJobs.setSelected(false);
+                inCompletedJobs.setSelected(false);
                 Calendar calendar = Calendar.getInstance();
 
                 if (mSelectedDate == null)
@@ -197,13 +260,12 @@ public class CalendarFragment extends Fragment implements RadioGroup.OnCheckedCh
                 isUpdated = true;
                 isMonthData = false;
                 completedJobs.setSelected(true);
-                unCompletedJobs.setSelected(false);
-
+                inCompletedJobs.setSelected(false);
                 getContent();
             }
         });
 
-        unCompletedJobs.setOnClickListener(new View.OnClickListener() {
+        inCompletedJobs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 userWhere = "(" + bean.moduleName.toLowerCase() + ".system_job_type = '" + UserPreferences.PREFS_SYSTEM_TYPE + "'" + " AND " +bean.moduleName.toLowerCase() + ".crew_work_id = '" + UserPreferences.userID + "' AND (" + bean.moduleName.toLowerCase() + ".status <> 'All Task Completed' OR " + bean.moduleName.toLowerCase() + ".status IS NULL ))";
@@ -211,7 +273,7 @@ public class CalendarFragment extends Fragment implements RadioGroup.OnCheckedCh
                 isUpdated = true;
                 isMonthData = false;
                 completedJobs.setSelected(false);
-                unCompletedJobs.setSelected(true);
+                inCompletedJobs.setSelected(true);
 
                 getContent();
             }
@@ -240,10 +302,10 @@ public class CalendarFragment extends Fragment implements RadioGroup.OnCheckedCh
         setSelectedDateText(mSelectedDate);
     }
 
-    private void setSelectedDateText(Date date) {
+    public void setSelectedDateText(Date date) {
         if (UserPreferences.reLoadPrefernces(getContext()) && !fetchingData) {
             completedJobs.setSelected(false);
-            unCompletedJobs.setSelected(false);
+            inCompletedJobs.setSelected(false);
             fetchingData = true;
             bean = new SugarBean(getContext(), "ro_crew_work_order");
 
@@ -262,7 +324,7 @@ public class CalendarFragment extends Fragment implements RadioGroup.OnCheckedCh
     @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {
         completedJobs.setSelected(false);
-        unCompletedJobs.setSelected(false);
+        inCompletedJobs.setSelected(false);
         switch (checkedId) {
             case R.id.rbDay:
                 if (rbDay.isChecked()) {
@@ -417,7 +479,6 @@ public class CalendarFragment extends Fragment implements RadioGroup.OnCheckedCh
                                 beans = new SugarBean[0];
                             }
                         }
-
                         Calendar calendar = Calendar.getInstance();
                         ArrayList<Date> markedDates = new ArrayList<Date>();
                         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -575,5 +636,57 @@ public class CalendarFragment extends Fragment implements RadioGroup.OnCheckedCh
     public void onStop() {
         super.onStop();
         list.clear();
+    }
+    private void setLeftSlideMenu() {
+//        getActionBar().hide();
+        leftMenu = new SlidingMenu(getActivity());
+        leftMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+        //       leftMenu.setShadowWidthRes(R.dimen.bottom_margin);
+//		menu.setShadowDrawable(R.drawable.shadow);
+        //       leftMenu.setBehindOffsetRes(R.dimen.slidingmenu_offset_left);
+        leftMenu.setBehindWidth(110);
+        leftMenu.setFadeDegree(0.35f);
+        leftMenu.attachToActivity(getActivity(), SlidingMenu.SLIDING_CONTENT);
+        leftMenu.setMenu(R.layout.left_menu_frame);
+        leftMenu.setMode(SlidingMenu.LEFT);
+        setLeftMenuListFragment();
+    }
+    public void setLeftMenuListFragment() {
+        menuListFragment = new MenuListFragment();
+        getFragmentManager()
+                .beginTransaction()
+                .replace(R.id.left_menu_frame, menuListFragment)
+                .commit();
+    }
+
+    private void toggleLeftSlideMenu() {
+        if (leftMenu.isMenuShowing()) {
+            leftMenu.showContent();
+        } else {
+            leftMenu.showMenu();
+        }
+    }
+
+
+    /**
+     * Called when a view has been clicked.
+     *
+     * @param v The view that was clicked.
+     */
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.left_menu_btn:
+                if (focus != null) {
+                    hiddenKeyboard(v);
+                }
+                toggleLeftSlideMenu();
+                break;
+        }
+    }
+
+    private void hiddenKeyboard(View v) {
+        InputMethodManager keyboard = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        keyboard.hideSoftInputFromWindow(v.getWindowToken(), 0);
     }
 }

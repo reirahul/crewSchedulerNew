@@ -45,6 +45,7 @@ repositories {
     maven { url "http://jzaccone.github.io/SlidingMenu-aar" }
     maven { url "https://repo.commonsware.com.s3.amazonaws.com" }
     mavenCentral()
+
 }
 
 dependencies {
@@ -54,6 +55,7 @@ dependencies {
     compile files('libs/ksoap2.jar')
     compile files('libs/zip4j_1.3.1.jar')
     compile files('libs/json.jar')
+
     compile 'com.jeremyfeinstein.slidingmenu:library:1.3@aar'
     compile 'com.google.android.gms:play-services-maps:10.2.0'
     compile 'com.google.android.gms:play-services-location:10.2.0'

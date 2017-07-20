@@ -15,46 +15,47 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:focusable="true"
             android:focusableInTouchMode="true"
-            >
+            android:orientation="vertical">
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
                 android:layout_marginTop="150dp"
-                android:background="@drawable/login_logo"
-                android:layout_gravity="center_horizontal" />
+                android:background="@drawable/login_logo" />
 
             <EditText
                 android:id="@+id/email"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="50dp"
+                android:background="@drawable/login_field_bg"
                 android:ems="10"
                 android:hint="Username"
                 android:inputType="textEmailAddress"
-                android:padding="10dp"
-                android:background="@drawable/login_field_bg"
-                android:layout_gravity="center_horizontal">
+                android:padding="10dp">
+
             </EditText>
 
             <EditText
                 android:id="@+id/password"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="20dp"
+                android:background="@drawable/login_field_bg"
                 android:ems="10"
                 android:hint="Password"
                 android:inputType="textPassword"
-                android:padding="10dp"
-                android:background="@drawable/login_field_bg"
-                android:layout_gravity="center_horizontal">
+                android:padding="10dp">
+
             </EditText>
 
 
@@ -62,11 +63,11 @@
                 android:id="@+id/login_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="50dp"
-                android:src="@drawable/login_btn"
-                android:layout_gravity="center_horizontal">
+                android:src="@drawable/login_btn">
 
             </ImageView>
 
@@ -74,11 +75,11 @@
                 android:id="@+id/import_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="50dp"
-                android:text="Import DB"
-                android:layout_gravity="center_horizontal">
+                android:text="Import DB">
 
             </Button>
 

@@ -6,12 +6,11 @@
     android:layout_height="match_parent"
     android:background="@color/menu_back"
     android:paddingTop="20dp"
-    android:weightSum="6"
     android:orientation="vertical">
     <TextView
         android:id="@+id/home"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:background="@drawable/icon_home"
         android:layout_centerVertical="true"
         />
@@ -20,48 +19,71 @@
         android:layout_height="5dp"
         android:background="@drawable/menu_seprator"/>
     <TextView
-        android:id="@+id/tab1_img"
+        android:id="@+id/main_landing"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
         android:layout_weight="1"
-        android:background="@drawable/tab1_states"
+        android:background="@drawable/main_tab" />
+    <View
+        android:layout_width="109dp"
+        android:layout_height="5dp"
+        android:background="@drawable/menu_seprator"/>
+    <TextView
+        android:id="@+id/po_line_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@drawable/po_line_item_tab"
         android:layout_centerVertical="true"
         />
+    <View
+        android:layout_width="109dp"
+        android:layout_height="5dp"
+        android:background="@drawable/menu_seprator"/>
+    <TextView
+        android:id="@+id/line_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/item_tab"
+        android:layout_weight="1"
+        android:layout_centerVertical="true"
+        />
+    <View
+        android:layout_width="109dp"
+        android:layout_height="5dp"
+        android:background="@drawable/menu_seprator"/>
+
+    <TextView
+        android:id="@+id/plan_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_weight="1"
+        android:background="@drawable/plan_tab" />
     <View
         android:layout_width="109dp"
         android:background="@drawable/menu_seprator"
         android:layout_height="5dp"/>
-    <TextView
-        android:id="@+id/tab2_img"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="@drawable/tab2_states"
-        android:layout_centerVertical="true"
-        />
-    <View
-        android:layout_width="109dp"
-        android:layout_height="5dp"
-        android:background="@drawable/menu_seprator"/>
 
     <TextView
-        android:id="@+id/tab3_img"
+        android:id="@+id/notes"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_weight="1"
-        android:background="@drawable/tab3_states" />
+        android:background="@drawable/notes_tab" />
 
     <View
         android:layout_width="109dp"
         android:layout_height="5dp"
         android:background="@drawable/menu_seprator"/>
     <TextView
-        android:id="@+id/tab4_img"
+        android:id="@+id/job_image"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:background="@drawable/tab4_states"
+        android:background="@drawable/job_image_tab"
         android:layout_centerVertical="true"
         />
     <View
@@ -69,25 +91,26 @@
         android:layout_height="5dp"
         android:background="@drawable/menu_seprator"/>
     <TextView
-        android:id="@+id/tab5_img"
+        android:id="@+id/controller"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_centerVertical="true"
+        android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:background="@drawable/tab5_states" />
-
+        android:background="@drawable/controler_tab_states"
+        android:layout_centerVertical="true"
+        />
     <View
         android:layout_width="109dp"
         android:layout_height="5dp"
         android:background="@drawable/menu_seprator"/>
     <TextView
-        android:id="@+id/tab6_img"
+        android:id="@+id/feedback"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:background="@drawable/tab_states"
+        android:background="@drawable/feedback_tab"
         android:layout_centerVertical="true"
         />
+
     <View
         android:layout_width="109dp"
         android:layout_height="5dp"

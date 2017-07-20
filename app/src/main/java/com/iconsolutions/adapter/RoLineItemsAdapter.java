@@ -1,40 +1,25 @@
 package com.iconsolutions.adapter;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.os.Handler;
-import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.iconsolutions.crewschedular.R;
-import com.iconsolutions.helper.UserPreferences;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
 
 import rolustech.beans.SugarBean;
 import rolustech.communication.soap.SOAPClient;
-import rolustech.helper.AlertHelper;
-import rolustech.helper.NetworkHelper;
 
 /**
  * Created by kashif on 4/7/16.
@@ -93,7 +78,7 @@ public class RoLineItemsAdapter extends BaseAdapter {
        else {
            holder = (ViewHolder) view.getTag();
        }
-        Log.d("Crew_app_PM"," Data List =>  Data  => "+ data.getNameArray(false));
+ //       Log.d("ROLineItemsAdaptor","Crew_App Data  => "+ data.getNameArray(false));
           hideTitle(position);
         String batchStatus = data.getFieldValue("is_approved").equals("0")?"N/A":"Approved";
                 holder.lineItemName.setText(data.getFieldValue("name"));

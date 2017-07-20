@@ -21,7 +21,7 @@
             android:horizontalSpacing="10dp"
             android:verticalSpacing="10dp"
             android:numColumns="auto_fit"
-            android:columnWidth="200dp"
+            android:columnWidth="100dp"
             android:padding="10dp"
             android:layout_above="@+id/select_image"
             android:layout_alignParentTop="true">

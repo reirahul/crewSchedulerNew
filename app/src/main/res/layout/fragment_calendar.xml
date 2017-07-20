@@ -1,5 +1,5 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
@@ -8,185 +8,201 @@
     android:fadeScrollbars="false"
     android:scrollbarSize="50sp">
 
-<LinearLayout
-    android:id="@+id/root"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical">
+    <LinearLayout
+        android:id="@+id/root"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical">
 
-    <RelativeLayout
-        android:id="@+id/segment_controller"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp">
+        <RelativeLayout
+            android:id="@+id/segment_controller"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp">
 
-        <RadioGroup
-            android:id="@+id/radioGroupSelector"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_centerInParent="true"
+            <RadioGroup
+                android:id="@+id/radioGroupSelector"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_centerInParent="true"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/rbDay"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/calendar_radio_button_selecter"
+                    android:button="@null"
+                    android:checked="true"
+                    android:gravity="center"
+                    android:text="Day"
+                    android:textColor="@color/white" />
+
+                <RadioButton
+                    android:id="@+id/rbWeek"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/calendar_radio_button_selecter"
+                    android:button="@null"
+                    android:checked="false"
+                    android:gravity="center"
+                    android:text="Week"
+                    android:textColor="@color/white" />
+
+                <RadioButton
+                    android:id="@+id/rbMonth"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/calendar_radio_button_selecter"
+                    android:button="@null"
+                    android:checked="true"
+                    android:gravity="center"
+                    android:text="Month"
+                    android:textColor="@color/white" />
+
+                <RadioButton
+                    android:id="@+id/rbToday"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/calendar_radio_button_selecter"
+                    android:button="@null"
+                    android:checked="false"
+                    android:gravity="center"
+                    android:text="Today"
+                    android:textColor="@color/white" />
+            </RadioGroup>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/dateNavigator"
+            android:layout_width="400dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_horizontal"
             android:orientation="horizontal">
+            >
 
-            <RadioButton
-                android:id="@+id/rbDay"
-                android:layout_width="100dp"
+            <ImageView
+                android:id="@+id/previous_date"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="5dp"
+                android:scaleType="center"
+                android:src="@drawable/previous_arrow" />
+
+            <TextView
+                android:id="@+id/selected_date"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:background="@drawable/calendar_radio_button_selecter"
-                android:button="@null"
-                android:checked="true"
-                android:gravity="center"
-                android:text="Day"
-                android:textColor="@color/white" />
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="5dp"
+                android:gravity="center_vertical"
+                android:text="March 30, 2016"
+                android:textColor="@color/light_gray"
+                android:textSize="22sp"
+                android:textStyle="bold" />
 
-            <RadioButton
-                android:id="@+id/rbWeek"
-                android:layout_width="100dp"
-                android:layout_height="match_parent"
-                android:background="@drawable/calendar_radio_button_selecter"
-                android:button="@null"
-                android:checked="false"
-                android:gravity="center"
-                android:text="Week"
-                android:textColor="@color/white" />
+            <ImageView
+                android:id="@+id/next_date"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="5dp"
+                android:scaleType="center"
+                android:src="@drawable/next_arrow" />
 
-            <RadioButton
-                android:id="@+id/rbMonth"
-                android:layout_width="100dp"
-                android:layout_height="match_parent"
-                android:background="@drawable/calendar_radio_button_selecter"
-                android:button="@null"
-                android:checked="true"
-                android:gravity="center"
-                android:text="Month"
-                android:textColor="@color/white" />
+        </RelativeLayout>
 
-            <RadioButton
-                android:id="@+id/rbToday"
-                android:layout_width="100dp"
-                android:layout_height="match_parent"
-                android:background="@drawable/calendar_radio_button_selecter"
-                android:button="@null"
-                android:checked="false"
-                android:gravity="center"
-                android:text="Today"
-                android:textColor="@color/white" />
-        </RadioGroup>
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/dateNavigator"
-        android:layout_width="400dp"
-        android:layout_height="50dp"
-        android:layout_gravity="center_horizontal"
-        android:orientation="horizontal">
-        >
-
-        <ImageView
-            android:id="@+id/previous_date"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="5dp"
-            android:scaleType="center"
-            android:src="@drawable/previous_arrow" />
-
-        <TextView
-            android:id="@+id/selected_date"
+        <com.prolificinteractive.materialcalendarview.MaterialCalendarView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/calendarView"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="5dp"
-            android:gravity="center_vertical"
-            android:text="March 30, 2016"
-            android:textColor="@color/light_gray"
-            android:textSize="22sp"
-            android:textStyle="bold" />
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            app:mcv_arrowColor="@color/light_gray"
+            app:mcv_dateTextAppearance="@style/TextAppearanceDate"
+            app:mcv_headerTextAppearance="@style/TextAppearanceTopTitle"
+            app:mcv_leftArrowMask="@drawable/previous_arrow"
+            app:mcv_rightArrowMask="@drawable/next_arrow"
+            app:mcv_selectionColor="#00F"
+            app:mcv_showOtherDates="none"
+            app:mcv_weekDayTextAppearance="@style/TextAppearanceDayOfWeeks" />
 
-        <ImageView
-            android:id="@+id/next_date"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="5dp"
-            android:scaleType="center"
-            android:src="@drawable/next_arrow" />
-
-    </RelativeLayout>
-
-    <com.prolificinteractive.materialcalendarview.MaterialCalendarView xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/calendarView"
-        android:layout_width="400dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        app:mcv_arrowColor="@color/light_gray"
-        app:mcv_dateTextAppearance="@style/TextAppearanceDate"
-        app:mcv_headerTextAppearance="@style/TextAppearanceTopTitle"
-        app:mcv_leftArrowMask="@drawable/previous_arrow"
-        app:mcv_rightArrowMask="@drawable/next_arrow"
-        app:mcv_selectionColor="#00F"
-        app:mcv_showOtherDates="none"
-        app:mcv_weekDayTextAppearance="@style/TextAppearanceDayOfWeeks" />
-
-    <!--<FrameLayout-->
+        <!--<FrameLayout-->
         <!--android:id="@+id/modules_datalayout"-->
         <!--android:layout_width="fill_parent"-->
         <!--android:layout_height="fill_parent"-->
         <!--android:layout_below="@id/segment_controller"-->
         <!--android:layout_marginTop="5dp"></FrameLayout>-->
-    <!-- -->
-
-
-    <RelativeLayout
-        android:id="@+id/bottomHeader"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:orientation="horizontal"
-        android:layout_gravity="center_horizontal"
-        android:layout_alignParentBottom="true"
-        >
-
-        <View
-            android:id="@+id/centeredView1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"/>
+        <!-- -->
 
 
         <RelativeLayout
-            android:id="@+id/complete_jobs"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toLeftOf="@id/centeredView1"
-            android:background="@drawable/list_icon_completejobs_states"
-            android:layout_centerVertical="true"
+            android:id="@+id/bottomHeader"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal"
+            android:layout_alignParentBottom="true"
             >
+
+            <View
+                android:id="@+id/centeredView1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"/>
+
+
+            <RelativeLayout
+                android:id="@+id/complete_jobs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@id/centeredView1"
+                android:background="@color/btn_back"
+                android:layout_margin="5dp"
+                android:layout_centerVertical="true"
+                >
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="@color/white"
+                    android:text="Complited Job"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/incompleted_jobs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/centeredView1"
+                android:background="@color/btn_back"
+                android:layout_margin="5dp"
+                android:layout_centerVertical="true"
+                >
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="@color/white"
+                    android:text="Incomplited Job"/>
+            </RelativeLayout>
+
         </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/incompleted_jobs"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/centeredView1"
-            android:background="@drawable/list_icon_incompletejobs_states"
-            android:layout_centerVertical="true"
-            >
-        </RelativeLayout>
-
-    </RelativeLayout>
-    <ListView
-        android:id="@+id/jobs_listview"
-        android:layout_width="match_parent"
-        android:layout_height="fill_parent"
-        android:choiceMode="singleChoice"
-        android:divider="@null">
-
-    </ListView>
+        <ListView
+            android:id="@+id/jobs_listview"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:choiceMode="singleChoice"
+            android:divider="@null">
+        </ListView>
 
 
 
 
 
-</LinearLayout>
+    </LinearLayout>
 
-    </ScrollView>
+</ScrollView>

@@ -20,16 +20,21 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.iconsolutions.helper.IMyActivity;
+import com.iconsolutions.jobfragments.JobImagesFragment;
 import com.iconsolutions.menuhelper.MenuListFragment;
 import com.iconsolutions.menuhelper.SampleListFragment;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
+import com.nostra13.universalimageloader.core.ImageLoader;
+
+import java.util.ArrayList;
 
 import crewschedular.fragmentinterface.OnBackPressedListener;
 
 /**
  * Created by kashif on 3/22/16.
  */
-public class MainActivity extends AppCompatActivity implements OnClickListener {
+public class MainActivity extends AppCompatActivity implements OnClickListener,IMyActivity {
 
     LinearLayout menu_btn,left_menu_btn;
     TextView title;
@@ -43,11 +48,13 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     private Toolbar toolbar;
     private NavigationView navigationView;
     private MenuListFragment menuListFragment;
+    private ArrayList<Fragment> mFragments = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         int PERMISSION_ALL = 1;
         String[] PERMISSIONS = {android.Manifest.permission.READ_EXTERNAL_STORAGE,android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -85,7 +92,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 */
         setSlideMenu();
 
-        crewJobsFragment = new CrewJobsListFragment();
+        crewJobsFragment = new CrewJobsListFragmentHome();
         switchContent(crewJobsFragment);
 /*
         int width = getResources().getDisplayMetrics().widthPixels/10;
@@ -203,18 +210,15 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
             Fragment fragment = null;
 
             Fragment f = getSupportFragmentManager().findFragmentById(R.id.content_frame);
-            if (f instanceof CrewJobsListFragment) {
+            if (f instanceof CrewJobsListFragmentHome) {
                 if (sampleListFragment != null && getSupportFragmentManager().findFragmentById(sampleListFragment.getId()) != null) {
-                    getSupportFragmentManager().beginTransaction().remove(sampleListFragment)
-                            .commit();
+                    getSupportFragmentManager().beginTransaction().remove(sampleListFragment).commit();
                     sampleListFragment = null;
                 }
                 if (crewJobsFragment != null && getSupportFragmentManager().findFragmentById(crewJobsFragment.getId()) != null) {
-                    getSupportFragmentManager().beginTransaction().remove(crewJobsFragment)
-                            .commit();
+                    getSupportFragmentManager().beginTransaction().remove(crewJobsFragment).commit();
                     crewJobsFragment = null;
                 }
-
                 this.finish();
             } else if (f instanceof CalendarFragment || f instanceof FullMap) {
                 getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
@@ -229,9 +233,9 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
                     }
 
                 }, 250);
-            } else if (f instanceof WorkOrderFragment) {
-//                getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                fragment = new CrewJobsListFragment();
+            } else if (f instanceof JobDetailsHomeFragment) {
+                getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                fragment = new CrewJobsListFragmentHome();
                 switchContent(fragment);
                 setTitle("Crew Daily Schedule");
             } else {
@@ -310,20 +314,16 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        switch (requestCode) {
+        JobImagesFragment jobImagesFragment = (JobImagesFragment) mFragments.get(0);
+         switch (requestCode) {
             case 1:
-                Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.content_frame);
-                if (fragment instanceof WorkOrderFragment) {
-                    fragment.onActivityResult(requestCode, resultCode, data);
-                }
+                if(jobImagesFragment!=null)
+                    jobImagesFragment.onActivityResult(requestCode, resultCode, data);
                 break;
 
             case 100:
-                Fragment fragment1 = getSupportFragmentManager().findFragmentById(R.id.content_frame);
-                if (fragment1 instanceof WorkOrderFragment) {
-                    fragment1.onActivityResult(requestCode, resultCode, data);
-                }
+                if(jobImagesFragment!=null)
+                    jobImagesFragment.onActivityResult(requestCode, resultCode, data);
                 break;
         }
     }
@@ -336,5 +336,16 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
             }
         }
         return true;
+    }
+
+    @Override
+    public void addFragment(Fragment f) {
+        mFragments.add(0,f);
+    }
+
+    @Override
+    public void removeFragment(Fragment f) {
+        if(mFragments.size()>1)
+        mFragments.remove(f);
     }
 }

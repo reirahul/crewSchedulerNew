@@ -138,7 +138,7 @@
                             android:layout_marginLeft="25dp"
                             android:layout_marginRight="15dp"
                             android:layout_marginTop="15dp"
-                            android:text="Start Date"
+                            android:text="Start Time"
                             android:textColor="@color/tab_background"
                             android:textSize="20dp"
                             android:id="@+id/textView11" />
@@ -150,7 +150,7 @@
                             android:layout_marginBottom="10dp"
                             android:layout_marginLeft="25dp"
                             android:layout_marginRight="25dp"
-                            android:hint="12-10-2016"
+                            android:hint="10 : 20 AM"
                             android:textColor="@android:color/black"
                             android:background="@drawable/background_rounded"
                             android:textSize="20dp"
@@ -162,7 +162,7 @@
                             android:layout_marginLeft="25dp"
                             android:layout_marginRight="15dp"
                             android:layout_marginTop="10dp"
-                            android:text="End Date"
+                            android:text="End Time"
                             android:textColor="@color/tab_background"
                             android:textSize="20dp"
                             android:id="@+id/textView10" />
@@ -175,7 +175,7 @@
                             android:layout_marginLeft="25dp"
                             android:layout_marginRight="25dp"
                             android:textColor="@android:color/black"
-                            android:hint="12-10-2016"
+                            android:hint="6 : 30 PM"
                             android:background="@drawable/background_rounded"
                             android:textSize="20dp"
                             android:padding="10dp" />

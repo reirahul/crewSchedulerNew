@@ -803,8 +803,9 @@ public class SugarBean{
 		
 		String whr = null;
 		for (int i = 0; i < defs.length; i++) {
-			if (defs[i].getFieldValue("rhs_module").equalsIgnoreCase(moduleName)
-					|| defs[i].getFieldValue("lhs_module").equalsIgnoreCase(moduleName)) {
+			if (defs[i].getFieldValue("rhs_module").equalsIgnoreCase(moduleName) || defs[i].getFieldValue("lhs_module").equalsIgnoreCase(moduleName)) {
+
+
 				whr = RelationshipHelper.getRelationshipWhere(defs[i], moduleName, getFieldValue("id"), null, null, 0);
 			}
 		}

@@ -16,12 +16,12 @@ import android.widget.TextView;
 
 import com.iconsolutions.crewschedular.R;
 import com.iconsolutions.helper.ImageViewActivity;
+import com.iconsolutions.helper.UserPreferences;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import com.iconsolutions.helper.UserPreferences;
 import rolustech.helper.AlertHelper;
 
 /**
@@ -106,7 +106,7 @@ public class PlanImagesAdapter extends BaseAdapter {
                             holder.imageView.setImageBitmap(myBitmap);
                         }
                     } catch (Exception e) {
-                        Log.d("crash on position" + position, "");
+                        Log.d("PlanImagesAdaptor","Crew_App crash on position" + position);
                         e.getStackTrace();
                     }
 

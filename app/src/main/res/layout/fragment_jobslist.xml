@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/list_bg1"
+    android:background="@color/white"
     >
 
     <RelativeLayout
@@ -44,31 +44,117 @@
             android:layout_marginEnd="52dp" />
 
     </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/red_header"
+    <LinearLayout
+        android:id="@+id/linitem_heading"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:background="@android:color/holo_red_dark"
-        android:layout_below="@id/dateNavigator"
-        android:visibility="invisible">
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/dateNavigator"
+        android:layout_marginBottom="5dp"
+        android:layout_centerHorizontal="true"
+        android:weightSum="15"
+        android:orientation="horizontal">
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:text="Previous Jobs Incompleted"
-            android:textSize="16sp"
-            android:textColor="@android:color/white"
-            android:gravity="center_vertical" />
+            android:layout_weight="1"
+            android:singleLine="true"
+            android:id="@+id/jobNoTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:background="@color/light_gray"
+            android:padding="5dp"
+            android:layout_margin="1dp"
+            android:gravity="center"
+            android:text="No."
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            />
+        <TextView
+            android:layout_weight="4"
+            android:singleLine="true"
+            android:id="@+id/nameTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:background="@color/light_gray"
+            android:padding="5dp"
+            android:layout_margin="1dp"
+            android:gravity="center"
+            android:text="Name"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            />
+        <TextView
+            android:layout_weight="2"
+            android:singleLine="true"
+            android:id="@+id/builderTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:background="@color/light_gray"
+            android:padding="5dp"
+            android:layout_margin="1dp"
+            android:gravity="center"
+            android:text="Builder"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            />
+        <TextView
+            android:layout_weight="2"
+            android:singleLine="true"
+            android:id="@+id/cityTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:background="@color/light_gray"
+            android:padding="5dp"
+            android:layout_margin="1dp"
+            android:gravity="center"
+            android:text="City"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            />
 
-    </RelativeLayout>
+        <TextView
+            android:layout_weight="2"
+            android:singleLine="true"
+            android:id="@+id/statusTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:background="@color/light_gray"
+            android:padding="5dp"
+            android:layout_margin="1dp"
+            android:gravity="center"
+            android:text="Status"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            />
 
+        <TextView
+            android:layout_weight="4"
+            android:singleLine="true"
+            android:id="@+id/dueItemTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:background="@color/light_gray"
+            android:padding="5dp"
+            android:layout_margin="1dp"
+            android:gravity="center"
+            android:text="Action"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            />
+
+
+    </LinearLayout>
     <ListView
         android:id="@+id/jobs_lv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="60dp"
-        android:layout_below="@id/red_header"
+        android:layout_below="@id/linitem_heading"
         android:choiceMode="singleChoice"
         android:divider="@null">
     </ListView>

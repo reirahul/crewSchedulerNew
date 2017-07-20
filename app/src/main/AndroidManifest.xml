@@ -78,7 +78,9 @@
             </intent-filter>
         </receiver>
 
-        <service android:name="rolustech.service.SyncService"></service>
+        <service android:name="rolustech.service.SyncService">
+
+        </service>
 
     </application>
 

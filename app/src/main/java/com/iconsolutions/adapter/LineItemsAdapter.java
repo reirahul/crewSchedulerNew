@@ -21,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.iconsolutions.crewschedular.R;
+import com.iconsolutions.helper.UserPreferences;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -31,10 +32,12 @@ import java.util.Date;
 import java.util.HashMap;
 
 import rolustech.beans.SugarBean;
-import com.iconsolutions.helper.UserPreferences;
 import rolustech.communication.soap.SOAPClient;
 import rolustech.helper.AlertHelper;
 import rolustech.helper.NetworkHelper;
+
+import static com.iconsolutions.crewschedular.R.drawable.start_time;
+import static com.iconsolutions.crewschedular.R.drawable.stop_time;
 
 /**
  * Created by kashif on 4/7/16.
@@ -90,12 +93,12 @@ public class LineItemsAdapter extends BaseAdapter {
             holder.qunatity = (TextView) convertView.findViewById(R.id.qty_text);
 //            holder.notes = (TextView) convertView.findViewById(R.id.notes_text);
             holder.installedQty = (EditText) convertView.findViewById(R.id.installed_qty_text);
-            holder.deliveredQty = (EditText) convertView.findViewById(R.id.delqty_text);
+            holder.deliveredQty = (TextView) convertView.findViewById(R.id.delqty_text);
             holder.prevInstalledQty = (TextView) convertView.findViewById(R.id.prev_inst_qty_text);
-            holder.dueItem = (TextView) convertView.findViewById(R.id.due_item);
+            holder.dueItem = (EditText) convertView.findViewById(R.id.due_item);
             holder.additionalQty = (EditText) convertView.findViewById(R.id.additional_qty_lineitem);
-            holder.resvQty = (EditText) convertView.findViewById(R.id.resv_qty_text);
-            holder.additionalQty = (EditText) convertView.findViewById(R.id.additional_qty_lineitem);
+            holder.resvQty = (TextView) convertView.findViewById(R.id.resv_qty_text);
+            holder.additionalQty = (TextView) convertView.findViewById(R.id.co_qty_lineitem);
             holder.prevResvQty = (TextView) convertView.findViewById(R.id.prev_resv_qty_text);
             holder.startStopTime = (ImageView) convertView.findViewById(R.id.start_stop_clock);
             holder.notesImage = (ImageView) convertView.findViewById(R.id.notesImage);
@@ -205,9 +208,9 @@ public class LineItemsAdapter extends BaseAdapter {
                     stopTimeArr = convertJSONToArray(new JSONArray(object.getFieldValue("stop_time")));
 
                 if (startTimeArr.size() == stopTimeArr.size())
-                    holder.startStopTime.setImageResource(R.drawable.start_time);
+                    holder.startStopTime.setImageResource(start_time);
                 else
-                    holder.startStopTime.setImageResource(R.drawable.stop_time);
+                    holder.startStopTime.setImageResource(stop_time);
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -223,11 +226,11 @@ public class LineItemsAdapter extends BaseAdapter {
                         ArrayList<String> startTimeArr = new ArrayList<String>();
                         if (!(object.getFieldValue("start_time").equals("")))
                             startTimeArr = convertJSONToArray(new JSONArray(object.getFieldValue("start_time")));
-                        Log.d(" Start Responce -> ",startTimeArr.toString());
+                        Log.d("LineItemsAdaptor","Crew_App Start Responce -> "+startTimeArr.toString());
                         ArrayList<String> stopTimeArr = new ArrayList<String>();
                         if (!(object.getFieldValue("stop_time").equals("")))
                             stopTimeArr = convertJSONToArray(new JSONArray(object.getFieldValue("stop_time")));
-                        Log.d("Stop Responce -> ",stopTimeArr.toString());
+                        Log.d("LineItemsAdaptor","Crew_App Stop Responce -> "+stopTimeArr.toString());
 
                         saveStartStopTime(position, (ImageView) v, startTimeArr, stopTimeArr);
 
@@ -439,8 +442,8 @@ public class LineItemsAdapter extends BaseAdapter {
 
     public static class ViewHolder {
         TextView title1, title2, title3, title4, title5, title6, title7, title8, title9,title10,title11;
-        TextView lineItemName, qunatity, notes, prevInstalledQty, dueItem,prevResvQty;
-        EditText additionalQty, installedQty, deliveredQty,resvQty;
+        TextView lineItemName, qunatity, notes, prevInstalledQty,prevResvQty,resvQty,deliveredQty,additionalQty;
+        EditText  dueItem,installedQty;
         ImageView  startStopTime, notesImage;
         LinearLayout mainLayout;
 
@@ -476,7 +479,7 @@ public class LineItemsAdapter extends BaseAdapter {
             @Override
             public void run() {
                 try {
-                    Log.e("Responce -> "," Name = "+object1.getFieldValue("name")+", Id = " +object1.getFieldValue("id")+" ,Start time = "+object1.getFieldValue("start_time")+", Stop time = "+object1.getFieldValue("stop_time"));
+                    Log.e("LineItemsAdaptor","Crew_App Responce -> Name = "+object1.getFieldValue("name")+", Id = " +object1.getFieldValue("id")+" ,Start time = "+object1.getFieldValue("start_time")+", Stop time = "+object1.getFieldValue("stop_time"));
                     long date1 = System.currentTimeMillis();
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
                     String dateString = sdf.format(date1);
